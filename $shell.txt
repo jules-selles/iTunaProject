@@ -1,0 +1,2 @@
+cd "C:\Users\jselles\Dropbox\Thèse\These_Ifremer\OTree"
+. "C:\Users\jselles\Dropbox\Thèse\These_Ifremer\OTree\venv_otree\Scripts\activate.ps1"
