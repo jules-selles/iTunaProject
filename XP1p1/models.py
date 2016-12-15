@@ -63,7 +63,7 @@ class Constants(BaseConstants):
     ## oTree parameters
     name_in_url       = 'XP1p1'  #
     players_per_group = 3
-    num_rounds        = random.choice([2])  # !! random value to put into before session in subsession
+    num_rounds        = random.choice([10])  # !! random value to put into before session in subsession
 
     ##-------------------------------
     ## Model parameters
@@ -89,7 +89,7 @@ class Constants(BaseConstants):
     ## economic paramyeters
     price_fish        = 1  # p [$/.1000 t]
     discount_rate     = 0  # theta []
-    theta             = 1/(1+discount_rate )
+    theta             = 1/(1+discount_rate)
     beta              = 13 # cost parameter [$]
     tFixedCost        = 5 # threshold fixed cost [$]
 
