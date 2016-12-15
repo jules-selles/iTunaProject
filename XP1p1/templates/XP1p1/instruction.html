@@ -1,0 +1,59 @@
+{% load staticfiles otree_tags %}
+{% load staticfiles  %}
+
+<div class="instructions well well-lg">
+
+    <h3 class="panel-sub-heading">
+        Instructions
+    </h3>
+
+    <h4 class="panel-sub-heading">
+        Case
+    </h4>
+    <p>
+        The Atlantic and Mediterranean Bluefin tuna (BFT) fishery has been considered the archetype of an over-fished
+        and mismanaged fishery. This straddling stock (the Eastern stock spreads over the Mediterranean to the middle
+        of the Atlantic) involves the cooperation between all the stakeholders (more than 10 fishing nations) in a
+        Regional Fishery Management Organization (RFMO, the International Commission for the Conservation of Atlantic
+        Tunas ICCAT). Every two years the Commission established through a voting process different kinds of
+        regulations applicable to all stakeholders into their national management scheme (e.g. quota, season closure,
+        gear restriction). All these decisions are based on a scientific advice promulgated by a Standing Committee on
+        Research and Statistic (SCRS) which estimates the status of the resource and multiple predictions based on
+        future harvested assumptions. This advice is uncertain, with process errors (poorly known biological processes:
+        natural mortality due to changing environmental conditions; recruitment process; stock structuring…),
+        and observations errors (e.g. misreported catch in length, effort…). These uncertainties alter the estimation
+        of the stock status and the predicted impact of fishing mortality upon the stock, and therefore the predicted
+        outcome expected by the fishery.
+        Moreover, the fishery has experienced a brutal shift in there management regime in 2009 as a result of communications campaign
+        from several NGOs which condemned together discrepancy between the scientific advice and the management decision and
+        the high level of Illegal, Unreported and Unregulated fishing (IUU). The harvest level has been reduced roughly and the
+        level of control has been increased to stop IUU fishing. This management shift had an economic impact on fleet involved in the
+        exploitation of the Atlantic bluefin tuna.
+    </p>
+    <p>
+        The fishery is dominated by the purse seine fishing vessels which represent more than 60% of the catch realized
+        from 8 nations (in 2013 for the purse seine fishery, data from task 1 of the ICCAT). This fishery is
+        characterized by an international market with a strong demand for high quality tuna. The value chain is rather
+        complex with a fattening phase in offshore farms strongly linked with the Japanese wholesalers.
+        To have an abstract representation of this situation we represent {{ Constants.players_per_group }}
+        similar stakeholders (with the same fleet) as coalitions of nations (European Union EU,
+        distant-water fishing nations DWFNs and other coastal states (OCS)) which control the planning of the fishing harvest for
+        their fishing industry (from one kind of fishing vessel).
+        The Commission is also a simplified representation of the RMFO organization, in which representative of
+        stakeholders (here the players) have to choose unilaterally (non cooperative way) their harvest level.
+    </p>
+    <b>
+        Our 2 main goals are to analyze decision making in a dynamic Common Pool Resource (CPR) dilemma when:
+        <ul>
+            <li>a critical resource size of different nature is introduced: non present, known with certainty and kown with uncertainty,</li>
+            <li>the resource size is known with uncertainty. </li>
+        </ul>
+
+    </b>
+
+
+    <p align="center"> <img src="{% static "XP1p1/BFT-case.jpg"   %}" style="margin:auto; max-width:100%"/> </p>
+
+
+
+</div>
