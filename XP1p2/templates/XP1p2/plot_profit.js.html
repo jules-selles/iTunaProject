@@ -1,0 +1,25 @@
+$(function () {
+    $('#containerProfit').highcharts({
+        title: {
+            text: 'Profit (.UVM)',
+        },
+        xAxis: {
+            categories: {{ Constants.xp_years }},
+        },
+        yAxis: {
+            title: {
+                text: 'Profit'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' (.UVM)'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: {{ Profitseries }}
+    });
+});
