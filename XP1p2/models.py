@@ -37,23 +37,15 @@ iTuna Experiment
 ## To do list
 
 ##Buggs priority 1
-
-##-> b_round sometimes no increment
-##-> prof in compute payoff out of condition no increment
 ##-> biomass vector not refreshing between phase !!
 
 ##Buggs priority 2
-## -> # ! bug dans la simplification de la nested list b_unrange in de Unprojection | solution provioire unested 4 times
-##but ideally we need to define the nb of nested dimension to be flexible -> : for i in range (1, 4): | unArea = sum(self.group.b_unrange,[])
+## -> !! projection in phase 2 et 3 pour s'adapter au range uncertainty of Biomass
+## -> !! variation table bug
 
 ## Basics
-## -> !! projection in phase 2 et 3 pour s'adapter au range uncertainty of Biomass
+## -> test player's understanding before start
 ## -> find a way to don't copy 3 times apps to create each phase of XP
-##-> add comments
-## -> test form
-## -> be sure that all logistic stuff work. data export // form , phase and treatment
-## -> include payment
-
 
 ##-------------------------------
 class Constants(BaseConstants):
@@ -224,33 +216,29 @@ class Group(BaseGroup):
 
     ## compute payoff for table (10^3 $), profit by player see protocol
     def compute_payoff_table(self, harvest, harvestInd, stock):
-
         if (harvest + harvestInd) == 0:
             prop = 0
         else:
             prop = harvestInd / (harvest + harvestInd)
-
         if self.session.config['treatment'] == 'T1':
             if stock - (harvest + harvestInd) < 0:
-                prof = -50
+                prof = -5
             else:
                 prof = round((Constants.price_fish * harvestInd) -
                              (Constants.beta * (math.log(self.growth(b=stock)) -
                                                 math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)), 1)
         else:
             if stock - (harvest + harvestInd) < 0:
-                prof = -50
+                prof = -5
             else:
                 if stock < Constants.Blim:
                     prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
                                  (Constants.beta * (math.log(self.growth(b=stock)) -
-                                                    math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)),
-                                 1)
+                                                    math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)),1)
                 if stock > Constants.Blim:
                     prof = round((Constants.price_fish * harvestInd) -
                                  (Constants.beta * (math.log(self.growth(b=stock)) -
-                                                    math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)),
-                                 1)
+                                                    math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)),1)
         return prof
 
     ## biomass schaefer dynamic
@@ -282,19 +270,31 @@ class Group(BaseGroup):
     ##--------------------------------
     ## upadating functions
 
-    ## update biomass uncertainty for the next a['testyear
+    ## update biomass uncertainty for the next year
     def set_biomassUN(self):
-        bUN = None
-
         if self.subsession.round_number == 1:
             bUN = self.randomB(mean=Constants.init_biomass, sd=Constants.uncertainty)
-            self.Bmin.append(bUN['B_min'])
-            self.bmin_round = bUN['B_min']
-            self.Bmax.append(bUN['B_max'])
-            self.bmax_round = bUN['B_max']
-            self.bun_round= [self.bmin_round,self.bmax_round]
-            self.Bun.append(self.bun_round)
+            self.bmin_round  = bUN['B_min']
+            self.bmax_round  = bUN['B_max']
+            self.bun_round = [self.bmin_round, self.bmax_round]
 
+            if not self.Bmin:
+                self.Bmin.append(bUN['B_min'])
+            else:
+                for i in self.Bmin:
+                    self.Bmin.remove(i)
+
+            if not self.Bmax:
+                self.Bmax.append(bUN['B_max'])
+            else:
+                for i in self.Bmax:
+                    self.Bmax.remove(i)
+
+            if not self.Bun:
+                self.Bun.append(self.bun_round)
+            else:
+                for i in self.Bun:
+                    self.Bun.remove(i)
         else:
             bUN = self.randomB(mean=self.biomass[self.subsession.round_number - 1], sd=Constants.uncertainty)
             self.Bmin.append(bUN['B_min'])
@@ -333,9 +333,14 @@ class Group(BaseGroup):
         ## update payoff for the year by player
     def set_payoffs(self):
         self.total_catch = sum([p.catch_choice for p in self.get_players()])
-        self.Ctot.append(self.total_catch)
 
         if self.subsession.round_number == 1:
+            if not self.Ctot:
+                self.Ctot.append(self.total_catch)
+            else:
+                for i in self.Ctot:
+                    self.Ctot.remove(i)
+
             for p in self.get_players():
                 p.profit = self.compute_payoff(harvestInd=p.catch_choice,
                                                    harvest=(self.total_catch - p.catch_choice),
@@ -344,6 +349,8 @@ class Group(BaseGroup):
                                                    harvest=(self.total_catch - p.catch_choice),
                                                    stock=Constants.init_biomass)* Constants.convertionCurrency,1)
         else:
+            self.Ctot.append(self.total_catch)
+
             for p in self.get_players():
                 p.profit = self.compute_payoff(harvestInd=p.catch_choice,
                                                    harvest=(self.total_catch - p.catch_choice),
@@ -360,9 +367,12 @@ class Group(BaseGroup):
         bplus = models.FloatField()
 
         if self.subsession.round_number == 1:
-            self.biomass.append(Constants.init_biomass)
-            self.b_round = Constants.init_biomass
-
+            if not self.biomass:
+                self.biomass.append(Constants.init_biomass)
+                self.b_round = Constants.init_biomass
+            else:
+                for i in self.biomass:
+                    self.biomass.remove(i)
         else:
            # bint = self.biomass[self.subsession.round_number - 2] - self.Ctot[self.subsession.round_number - 2]
            # bplus = self.schaefer(b=bint, c=0)
@@ -414,7 +424,6 @@ class Group(BaseGroup):
                 proj.append(round(self.schaefer(b=bint, c=0)))
                 self.b_proj[i + 1] = round(proj[i])
 
-###!!!!!!!!!!!!!!!!!!!!!!!!!!!!! make projection from where ??? 2 projection from min and max value ???
     ## function uncertainty around projection for 10 years
     def projUncertainty(self):
         unrange = []

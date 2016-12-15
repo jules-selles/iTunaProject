@@ -38,23 +38,15 @@ iTuna Experiment
 ## To do list
 
 ##Buggs priority 1
-
-##-> b_round sometimes no increment
-##-> prof in compute payoff out of condition no increment
 ##-> biomass vector not refreshing between phase !!
 
 ##Buggs priority 2
-## -> # ! bug dans la simplification de la nested list b_unrange in de Unprojection | solution provioire unested 4 times
-##but ideally we need to define the nb of nested dimension to be flexible -> : for i in range (1, 4): | unArea = sum(self.group.b_unrange,[])
+## -> !! projection in phase 2 et 3 pour s'adapter au range uncertainty of Biomass
+## -> !! variation table bug
 
 ## Basics
-## -> !! projection in phase 2 et 3 pour s'adapter au range uncertainty of Biomass
+## -> test player's understanding before start
 ## -> find a way to don't copy 3 times apps to create each phase of XP
-##-> add comments
-## -> test form
-## -> be sure that all logistic stuff work. data export // form , phase and treatment
-## -> include payment
-
 
 ##-------------------------------
 class Constants(BaseConstants):
@@ -273,16 +265,23 @@ class Group(BaseGroup):
     ## update payoff for the year by player
     def set_payoffs(self):
          self.total_catch = sum([p.catch_choice for p in self.get_players()])
-         self.Ctot.append(self.total_catch)
 
          if self.subsession.round_number == 1:
+             if not self.Ctot:
+                self.Ctot.append(self.total_catch)
+             else:
+                for i in self.Ctot:
+                   self.Ctot.remove(i)
+
              for p in self.get_players():
                  p.profit = self.compute_payoff(harvestInd=p.catch_choice,harvest=(self.total_catch-p.catch_choice),
                                                 stock=Constants.init_biomass)
                  p.payoff = round(self.compute_payoff(harvestInd=p.catch_choice,harvest=(self.total_catch-p.catch_choice),
                                                 stock=Constants.init_biomass)* Constants.convertionCurrency,1)
          else:
-            for p in self.get_players():
+             self.Ctot.append(self.total_catch)
+
+             for p in self.get_players():
                 p.profit = self.compute_payoff(harvestInd=p.catch_choice,harvest=(self.total_catch-p.catch_choice),
                                                stock=self.biomass[self.subsession.round_number - 1])
                 p.payoff = round(self.compute_payoff(harvestInd=p.catch_choice, harvest=(self.total_catch-p.catch_choice),
@@ -296,9 +295,12 @@ class Group(BaseGroup):
         bplus = models.FloatField()
 
         if self.subsession.round_number == 1:
-            self.biomass.append(Constants.init_biomass)
-            self.b_round = Constants.init_biomass
-
+            if not self.biomass:
+                self.biomass.append(Constants.init_biomass)
+                self.b_round = Constants.init_biomass
+            else:
+                for i in self.biomass:
+                    self.biomass.remove(i)
         else:
             #bint = self.biomass[self.subsession.round_number - 2] - self.Ctot[self.subsession.round_number - 2]
             #bplus = self.schaefer(b=bint, c= 0)
