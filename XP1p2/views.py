@@ -63,8 +63,8 @@ class Catch_Pledge(Page):
 
     timeout_seconds = 60
 
-    def is_displayed(self):
-        return self.group.biomass[self.subsession.round_number - 1] > 0
+    #def is_displayed(self):
+     #   return self.group.biomass[self.subsession.round_number - 1] > 0
 
     ##-------------------------------
     ## variables for template
