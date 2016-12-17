@@ -172,7 +172,7 @@ class Pledge_Results(Page):
     timeout_seconds = 30
 
     def is_displayed(self):
-        return self.group.b_round > 0
+        return self.group.biomass[self.subsession.round_number - 1] > 0
 
     def vars_for_template(self):
 
@@ -303,7 +303,7 @@ class Catch_Results(Page):
     timeout_seconds = 30
 
     def is_displayed(self):
-        return self.group.b_round > 0
+        return self.group.biomass[self.subsession.round_number - 1] > 0
 
     ##-------------------------------
     ## variables for template
@@ -485,7 +485,7 @@ class End(Page):
             totP = sum(p_round)
 
         euros = totP * Constants.convertionCurrency
-        if self.group.b_round <= 0:
+        if self.group.biomass[self.subsession.round_number - 1] <= 0:
             message = ' You have driven the stock to the collapse!!  '
         else:
             message = ''
