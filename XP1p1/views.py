@@ -67,7 +67,7 @@ class Catch_Pledge(Page):
     timeout_seconds = 60
 
     def is_displayed(self):
-        return self.group.biomass[self.subsession.round_number - 1] > 0
+        return self.group.b_round > 0
 
     ##-------------------------------
     ## variables for template
@@ -98,9 +98,8 @@ class Catch_Pledge(Page):
             colorBlim_range = 'rgba(213, 70, 150, 0.2)'
             colorBlim_range_label = 'gray'
 
-        data = {'Payoff': tab_payoff , 'round.number': self.subsession.round_number, 'biomass': self.group.biomass,
+        data = {'Payoff': tab_payoff , 'round.number': self.subsession.round_number, 'biomass': self.group.b_round,
                 'choicevar': choice,'variation':var,'j': j,'r': r,
-                'Biomass': self.group.biomass,
                 'Bmsy': Constants.Bmsy,
                 'Blim': Constants.Blim,
                 'Blim_min': self.group.Blim_min,
@@ -123,8 +122,9 @@ class Catch_Pledge(Page):
         data['seriesBlim_min'] = list()
         data['seriesBlim_max'] = list()
 
-        data['seriesBiomass'].append({'name': 'Biomass',
-                                      'data': self.group.biomass})
+        biomass = [p.b_round for p in self.group.in_all_rounds()]
+
+        data['seriesBiomass'].append({'name': 'Biomass', 'data': biomass})
 
         data['seriesBlim_min'].append({'name': 'Blim_min',
                                        'data': self.group.Blim_min})
@@ -149,7 +149,7 @@ class Catch_Pledge(Page):
 class Pledge_WaitPage(WaitPage):
 
     def is_displayed(self):
-        return self.group.biomass[self.subsession.round_number - 1] > 0
+        return self.group.b_round > 0
 
     def after_all_players_arrive(self):
 
@@ -163,7 +163,7 @@ class Pledge_Results(Page):
     timeout_seconds = 30
 
     def is_displayed(self):
-        return self.group.biomass[self.subsession.round_number - 1] > 0
+        return self.group.b_round > 0
 
     def vars_for_template(self):
 
@@ -222,9 +222,8 @@ class Catch_Choice(Page):
             colorBlim_range = 'rgba(213, 70, 150, 0.2)'
             colorBlim_range_label = 'gray'
 
-        data = {'Payoff': tab_payoff, 'round.number': self.subsession.round_number, 'biomass': self.group.biomass,
+        data = {'Payoff': tab_payoff, 'round.number': self.subsession.round_number, 'biomass': self.group.b_round,
                 'choicevar': choice,'variation':var, 'j': j,'r':r,
-                'Biomass': self.group.biomass,
                 'Bmsy': Constants.Bmsy,
                 'Blim': Constants.Blim,
                 'Blim_min': self.group.Blim_min,
@@ -242,8 +241,9 @@ class Catch_Choice(Page):
         data['seriesBlim_min'] = list()
         data['seriesBlim_max'] = list()
 
-        data['seriesBiomass'].append({'name': 'Biomass',
-                                      'data': self.group.biomass})
+        biomass = [p.b_round for p in self.group.in_all_rounds()]
+
+        data['seriesBiomass'].append({'name': 'Biomass','data': biomass})
 
         data['seriesBlim_min'].append({'name': 'Blim_min',
                                        'data': self.group.Blim_min})
@@ -263,7 +263,6 @@ class Catch_Choice(Page):
     form_model = models.Player
     form_fields = ['catch_choice']
 
-
 ##-------------------------------
 class CatchChoice_WaitPage(WaitPage):
 
@@ -279,7 +278,7 @@ class Catch_Results(Page):
     timeout_seconds = 120
 
     def is_displayed(self):
-        return self.group.biomass[self.subsession.round_number - 1] > 0
+        return self.group.b_round > 0
 
     ##-------------------------------
     ## variables for template
@@ -346,7 +345,7 @@ class Catch_Results(Page):
 class ScientificAdvice(Page):
 
     def is_displayed(self):
-        return self.group.biomass[self.subsession.round_number - 1] > 0
+        return self.group.b_round > 0
 
     timeout_seconds = 30
 
@@ -392,7 +391,7 @@ class ScientificAdvice(Page):
         ## Filling the data for graph
         ## Biomass estimation + projection under statu quo (same harvest level)
 
-        data = {'Biomass': self.group.biomass,
+        data = {'Biomass': self.group.b_round,
                 'Bmsy': Constants.Bmsy,
                 'Blim':Constants.Blim,
                 'Projection': self.group.b_proj,
@@ -415,12 +414,10 @@ class ScientificAdvice(Page):
 
         data['seriesProjection'].append({'name': 'Projection',
                                          'data': self.group.b_proj})
-        data['seriesBiomass'].append({'name': 'Biomass',
-                                      'data': self.group.biomass})
-        #data['seriesBmsy'].append({'name': 'Bmsy',
-         #                          'data': self.group.target})
-        #data['seriesBlim'].append({'name': 'Bmsy',
-         #                          'data': self.group.lim})
+        biomass = [p.b_round for p in self.group.in_all_rounds()]
+
+        data['seriesBiomass'].append({'name': 'Biomass', 'data': biomass})
+
         data['seriesUnRange'].append({'name': 'UnRange',
                                       'data': UNarea})
         data['seriesBlim_min'].append({'name': 'Blim_min',
@@ -444,7 +441,6 @@ class End(Page):
 
     timeout_seconds = 30
 
-
     def vars_for_template(self):
         if self.group.b_round <= 0:
             message=' You have driven the stock to the collapse!! ' \
@@ -456,13 +452,13 @@ class End(Page):
         return (data)
 
     def is_displayed(self):
-        return self.subsession.round_number == Constants.num_rounds or self.group.biomass[self.subsession.round_number - 1] <= 0
+        return self.subsession.round_number == Constants.num_rounds or self.group.b_round <= 0
 
 ##-------------------------------
 ##page sequence
 page_sequence = [
-    Introduction,
-    Form,
+    #Introduction,
+    #Form,
     Form_WaitPage,
     Catch_Pledge,
     Pledge_WaitPage,
