@@ -457,8 +457,8 @@ class End(Page):
 ##-------------------------------
 ##page sequence
 page_sequence = [
-    #Introduction,
-    #Form,
+    Introduction,
+    Form,
     Form_WaitPage,
     Catch_Pledge,
     Pledge_WaitPage,
