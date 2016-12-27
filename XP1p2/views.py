@@ -211,6 +211,10 @@ class Catch_Choice(Page):
     ## variables for template
     def vars_for_template(self):
 
+        biomassRange = []
+        for i in self.group.in_all_rounds():
+            biomassRange.append([i.bmin_round, i.bmax_round])
+
         var = self.group.variation()
         j = range(0, len(Constants.choice_catch))
         r = range(0, len(Constants.other_choice_catch)*2)
@@ -240,7 +244,7 @@ class Catch_Choice(Page):
                 'Biomass': self.group.b_round,
                 'Bmsy': Constants.Bmsy,
                 'Blim': Constants.Blim,
-                'Brange': self.group.bun_round,
+                'Brange': biomassRange,
                 'Bmax': self.group.bmax_round,
                 'Bmin': self.group.bmin_round,
                 'Blim_min': self.group.Blim_min,
@@ -423,7 +427,6 @@ class ScientificAdvice(Page):
                 'Blim':Constants.Blim,
                 'Projection': self.group.b_proj,
                 'UnRange': UNarea,
-                'Brange':self.group.bun_round,
                 'Bmax':self.group.bmax_round,
                 'Bmin':self.group.bmin_round,
                 'Blim_min':self.group.Blim_min,
