@@ -67,6 +67,10 @@ class Catch_Pledge(Page):
     ## variables for template
     def vars_for_template(self):
 
+        biomassRange = []
+        for i in self.group.in_all_rounds():
+            biomassRange.append([i.bmin_round,i.bmax_round])
+
         # set biomass variation rate for the next year
         var = self.group.variation()
         j = range(0,len(Constants.choice_catch))
@@ -96,12 +100,13 @@ class Catch_Pledge(Page):
             colorBlim_range_label = 'gray'
 
 
-        data = {'Payoff': tab_payoff, 'round.number': self.subsession.round_number, 'biomass': self.group.b_round,
-                'Bmin':self.group.Bmin,'Bmax':self.group.Bmax,'choicevar': choice,'variation':var,'j': j,'r': r,
+        data = {'Payoff': tab_payoff, 'round.number': self.subsession.round_number,
+                'choicevar': choice,'variation':var,'j': j,'r': r,
                 'Biomass': self.group.b_round,
+                'brange':self.group.bun_round,
                 'Bmsy': Constants.Bmsy,
                 'Blim': Constants.Blim,
-                'Brange': self.group.Bun,
+                'Brange': biomassRange,
                 'Bmax': self.group.bmax_round,
                 'Bmin': self.group.bmin_round,
                 'Blim_min': self.group.Blim_min,
@@ -118,7 +123,6 @@ class Catch_Pledge(Page):
                 }
 
         data['seriesBiomass'] = list()
-        data['seriesBmsy'] = list()
         data['seriesBlim'] = list()
         data['seriesBlim_min'] = list()
         data['seriesBlim_max'] = list()
@@ -128,13 +132,12 @@ class Catch_Pledge(Page):
 
         data['seriesBiomass'].append({'name': 'Biomass',
                                   'data': self.group.b_round})
-        data['seriesBrange'].append({'name': 'Brange',
-                                 'data': self.group.Bun})
+        data['seriesBrange'].append({'name': 'BiomassRange',
+                                     'data': biomassRange})
         data['seriesBlim_min'].append({'name': 'Blim_min',
                                    'data': self.group.Blim_min})
         data['seriesBlim_max'].append({'name': 'Blim_max',
                                    'data': self.group.Blim_max})
-
         data['seriesBiomass'] = safe_json(data['seriesBiomass'])
         data['seriesBlim'] = safe_json(data['seriesBlim'])
         data['seriesBlim_min'] = safe_json(data['seriesBlim_min'])
@@ -208,6 +211,10 @@ class Catch_Choice(Page):
     ## variables for template
     def vars_for_template(self):
 
+        biomassRange = []
+        for i in self.group.in_all_rounds():
+            biomassRange.append([i.bmin_round, i.bmax_round])
+
         var = self.group.variation()
         j = range(0, len(Constants.choice_catch))
         r = range(0, len(Constants.other_choice_catch)*2)
@@ -237,7 +244,7 @@ class Catch_Choice(Page):
                 'Biomass': self.group.b_round,
                 'Bmsy': Constants.Bmsy,
                 'Blim': Constants.Blim,
-                'Brange': self.group.bun_round,
+                'Brange': biomassRange,
                 'Bmax': self.group.bmax_round,
                 'Bmin': self.group.bmin_round,
                 'Blim_min': self.group.Blim_min,
@@ -420,7 +427,6 @@ class ScientificAdvice(Page):
                 'Blim':Constants.Blim,
                 'Projection': self.group.b_proj,
                 'UnRange': UNarea,
-                'Brange':self.group.bun_round,
                 'Bmax':self.group.bmax_round,
                 'Bmin':self.group.bmin_round,
                 'Blim_min':self.group.Blim_min,

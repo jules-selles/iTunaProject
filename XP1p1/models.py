@@ -241,8 +241,8 @@ class Group(BaseGroup):
                             else:
                                 payoff_tab[inc].append(0)
                         else:
-                            if (self.b_round - (j + i)) < 0:
-                                payoff_tab[inc].append(-50)
+                            if (self.b_round - (j + i)) <= 0:
+                                payoff_tab[inc].append(-5)
                             else:
                                 payoff_tab[inc].append(self.compute_payoff(harvest=j,harvestInd=i, stock=Constants.init_biomass))
         else:
