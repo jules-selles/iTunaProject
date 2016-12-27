@@ -61,7 +61,7 @@ class Constants(BaseConstants):
     ## oTree variables
     name_in_url       = 'XP1p2'  #
     players_per_group = 3
-    num_rounds = random.choice([10,11,12,13,14,15])  # !! random value to put into before session in subsession
+    num_rounds = random.choice([2])  # !! random value to put into before session in subsession
 
     ## global variables
     nb_sim_years       = 10
@@ -144,7 +144,6 @@ class Group(BaseGroup):
     # Biomass uncertainty
     bmin_round    = models.FloatField()
     bmax_round    = models.FloatField()
-
     bun_round     = []
 
     # Threshold and uncertainty range
@@ -223,10 +222,10 @@ class Group(BaseGroup):
                              (Constants.beta * (math.log(self.growth(b=stock)) -
                                                 math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)), 1)
         else:
-            if stock - (harvest + harvestInd) < 0:
+            if stock - (harvest + harvestInd) <= 0:
                 prof = -5
             else:
-                if stock < Constants.Blim:
+                if stock <= Constants.Blim:
                     prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
                                  (Constants.beta * (math.log(self.growth(b=stock)) -
                                                     math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)),1)
@@ -255,7 +254,7 @@ class Group(BaseGroup):
         Balea= numpy.random.normal(loc=mean, scale=sd)
         B_min= Balea - Balea * sd
         B_max= Balea + Balea * sd
-        B_un= [B_min,B_max]
+        B_un= [round(B_min,0),round(B_max,0)]
 
         Bun_data = {'Balea':round(Balea),'B_min':round(B_min), 'B_max':round(B_max),'B_un':B_un}
         return  Bun_data  # []
@@ -269,30 +268,13 @@ class Group(BaseGroup):
             bUN = self.randomB(mean=Constants.init_biomass, sd=Constants.uncertainty)
             self.bmin_round  = bUN['B_min']
             self.bmax_round  = bUN['B_max']
-            self.bun_round = [self.bmin_round, self.bmax_round]
+            self.bun_round.append(bUN['B_un'])
 
-            if not self.Bmin:
-                self.Bmin.append(bUN['B_min'])
-            else:
-                for i in self.Bmin:
-                    self.Bmin.remove(i)
-
-            if not self.Bmax:
-                self.Bmax.append(bUN['B_max'])
-            else:
-                for i in self.Bmax:
-                    self.Bmax.remove(i)
-
-            if not self.Bun:
-                self.Bun.append(self.bun_round)
-            else:
-                for i in self.Bun:
-                    self.Bun.remove(i)
         else:
             bUN = self.randomB(mean=self.b_round, sd=Constants.uncertainty)
-            self.bmin_round = bUN['B_min']
-            self.bmax_round = bUN['B_max']
-            self.bun_round = [self.bmin_round,self.bmax_round]
+            self.bmin_round    = bUN['B_min']
+            self.bmax_round    = bUN['B_max']
+            self.bun_round[0]  = bUN['B_un']
 
     ## update payoff table
             ## update payoff table
@@ -369,7 +351,8 @@ class Group(BaseGroup):
     ## function variation for each catch level
     def variation(self):
         var = [[] for _ in range(Constants.nb_catch_choice)]
-        s   = models.FloatField()
+        s1   = models.FloatField()
+        s2   = models.FloatField()
         inc = -1
 
         for i in Constants.choice_catch:
