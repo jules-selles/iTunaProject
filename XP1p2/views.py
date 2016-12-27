@@ -103,7 +103,6 @@ class Catch_Pledge(Page):
         data = {'Payoff': tab_payoff, 'round.number': self.subsession.round_number,
                 'choicevar': choice,'variation':var,'j': j,'r': r,
                 'Biomass': self.group.b_round,
-                'brange':self.group.bun_round,
                 'Bmsy': Constants.Bmsy,
                 'Blim': Constants.Blim,
                 'Brange': biomassRange,
@@ -268,7 +267,7 @@ class Catch_Choice(Page):
         data['seriesBiomass'].append({'name': 'Biomass',
                                   'data': self.group.b_round})
         data['seriesBrange'].append({'name': 'Brange',
-                                 'data': self.group.bun_round})
+                                 'data': biomassRange})
         data['seriesBlim_min'].append({'name': 'Blim_min',
                                    'data': self.group.Blim_min})
         data['seriesBlim_max'].append({'name': 'Blim_max',
@@ -296,8 +295,8 @@ class CatchChoice_WaitPage(WaitPage):
 
     def after_all_players_arrive(self):
         self.group.set_payoffs()
-        self.group.projection()
-        self.group.projUncertainty()
+        #self.group.projection()
+        #self.group.projUncertainty()
 
     def is_displayed(self):
         return self.group.b_round > 0
@@ -382,8 +381,26 @@ class ScientificAdvice(Page):
     ## variables for template
     def vars_for_template(self):
 
-        ##create area range series for uncertainty on biomass plot
+        ##create area range series for projection uncertainty on biomass plot
+        ## projection uncertainty
+        proj = self.group.projection()
+        proj_un = self.group.projUncertainty()
 
+        j = -1
+        UNarea = []
+        seq = list(range(len(proj) + 1))
+
+        # simplify nested list
+        for i in range(1, 2):
+            unArea = sum(proj_un, [])
+
+        for row in unArea[0]:
+            j = j + 1
+            UNarea.append([[seq[j]] + row])
+
+        UNarea = sum(UNarea, [])
+
+        ## color setting
         if self.session.config['treatment'] == 'T1':
             colorBlim = "rgba(68, 170, 213, 0)"
             colorBlim_label='rgba(68, 170, 213, 0)'
@@ -400,24 +417,6 @@ class ScientificAdvice(Page):
             colorBlim_range= 'rgba(213, 70, 150, 0.2)'
             colorBlim_range_label = 'gray'
 
-        ## projection uncertainty
-        j = -1
-        UNarea = []
-        seq = list(range(len(self.group.b_proj) + 1))
-
-        # simplify nested list
-        # dim_list = self.group.number_of_lists(self.group.b_unrange)
-
-        # ! ici solution provisoire
-        for i in range(1, 4):
-            unArea = sum(self.group.b_unrange, [])
-
-        for row in unArea[self.subsession.round_number - 1]:
-            j = j + 1
-            UNarea.append([[seq[j]] + row])
-
-        UNarea = sum(UNarea, [])
-
         ## Filling the data for graph
         ## Biomass estimation + projection under statu quo (same harvest level)
 
@@ -425,7 +424,7 @@ class ScientificAdvice(Page):
         data = {'Biomass': self.group.b_round,
                 'Bmsy': Constants.Bmsy,
                 'Blim':Constants.Blim,
-                'Projection': self.group.b_proj,
+                'Projection': proj,
                 'UnRange': UNarea,
                 'Bmax':self.group.bmax_round,
                 'Bmin':self.group.bmin_round,
@@ -447,7 +446,7 @@ class ScientificAdvice(Page):
         data['seriesBlim_max'] = list()
 
         data['seriesProjection'].append({'name': 'Projection',
-                                     'data': self.group.b_proj})
+                                     'data': proj})
         data['seriesBiomass'].append({'name': 'Biomass',
                                   'data': self.group.b_round})
         # data['seriesBmsy'].append({'name': 'Bmsy',
@@ -456,8 +455,6 @@ class ScientificAdvice(Page):
         #                          'data': self.group.lim})
         data['seriesUnRange'].append({'name': 'UnRange',
                                   'data': UNarea})
-        data['seriesBrange'].append({'name': 'Brange',
-                                      'data': self.group.bun_round})
         data['seriesBlim_min'].append({'name': 'Blim_min',
                                    'data': self.group.Blim_min})
         data['seriesBlim_max'].append({'name': 'Blim_max',
@@ -489,12 +486,14 @@ class End(Page):
             totP = sum(p_round)
 
         euros = totP * Constants.convertionCurrency
+        
         if self.group.b_round <= 0:
             message = ' You have driven the stock to the collapse!!  '
         else:
             message = ''
 
         data = {'cumulatedMoney':self.participant.payoff,
+                'testProfit':euros,
                 'message':message}
 
         return data

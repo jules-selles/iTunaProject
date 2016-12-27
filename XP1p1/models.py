@@ -361,7 +361,6 @@ class Group(BaseGroup):
 
         range = numpy.vstack((upperUn, self.lowerUn)).T
         unrange.append(range.tolist())
-
         self.b_unrange.append(unrange)
 
 
