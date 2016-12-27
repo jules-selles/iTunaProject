@@ -268,9 +268,9 @@ class CatchChoice_WaitPage(WaitPage):
 
     def after_all_players_arrive(self):
             self.group.set_payoffs()
-            if self.group.b_round > 0:
-                self.group.projection()
-                self.group.projUncertainty()
+            #if self.group.b_round > 0:
+            #    self.group.projection()
+            #    self.group.projUncertainty()
 
 ##-------------------------------
 class Catch_Results(Page):
@@ -338,7 +338,7 @@ class Catch_Results(Page):
         Profitseries = safe_json(seriesProfit)
 
         return {'data': data, 'Catchseries': Catchseries, 'Profitseries': Profitseries,'others_data':others_data,
-                'nation': oData[0], 'catch': oData[1], 'profit': oData[2], 'testunrange':self.group.b_unrange,
+                'nation': oData[0], 'catch': oData[1], 'profit': oData[2],
                 'TotalIndProfit': totalIndProfit}
 
 ##-------------------------------
@@ -353,8 +353,26 @@ class ScientificAdvice(Page):
     ## variables for template
     def vars_for_template(self):
 
-        ##create area range series for uncertainty on biomass plot
+        ##create area range series for projection uncertainty on biomass plot
+        ## projection uncertainty
+        proj = self.group.projection()
+        proj_un = self.group.projUncertainty()
 
+        j = -1
+        UNarea = []
+        seq = list(range(len(proj) + 1))
+
+        # simplify nested list
+        for i in range(1, 2):
+            unArea = sum(proj_un, [])
+
+        for row in unArea[0]:
+            j = j + 1
+            UNarea.append([[seq[j]] + row])
+
+        UNarea = sum(UNarea, [])
+
+        ## color setting
         if self.session.config['treatment'] == 'T1':
             colorBlim = "rgba(68, 170, 213, 0)"
             colorBlim_label='rgba(68, 170, 213, 0)'
@@ -371,30 +389,13 @@ class ScientificAdvice(Page):
             colorBlim_range= 'rgba(213, 70, 150, 0.2)'
             colorBlim_range_label = 'gray'
 
-        ## projection uncertainty
-        j = -1
-        UNarea=[]
-        seq = list(range(len(self.group.b_proj)+1))
-
-        # simplify nested list
-        #dim_list = self.group.number_of_lists(self.group.b_unrange)
-
-        # ! ici solution provisoire
-        for i in range (1, 4):
-            unArea = sum(self.group.b_unrange,[])
-
-        for row in unArea[self.subsession.round_number - 1]:
-            j=j+1
-            UNarea.append([[seq[j]] + row])
-        UNarea = sum(UNarea,[])
-
         ## Filling the data for graph
         ## Biomass estimation + projection under statu quo (same harvest level)
 
         data = {'Biomass': self.group.b_round,
                 'Bmsy': Constants.Bmsy,
                 'Blim':Constants.Blim,
-                'Projection': self.group.b_proj,
+                'Projection': proj,
                 'UnRange': UNarea,
                 'Blim_min':self.group.Blim_min,
                 'Blim_max': self.group.Blim_max,
@@ -413,7 +414,7 @@ class ScientificAdvice(Page):
         data['seriesBlim_max'] = list()
 
         data['seriesProjection'].append({'name': 'Projection',
-                                         'data': self.group.b_proj})
+                                         'data': proj})
         biomass = [p.b_round for p in self.group.in_all_rounds()]
 
         data['seriesBiomass'].append({'name': 'Biomass', 'data': biomass})

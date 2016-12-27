@@ -486,7 +486,7 @@ class End(Page):
             totP = sum(p_round)
 
         euros = totP * Constants.convertionCurrency
-        
+
         if self.group.b_round <= 0:
             message = ' You have driven the stock to the collapse!!  '
         else:
