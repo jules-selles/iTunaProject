@@ -136,21 +136,16 @@ class Group(BaseGroup):
     ##--------------------------------
     ## local variables
     total_catch   = models.FloatField()
-    Ctot = []
     total_profit  = models.FloatField()
-    Ptot          = []
     payoff_tab    = [None] * Constants.nb_catch_choice * 2
-    biomass       = []
     b_round       = models.FloatField()
     y             = models.FloatField()
 
     # Biomass uncertainty
     bmin_round    = models.FloatField()
     bmax_round    = models.FloatField()
+
     bun_round     = []
-    Bmin          = []
-    Bmax          = []
-    Bun           = []
 
     # Threshold and uncertainty range
     Blim_min      = models.FloatField()
@@ -243,7 +238,6 @@ class Group(BaseGroup):
 
     ## biomass schaefer dynamic
     def schaefer(self, b, c):
-
         if b <= 0:
             biomass = 0
         else:
@@ -254,7 +248,6 @@ class Group(BaseGroup):
     ## Growth function
     def growth(self, b):
             biomass = round(b + (Constants.growth_rate * b) * (1 - (b / Constants.carrying_capacity)), 0)
-
             return biomass  # []
 
     ## biomass random variable N~(schaefer, epsilon)
@@ -296,13 +289,10 @@ class Group(BaseGroup):
                 for i in self.Bun:
                     self.Bun.remove(i)
         else:
-            bUN = self.randomB(mean=self.biomass[self.subsession.round_number - 1], sd=Constants.uncertainty)
-            self.Bmin.append(bUN['B_min'])
+            bUN = self.randomB(mean=self.b_round, sd=Constants.uncertainty)
             self.bmin_round = bUN['B_min']
-            self.Bmax.append(bUN['B_max'])
             self.bmax_round = bUN['B_max']
             self.bun_round = [self.bmin_round,self.bmax_round]
-            self.Bun.append(self.bun_round)
 
     ## update payoff table
             ## update payoff table
@@ -318,7 +308,7 @@ class Group(BaseGroup):
                     if self.session.config['treatment'] == 'T1':
                         payoff_tab[inc].append(0)
                         payoff_tab[inc].append(0)
-                    elif (self.biomass[self.subsession.round_number - 1] <= Constants.Blim):
+                    elif (self.b_round <= Constants.Blim):
                         payoff_tab[inc].append(-5)
                         payoff_tab[inc].append(-5)
                     else:
@@ -335,12 +325,6 @@ class Group(BaseGroup):
         self.total_catch = sum([p.catch_choice for p in self.get_players()])
 
         if self.subsession.round_number == 1:
-            if not self.Ctot:
-                self.Ctot.append(self.total_catch)
-            else:
-                for i in self.Ctot:
-                    self.Ctot.remove(i)
-
             for p in self.get_players():
                 p.profit = self.compute_payoff(harvestInd=p.catch_choice,
                                                    harvest=(self.total_catch - p.catch_choice),
@@ -349,36 +333,29 @@ class Group(BaseGroup):
                                                    harvest=(self.total_catch - p.catch_choice),
                                                    stock=Constants.init_biomass)* Constants.convertionCurrency,1)
         else:
-            self.Ctot.append(self.total_catch)
-
             for p in self.get_players():
                 p.profit = self.compute_payoff(harvestInd=p.catch_choice,
                                                    harvest=(self.total_catch - p.catch_choice),
-                                                   stock=self.biomass[self.subsession.round_number - 1])
+                                                   stock=self.b_round)
                 p.payoff = round(self.compute_payoff(harvestInd=p.catch_choice,
                                                    harvest=(self.total_catch - p.catch_choice),
-                                                   stock=self.biomass[self.subsession.round_number - 1]) * Constants.convertionCurrency,1)
+                                                   stock=self.b_round) * Constants.convertionCurrency,1)
 
         self.total_profit = sum([p.profit for p in self.get_players()])
-        self.Ptot.append(self.total_profit)
 
     ## update biomass for the next year
     def set_biomass(self):
+
         bplus = models.FloatField()
+        ctot  = models.FloatField()
 
         if self.subsession.round_number == 1:
-            if not self.biomass:
-                self.biomass.append(Constants.init_biomass)
-                self.b_round = Constants.init_biomass
-            else:
-                for i in self.biomass:
-                    self.biomass.remove(i)
+            self.b_round = Constants.init_biomass
         else:
-           # bint = self.biomass[self.subsession.round_number - 2] - self.Ctot[self.subsession.round_number - 2]
-           # bplus = self.schaefer(b=bint, c=0)
-            bplus = self.schaefer(b=self.biomass[self.subsession.round_number - 2], c= self.Ctot[self.subsession.round_number - 2])
-            self.biomass.append(bplus)
-            self.b_round = bplus
+            ctot = sum([p.in_round(self.subsession.round_number - 1).catch_choice for p in self.get_players()])
+            for p in self.in_round(self.subsession.round_number - 1):
+                bplus = p.b_round
+            self.b_round = self.schaefer(b=bplus, c=ctot)
 
     ##--------------------------------
     ## scientific advice

@@ -55,15 +55,15 @@ class Constants(BaseConstants):
     ##Environment parameters
     xp_name = 'XP1p1'
     instructions_template = xp_name + '/instruction.html'
-    functions_template = xp_name + '/functions.html'
-    endPhase_template = xp_name + '/endPhase.html'
-    convertionCurrency = 0.3
+    functions_template    = xp_name + '/functions.html'
+    endPhase_template     = xp_name + '/endPhase.html'
+    convertionCurrency    = 0.3
 
     ##-------------------------------
     ## oTree parameters
     name_in_url       = 'XP1p1'  #
     players_per_group = 3
-    num_rounds        = random.choice([10])  # !! random value to put into before session in subsession
+    num_rounds        = random.choice([2])  # !! random value to put into before session in subsession
 
     ##-------------------------------
     ## Model parameters
@@ -72,8 +72,8 @@ class Constants(BaseConstants):
     nb_sim_years      = 10
     sim_years         = list(range(0,nb_sim_years+1)) # nb of years for projection
     init_year         = 2000
-    end_year = init_year + num_rounds
-    xp_years = list(range(init_year, end_year + 1))
+    end_year          = init_year + num_rounds
+    xp_years          = list(range(init_year, end_year + 1))
 
     # biologic parameters
     growth_rate       = 0.8 # r []
@@ -91,11 +91,11 @@ class Constants(BaseConstants):
     discount_rate     = 0  # theta []
     theta             = 1/(1+discount_rate)
     beta              = 13 # cost parameter [$]
-    tFixedCost        = 5 # threshold fixed cost [$]
+    tFixedCost        = 5  # threshold fixed cost [$]
 
     ##  global harvest choice parameters
     min_catch         = 0   # ymin [10^3 t]
-    max_catch         = 5  # ymax [10^3 t]
+    max_catch         = 5   # ymax [10^3 t]
     nb_catch_choice   = 6
     max_total_catch   = max_catch * players_per_group
     stepChoices       = (max_catch - min_catch)/(nb_catch_choice - 1)
@@ -135,11 +135,9 @@ class Group(BaseGroup):
     ##--------------------------------
     ## local variables
     total_catch   = models.FloatField()
-    Ctot          = []
     total_profit  = models.FloatField()
-    Ptot          = []
+
     #payoff_tab    = [None] * Constants.nb_catch_choice
-    biomass       = []
     b_round       = models.FloatField()
     y             = models.FloatField()
 
@@ -238,12 +236,12 @@ class Group(BaseGroup):
                         if i==0 & j== 0:
                             if self.session.config['treatment']=='T1':
                                 payoff_tab[inc].append(0)
-                            elif (self.biomass[self.subsession.round_number - 1] <= Constants.Blim):
+                            elif (self.b_round <= Constants.Blim):
                                 payoff_tab[inc].append(-5)
                             else:
                                 payoff_tab[inc].append(0)
                         else:
-                            if (self.biomass[self.subsession.round_number - 1] - (j + i)) < 0:
+                            if (self.b_round - (j + i)) < 0:
                                 payoff_tab[inc].append(-50)
                             else:
                                 payoff_tab[inc].append(self.compute_payoff(harvest=j,harvestInd=i, stock=Constants.init_biomass))
@@ -254,12 +252,12 @@ class Group(BaseGroup):
                         if i == 0 & j == 0:
                             payoff_tab[inc].append(0)
                         else:
-                            if (self.growth(b=self.biomass[self.subsession.round_number - 1]) - (j + i)) < 0:
+                            if (self.growth(b=self.b_round) - (j + i)) < 0:
                                 payoff_tab[inc].append(-50)
                             else:
                                 payoff_tab[inc].append(
                                     self.compute_payoff(harvest=j, harvestInd=i,
-                                                stock=self.biomass[self.subsession.round_number - 1]))
+                                                stock=self.b_round))
         return (payoff_tab)
 
     ## update payoff for the year by player
@@ -267,11 +265,6 @@ class Group(BaseGroup):
          self.total_catch = sum([p.catch_choice for p in self.get_players()])
 
          if self.subsession.round_number == 1:
-             if not self.Ctot:
-                self.Ctot.append(self.total_catch)
-             else:
-                for i in self.Ctot:
-                   self.Ctot.remove(i)
 
              for p in self.get_players():
                  p.profit = self.compute_payoff(harvestInd=p.catch_choice,harvest=(self.total_catch-p.catch_choice),
@@ -279,35 +272,28 @@ class Group(BaseGroup):
                  p.payoff = round(self.compute_payoff(harvestInd=p.catch_choice,harvest=(self.total_catch-p.catch_choice),
                                                 stock=Constants.init_biomass)* Constants.convertionCurrency,1)
          else:
-             self.Ctot.append(self.total_catch)
 
              for p in self.get_players():
                 p.profit = self.compute_payoff(harvestInd=p.catch_choice,harvest=(self.total_catch-p.catch_choice),
-                                               stock=self.biomass[self.subsession.round_number - 1])
-                p.payoff = round(self.compute_payoff(harvestInd=p.catch_choice, harvest=(self.total_catch-p.catch_choice),
-                                               stock=self.biomass[self.subsession.round_number - 1]) * Constants.convertionCurrency,1)
+                                               stock=self.b_round)
+                p.payoff = round(self.compute_payoff(harvestInd=p.catch_choice, harvest=(self.total_catch - p.catch_choice),
+                                               stock=self.b_round) * Constants.convertionCurrency,1)
 
          self.total_profit = sum([p.profit for p in self.get_players()])
-         self.Ptot.append( self.total_profit )
 
     ## update biomass for the next year
     def set_biomass(self):
+
         bplus = models.FloatField()
+        ctot  = models.FloatField()
 
         if self.subsession.round_number == 1:
-            if not self.biomass:
-                self.biomass.append(Constants.init_biomass)
-                self.b_round = Constants.init_biomass
-            else:
-                for i in self.biomass:
-                    self.biomass.remove(i)
+            self.b_round = Constants.init_biomass
         else:
-            #bint = self.biomass[self.subsession.round_number - 2] - self.Ctot[self.subsession.round_number - 2]
-            #bplus = self.schaefer(b=bint, c= 0)
-            bplus = self.schaefer(b=self.biomass[self.subsession.round_number - 2],
-                                  c=self.Ctot[self.subsession.round_number - 2])
-            self.biomass.append(bplus)
-            self.b_round = bplus
+            ctot  = sum([p.in_round(self.subsession.round_number -1).catch_choice for p in self.get_players()])
+            for p in self.in_round(self.subsession.round_number-1):
+                bplus = p.b_round
+            self.b_round = self.schaefer(b=bplus, c=ctot)
 
     ##--------------------------------
     ## scientific advice
@@ -335,8 +321,8 @@ class Group(BaseGroup):
             for i in Constants.choice_catch:
                 inc = inc + 1
                 for j in Constants.other_choice_catch:
-                    s = self.schaefer( b=self.biomass[self.subsession.round_number - 1], c=(i + j))
-                    var[inc].append(round(((s - self.biomass[self.subsession.round_number - 1]) / self.biomass[self.subsession.round_number - 1])*100))
+                    s = self.schaefer( b=self.b_round, c=(i + j))
+                    var[inc].append(round(((s - self.b_round) / self.b_round)*100))
 
         return(var)
 
