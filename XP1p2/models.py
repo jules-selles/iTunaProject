@@ -144,19 +144,12 @@ class Group(BaseGroup):
     # Biomass uncertainty
     bmin_round    = models.FloatField()
     bmax_round    = models.FloatField()
-    bun_round     = []
 
     # Threshold and uncertainty range
     Blim_min      = models.FloatField()
     Blim_max      = models.FloatField()
 
     ## projection variables and uncertainty range
-    b_proj = []
-    b_unrange = []
-    Un = []
-    up = []
-    lw = []
-
 
     ##--------------------------------
     ## standard functions
@@ -268,13 +261,11 @@ class Group(BaseGroup):
             bUN = self.randomB(mean=Constants.init_biomass, sd=Constants.uncertainty)
             self.bmin_round  = bUN['B_min']
             self.bmax_round  = bUN['B_max']
-            self.bun_round.append(bUN['B_un'])
 
         else:
             bUN = self.randomB(mean=self.b_round, sd=Constants.uncertainty)
             self.bmin_round    = bUN['B_min']
             self.bmax_round    = bUN['B_max']
-            self.bun_round[0]  = bUN['B_un']
 
     ## update payoff table
             ## update payoff table
@@ -366,43 +357,43 @@ class Group(BaseGroup):
         return(var)
 
     ## function projection for 10 years
-    ##!!!!!!!!! attention pb correspondance avec l'incertitude sur le stock!!
     def projection(self):
         proj = []
         bint = models.FloatField()
 
-        if self.b_proj == []:
-            self.b_proj.append(self.b_round)
-            for i in Constants.sim_years:
-                bint = self.b_proj[i] - self.total_catch
-                proj.append(round(self.schaefer(bint, c=0)))
-                self.b_proj.append(proj[i])
-        else:
-            self.b_proj[0] = self.b_round
-            for i in Constants.sim_years:
-                bint = self.b_proj[i] - self.total_catch
-                proj.append(round(self.schaefer(b=bint, c=0)))
-                self.b_proj[i + 1] = round(proj[i])
+        proj.append(self.b_round)
+        for i in Constants.sim_years:
+            bint = proj[i] - self.total_catch
+            proj.append(round(self.schaefer(bint, c=0)))
+        return(proj)
 
     ## function uncertainty around projection for 10 years
+    ##!!!!!!!!! attention pb correspondance avec l'incertitude sur le stock!!
+
     def projUncertainty(self):
-        unrange = []
+        unrange   = []
+        b_unrange = []
+        un        = []
+        upUN      = []
+        lwUN      = []
+        b_proj    = self.projection()
 
         # uncertainty bounds around real projection
         for meanNorm in arange(Constants.uncertainty, Constants.max_uncertainty,
                                (Constants.max_uncertainty - Constants.uncertainty) / (len(Constants.sim_years))):
-            self.Un.append(numpy.random.normal(loc=meanNorm, scale=meanNorm / 10))
+            un.append(numpy.random.normal(loc=meanNorm, scale=meanNorm / 10))
 
-        upperUn = numpy.asarray(self.b_proj[0:11]) * (1 + numpy.asarray(self.Un)[0:11])
-        self.up.append([int(x) for x in upperUn])
+        upperUn = numpy.asarray(b_proj[0:11]) * (1 + numpy.asarray(un)[0:11])
+        upUN.append([int(x) for x in upperUn])
 
-        self.lowerUn = numpy.asarray(self.b_proj[0:11]) * (1 - numpy.asarray(self.Un)[0:11])
-        self.lw.append([int(x) for x in self.lowerUn])
+        lowerUn = numpy.asarray(b_proj[0:11]) * (1 - numpy.asarray(un)[0:11])
+        lwUN.append([int(x) for x in lowerUn])
 
-        range = numpy.vstack((upperUn, self.lowerUn)).T
+        range = numpy.vstack((upperUn, lowerUn)).T
         unrange.append(range.tolist())
+        b_unrange.append(unrange)
 
-        self.b_unrange.append(unrange)
+        return(b_unrange)
 
 ##-------------------------------
 class Player(BasePlayer):
