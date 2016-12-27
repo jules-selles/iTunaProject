@@ -10,8 +10,11 @@ import numpy
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+
+# Debug mode setting
 # the environment variable OTREE_PRODUCTION controls whether Django runs in
 # DEBUG mode. If OTREE_PRODUCTION==1, then DEBUG=False
+
 if environ.get('OTREE_PRODUCTION') not in {None, '', '0'}:
     DEBUG = False
 else:
