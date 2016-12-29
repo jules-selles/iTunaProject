@@ -62,6 +62,62 @@ class Form_WaitPage(WaitPage):
         #    self.group.end()
 
 ##-------------------------------
+class Test(Page):
+
+    timeout_seconds = 120
+
+    ##-------------------------------
+    ## condition to display page
+    def is_displayed(self):
+        return self.subsession.round_number == 1
+
+    ##-------------------------------
+    ## variables for template
+    def vars_for_template(self):
+       data = {}
+       return data
+
+    ##-------------------------------
+    ## form set up
+    form_model = models.Player
+    form_fields = ['growthTest', 'profitTest','biomassTest']
+
+##-------------------------------
+class resTest(Page):
+
+    timeout_seconds = 60
+
+    ##-------------------------------
+    ## condition to display page
+    def is_displayed(self):
+        return self.subsession.round_number == 1
+
+    ##-------------------------------
+    ## variables for template
+    def vars_for_template(self):
+
+        if self.player.growthTest != 3:
+            gorwthRes = "Sorry the answer is : 3 UVS"
+        else:
+            gorwthRes= "Great 3 UVS is the right answer"
+
+        if self.player.profitTest != 4:
+            profitRes = "Sorry the answer is : 4 UVM"
+        else:
+            profitRes = "Great 4 UVM is the right answer"
+
+        if self.player.biomassTest != 19:
+            biomassRes = "Sorry the answer is : 19 UVS"
+        else:
+            biomassRes = "Great 19 UVS is the right answer"
+
+        data = {'growthRes':gorwthRes,
+               'profitRes':profitRes,
+               'biomassRes':biomassRes}
+
+        return data
+
+##-------------------------------
 class Catch_Pledge(Page):
 
     timeout_seconds = 60
@@ -460,6 +516,8 @@ class End(Page):
 page_sequence = [
     Introduction,
     Form,
+    Test,
+    resTest,
     Form_WaitPage,
     Catch_Pledge,
     Pledge_WaitPage,

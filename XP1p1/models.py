@@ -372,12 +372,17 @@ class Player(BasePlayer):
 
    ##-------------------------------
    # 1st Form variables
-   name = models.CharField()
+   name       = models.CharField()
    profession = models.CharField()
-   age = models.PositiveIntegerField()
-   playAs =  models.CharField(
+   age        = models.PositiveIntegerField()
+   playAs     =  models.CharField(
        choices=["General audience", "Fisherman", "Manager", "Scientists in the field of fisheries",
                 "Scientists (other)"])
+
+   # test Form variables
+   growthTest     = models.PositiveIntegerField(min=0, max=6)
+   profitTest     = models.PositiveIntegerField(min=-10, max=7)
+   biomassTest    = models.PositiveIntegerField(min=0, max=30)
 
    ##-------------------------------
    ## players variables
