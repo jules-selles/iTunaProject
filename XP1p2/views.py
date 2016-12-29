@@ -381,7 +381,7 @@ class ScientificAdvice(Page):
     ## variables for template
     def vars_for_template(self):
 
-        ##create area range series for projection uncertainty on biomass plot
+        ## create area range series for projection uncertainty on biomass plot
         ## projection uncertainty
         proj = self.group.projection()
         proj_un = self.group.projUncertainty()
