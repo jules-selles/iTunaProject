@@ -1,4 +1,0 @@
-#!/bin/sh
-GIT_WORK_TREE=/path/to/your/oTree
-export GIT_WORK_TREE
-git checkout -f

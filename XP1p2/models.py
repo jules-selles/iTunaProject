@@ -37,16 +37,16 @@ iTuna Experiment
 ## To do list
 
 ##Buggs priority 1
-##-> biomass vector not refreshing between phase !!
+##-> end phase 1
+##-> demo mode
+##-> postgreSql
 
 ##Buggs priority 2
 ## -> !! projection in phase 2 et 3 pour s'adapter au range uncertainty of Biomass
-## -> !! variation table bug
 
 ## Basics
 ## -> test player's understanding before start
 ## -> find a way to don't copy 3 times apps to create each phase of XP
-
 ##-------------------------------
 class Constants(BaseConstants):
 
