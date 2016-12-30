@@ -97,6 +97,7 @@ class Constants(BaseConstants):
     min_catch         = 0   # ymin [10^3 t]
     max_catch         = 5  # ymax [10^3 t]
     nb_catch_choice   = 6
+
     max_total_catch   = nb_catch_choice * players_per_group
     stepChoices       = (max_catch - min_catch)/(nb_catch_choice - 1)
     rowPayoff_Tab     = ((max_catch * players_per_group)/5) + 2
