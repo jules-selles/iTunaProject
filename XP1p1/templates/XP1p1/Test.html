@@ -9,7 +9,7 @@
     </p>
 
     <p>
-        First of all, if at the beginning of the year the biomass is at a level of 25 UVS, could you indicate how many
+        First of all, if at the beginning of the year the biomass is at a level of {{ Constants.b_test }} UVS, could you indicate how many
         UVS the stock will regenerate for the next year ?
 
         {% formfield player.growthTest with label="Resource growth in UVS for the year" %}
@@ -17,7 +17,8 @@
     </p>
 
     <p>
-        Then, still with a stock of 25 UVS if the 3 coalitions decide to harvest 9 UVS (3UVS each), could you indicate how many
+        Then, still with a stock of {{ Constants.b_test }} UVS if the {{ Constants.players_per_group }} coalitions decide to harvest
+        {{ Constants.c_test }} UVS ({{ Constants.c_ind_test }} UVS each), could you indicate how many
         profit profit in UVM the harvest will generate this year?
 
         {% formfield player.profitTest with label="Total profit in UVM for the year" %}
@@ -25,7 +26,8 @@
     </p>
 
     <p>
-        Finally, still with a stock of 25 UVS and a total harvest of 9 UVS by the 3 coalitions (3UVS each), could you indicate how many
+        Finally, still with a stock of {{ Constants.b_test }} UVS and a total harvest of {{ Constants.c_test }} UVS by
+        the  {{ Constants.players_per_group }} coalitions ({{ Constants.c_ind_test }} UVS each), could you indicate how many
         biomass in UVM will be available for the next year?
 
         {% formfield player.biomassTest with label="Biomass available in UVS fot the next year" %}

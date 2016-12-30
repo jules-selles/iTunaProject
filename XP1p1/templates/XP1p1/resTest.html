@@ -5,26 +5,26 @@
 {% block content %}
 
     <p>
-       <br>Your results from the test: </br>
+       <b>Your results from the test: </b>
     </p>
 
     <p>
         First of all, if at the beginning of the year the biomass is at a level of 25 UVS, could you indicate how many
         UVS the stock will regenerate for the next year ?<br>
-        <b>{{ growthRes }} </b>
+        <b>{{ growthRes }} {{ g }}</b>
     </p>
 
     <p>
         Then, still with a stock of 25 UVS if the 3 coalitions decide to harvest 9 UVS (3UVS each), could you indicate how many
         profit profit in UVM the harvest will generate this year?<br>
-        <b>{{ profitRes }} </b>
+        <b>{{ profitRes }} {{ p }}</b>
 
     </p>
 
     <p>
         Finally, still with a stock of 25 UVS and a total harvest of 9 UVS by the 3 coalitions (3UVS each), could you indicate how many
         biomass in UVM will be available for the next year?<br>
-        <b>{{ biomassRes }} </b>
+        <b>{{ biomassRes }} {{ b }}</b>
 
     </p>
 

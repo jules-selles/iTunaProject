@@ -95,25 +95,31 @@ class resTest(Page):
     ##-------------------------------
     ## variables for template
     def vars_for_template(self):
+        g = self.group.growth(b=Constants.b_test) - Constants.b_test
+        p = round(self.group.compute_payoff(stock=Constants.b_test,harvest=Constants.c_test,harvestInd=(Constants.c_test/3)) * 3,0)
+        b = self.group.schaefer(b=Constants.b_test,c=Constants.c_test)
 
-        if self.player.growthTest != 3:
-            gorwthRes = "Sorry the answer is : 3 UVS"
+        if self.player.growthTest != g:
+            gorwthRes = "Sorry the answer is: "
         else:
-            gorwthRes= "Great 3 UVS is the right answer"
+            gorwthRes= "Great you have the right answer:"
 
-        if self.player.profitTest != 4:
-            profitRes = "Sorry the answer is : 4 UVM"
+        if self.player.profitTest != p:
+            profitRes = "Sorry the answer is: "
         else:
-            profitRes = "Great 4 UVM is the right answer"
+            profitRes = "Great you have the right answer: "
 
-        if self.player.biomassTest != 19:
-            biomassRes = "Sorry the answer is : 19 UVS"
+        if self.player.biomassTest != b:
+            biomassRes = "Sorry the answer is: "
         else:
-            biomassRes = "Great 19 UVS is the right answer"
+            biomassRes = "Great you have the right answer: "
 
         data = {'growthRes':gorwthRes,
                'profitRes':profitRes,
-               'biomassRes':biomassRes}
+               'biomassRes':biomassRes,
+                'g':g,
+                'p':p,
+                'b':b}
 
         return data
 
@@ -514,8 +520,8 @@ class End(Page):
 ##-------------------------------
 ##page sequence
 page_sequence = [
-    Introduction,
-    Form,
+    #Introduction,
+    #Form,
     Test,
     resTest,
     Form_WaitPage,

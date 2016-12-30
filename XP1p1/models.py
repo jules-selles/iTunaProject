@@ -112,6 +112,10 @@ class Constants(BaseConstants):
     tot_choice_catch        = [int(x) for x in tot_choice_catch]
     other_choice_catch      = [int(x) for x in other_choice_catch]
 
+    ## test parameters
+    b_test     = 25
+    c_test     = 9
+    c_ind_test = c_test / players_per_group
 ##-------------------------------
 class Subsession(BaseSubsession):
 
