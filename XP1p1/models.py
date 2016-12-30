@@ -88,11 +88,12 @@ class Constants(BaseConstants):
     Blim_uncertainty  = 0.4 #uncertainty range around Blim []
 
     ## economic paramyeters
-    price_fish        = 1  # p [$/.1000 t]
-    discount_rate     = 0  # theta []
-    theta             = 1/(1+discount_rate)
-    beta              = 13 # cost parameter [$]
-    tFixedCost        = 5  # threshold fixed cost [$]
+    price_fish          = 1  # p [$/.1000 t]
+    discount_rate       = 0  # theta []
+    theta               = 1/(1+discount_rate)
+    beta                = 13 # cost parameter [$]
+    tFixedCost          = 5  # threshold fixed cost [$]
+    max_negative_profit = -5 # limit for negative profit
 
     ##  global harvest choice parameters
     min_catch         = 0   # ymin [10^3 t]
@@ -181,7 +182,7 @@ class Group(BaseGroup):
             prop=harvestInd/(harvest+harvestInd)
 
         if stock - (harvest + harvestInd) <= 0:
-            prof = -5
+            prof = Constants.max_negative_profit
         else:
             if self.session.config['treatment']=='T1':
                 if self.subsession.round_number == 1:
@@ -241,12 +242,12 @@ class Group(BaseGroup):
                             if self.session.config['treatment']=='T1':
                                 payoff_tab[inc].append(0)
                             elif (self.b_round <= Constants.Blim):
-                                payoff_tab[inc].append(-5)
+                                payoff_tab[inc].append(self.compute_payoff(harvest=j,harvestInd=i, stock=Constants.init_biomass))
                             else:
                                 payoff_tab[inc].append(0)
                         else:
                             if (self.b_round - (j + i)) <= 0:
-                                payoff_tab[inc].append(-5)
+                                payoff_tab[inc].append(Constants.max_negative_profit)
                             else:
                                 payoff_tab[inc].append(self.compute_payoff(harvest=j,harvestInd=i, stock=Constants.init_biomass))
         else:
@@ -256,8 +257,8 @@ class Group(BaseGroup):
                         if i == 0 & j == 0:
                             payoff_tab[inc].append(0)
                         else:
-                            if (self.growth(b=self.b_round) - (j + i)) < 0:
-                                payoff_tab[inc].append(-50)
+                            if (self.growth(b=self.b_round) - (j + i)) <= 0:
+                                payoff_tab[inc].append(Constants.max_negative_profit)
                             else:
                                 payoff_tab[inc].append(
                                     self.compute_payoff(harvest=j, harvestInd=i,
