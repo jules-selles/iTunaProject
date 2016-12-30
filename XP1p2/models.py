@@ -54,8 +54,8 @@ class Constants(BaseConstants):
     ##Environment variables
     xp_name               = 'XP1p2'
     instructions_template = xp_name + '/instruction.html'
-    functions_template = xp_name + '/functions.html'
-    endSession_template = xp_name + '/endSession.html'
+    functions_template    = xp_name + '/functions.html'
+    endSession_template   = xp_name + '/endSession.html'
 
     ##-------------------------------
     ## oTree variables
@@ -126,7 +126,6 @@ class Subsession(BaseSubsession):
                 else:
                      p.participant.vars['TT'] = random.choice(['T1','T2','T3'])
 
-
     ##-------------------------------
     ## payoff page
 
@@ -149,10 +148,18 @@ class Group(BaseGroup):
     Blim_min      = models.FloatField()
     Blim_max      = models.FloatField()
 
+    # end
+    end = models.BooleanField(initial=False)
+
     ## projection variables and uncertainty range
 
     ##--------------------------------
     ## standard functions
+
+    ## ending when stock collapse
+    def end(self):
+        self.end = True
+        # self.subsession.round_number = Constants.num_rounds
 
     ## compute nb of nested list
     def number_of_lists(x):
@@ -417,12 +424,12 @@ class Player(BasePlayer):
 
    ## player etimation other harvesting level
    other_choice = models.PositiveIntegerField(
-       choices=Constants.other_choice_catch)
+       choices=Constants.other_choice_catch,initial=0)
 
    ## player harvest choice
    catch_choice = models.PositiveIntegerField(
-            choices=Constants.choice_catch)
+            choices=Constants.choice_catch,initial=0)
 
    ## player proposal harvest choice
    catch_pledge = models.PositiveIntegerField(
-       choices=Constants.choice_catch)
+       choices=Constants.choice_catch,initial=0)

@@ -57,11 +57,20 @@ class Form_WaitPage(WaitPage):
         # set Blim & uncertainty
         self.group.set_Un_Blim()
 
+        ##end condition
+        if self.group.b_round <= 0:
+            self.group.end()
+
+            for p in self.group.get_players():
+                p.profit = 0
 
 ##-------------------------------
 class Catch_Pledge(Page):
 
-    timeout_seconds = 60
+    timeout_seconds = 120
+
+    def is_displayed(self):
+        return self.group.b_round > 0 or self.group.end is False
 
     ##-------------------------------
     ## variables for template
@@ -161,7 +170,7 @@ class Pledge_WaitPage(WaitPage):
        return()
 
     def is_displayed(self):
-        return self.group.b_round > 0
+        return self.group.b_round > 0 or self.group.end is False
 
 
 ##-------------------------------
@@ -169,10 +178,10 @@ class Pledge_Results(Page):
     ##-------------------------------
     ## variables for template
 
-    timeout_seconds = 30
+    timeout_seconds = 60
 
     def is_displayed(self):
-        return self.group.b_round > 0
+        return self.group.b_round > 0 or self.group.end is False
 
     def vars_for_template(self):
 
@@ -201,10 +210,10 @@ class Pledge_Results(Page):
 ##-------------------------------
 class Catch_Choice(Page):
 
-    timeout_seconds = 60
+    timeout_seconds = 120
 
     def is_displayed(self):
-        return self.group.b_round > 0
+        return self.group.b_round > 0 or self.group.end is False
 
     ##-------------------------------
     ## variables for template
@@ -299,15 +308,15 @@ class CatchChoice_WaitPage(WaitPage):
         #self.group.projUncertainty()
 
     def is_displayed(self):
-        return self.group.b_round > 0
+        return self.group.b_round > 0 or self.group.end is False
 
 ##-------------------------------
 class Catch_Results(Page):
 
-    timeout_seconds = 30
+    timeout_seconds = 60
 
     def is_displayed(self):
-        return self.group.b_round > 0
+        return self.group.b_round > 0 or self.group.end is False
 
     ##-------------------------------
     ## variables for template
@@ -372,10 +381,10 @@ class Catch_Results(Page):
 ##-------------------------------
 class ScientificAdvice(Page):
 
-    timeout_seconds = 30
+    timeout_seconds = 60
 
     def is_displayed(self):
-        return self.group.b_round > 0
+        return self.group.b_round > 0 or self.group.end is False
 
     ##-------------------------------
     ## variables for template
@@ -488,7 +497,7 @@ class End(Page):
         euros = totP * Constants.convertionCurrency
 
         if self.group.b_round <= 0:
-            message = ' You have driven the stock to the collapse!!  '
+            message = message=' You have driven the stock to the collapse!! '
         else:
             message = ''
 

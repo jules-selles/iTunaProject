@@ -141,8 +141,7 @@ class Group(BaseGroup):
     ## local variables
     total_catch   = models.FloatField()
     total_profit  = models.FloatField()
-
-    #payoff_tab    = [None] * Constants.nb_catch_choice
+    #payoff_tab   = [None] * Constants.nb_catch_choice
     b_round       = models.FloatField()
     y             = models.FloatField()
 
@@ -150,13 +149,18 @@ class Group(BaseGroup):
     Blim_min      = models.FloatField()
     Blim_max      = models.FloatField()
 
+    # end
+    end           = models.BooleanField(initial=False)
+
     ## projection variables and uncertainty range
 
     ##--------------------------------
     ## standard functions
 
+    ## ending wqhen stock collapse
     def end(self):
-        self.subsession.round_number = 20
+        self.end = True
+        #self.subsession.round_number = Constants.num_rounds
 
     ## compute nb of nested list
     def number_of_lists(x):
@@ -394,13 +398,13 @@ class Player(BasePlayer):
 
    ## player etimation other harvesting level
    other_choice = models.PositiveIntegerField(
-       choices=Constants.other_choice_catch)
+       choices=Constants.other_choice_catch,initial=0)
 
    ## player harvest choice
    catch_choice = models.PositiveIntegerField(
-            choices=Constants.choice_catch)
+            choices=Constants.choice_catch,initial=0)
 
    ## player proposal harvest choice
    catch_pledge = models.PositiveIntegerField(
-       choices=Constants.choice_catch)
+       choices=Constants.choice_catch,initial=0)
 

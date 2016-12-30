@@ -54,12 +54,12 @@ class Form_WaitPage(WaitPage):
 
         #set biomass
         self.group.set_biomass()
-
         # set Blim & uncertainty
         self.group.set_Un_Blim()
 
-        ##if self.group.b_round <= 0:
-        #    self.group.end()
+        ##end condition
+        if self.group.b_round <= 0:
+            self.group.end()
 
 ##-------------------------------
 class Test(Page):
@@ -85,7 +85,7 @@ class Test(Page):
 ##-------------------------------
 class resTest(Page):
 
-    timeout_seconds = 60
+    timeout_seconds = 120
 
     ##-------------------------------
     ## condition to display page
@@ -126,10 +126,10 @@ class resTest(Page):
 ##-------------------------------
 class Catch_Pledge(Page):
 
-    timeout_seconds = 60
+    timeout_seconds = 120
 
     def is_displayed(self):
-        return self.group.b_round > 0
+        return self.group.b_round > 0 or self.group.end is False
 
     ##-------------------------------
     ## variables for template
@@ -211,7 +211,7 @@ class Catch_Pledge(Page):
 class Pledge_WaitPage(WaitPage):
 
     def is_displayed(self):
-        return self.group.b_round > 0
+        return self.group.b_round > 0 or self.group.end is False
 
     def after_all_players_arrive(self):
 
@@ -222,10 +222,10 @@ class Pledge_Results(Page):
     ##-------------------------------
     ## variables for template
 
-    timeout_seconds = 30
+    timeout_seconds = 60
 
     def is_displayed(self):
-        return self.group.b_round > 0
+        return self.group.b_round > 0 or self.group.end is False
 
     def vars_for_template(self):
 
@@ -256,9 +256,11 @@ class Pledge_Results(Page):
 ##-------------------------------
 class Catch_Choice(Page):
 
-    timeout_seconds = 60
+    def is_displayed(self):
+        return self.group.b_round > 0 or self.group.end is False
 
-    ##-------------------------------
+    timeout_seconds = 120
+
     ## variables for template
     def vars_for_template(self):
 
@@ -340,7 +342,7 @@ class Catch_Results(Page):
     timeout_seconds = 120
 
     def is_displayed(self):
-        return self.group.b_round > 0
+        return self.group.b_round > 0 or self.group.end is False
 
     ##-------------------------------
     ## variables for template
@@ -407,7 +409,7 @@ class Catch_Results(Page):
 class ScientificAdvice(Page):
 
     def is_displayed(self):
-        return self.group.b_round > 0
+        return self.group.b_round > 0 or self.group.end is False
 
     timeout_seconds = 30
 
@@ -507,7 +509,7 @@ class End(Page):
     def vars_for_template(self):
         if self.group.b_round <= 0:
             message=' You have driven the stock to the collapse!! ' \
-                    '.... Sorry you have to continue and to select an harvest of 0 UVS until the last period.... '
+                    '.... Sorry you have to click on he next button UVS until the last period.... '
         else:
             message='_'
         data={'message':message}
@@ -520,8 +522,8 @@ class End(Page):
 ##-------------------------------
 ##page sequence
 page_sequence = [
-    #Introduction,
-    #Form,
+    Introduction,
+    Form,
     Test,
     resTest,
     Form_WaitPage,
