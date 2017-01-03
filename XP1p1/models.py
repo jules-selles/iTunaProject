@@ -296,8 +296,10 @@ class Group(BaseGroup):
             self.b_round = Constants.init_biomass
         else:
             ctot  = sum([p.in_round(self.subsession.round_number -1).catch_choice for p in self.get_players()])
-            for p in self.in_round(self.subsession.round_number-1):
-                bplus = p.b_round
+
+            for i in self.in_previous_rounds():
+                bplus = i.b_round
+
             self.b_round = self.schaefer(b=bplus, c=ctot)
 
     ##--------------------------------
