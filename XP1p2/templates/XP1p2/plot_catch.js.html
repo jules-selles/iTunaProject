@@ -1,7 +1,7 @@
 $(function () {
     $('#containerCatch').highcharts({
         title: {
-            text: 'Catch (.UVS)',
+            text: 'Catch (10^4 t)',
         },
         xAxis: {
             categories: {{ Constants.xp_years }},
@@ -13,7 +13,7 @@ $(function () {
             }
         },
         tooltip: {
-            valueSuffix: ' (.UVS)'
+            valueSuffix: ' (10^7 €)'
         },
         legend: {
             layout: 'vertical',

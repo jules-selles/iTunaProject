@@ -4,56 +4,76 @@
 <div class="instructions well well-lg">
 
     <h3 class="panel-sub-heading">
-        Instructions
+        <b>Experimental rules</b>
     </h3>
 
     <h4 class="panel-sub-heading">
-        Case
+        <b>Basic rules</b>
     </h4>
-    <p>
-        The Atlantic and Mediterranean Bluefin tuna (BFT) fishery has been considered the archetype of an over-fished
-        and mismanaged fishery. This straddling stock (the Eastern stock spreads over the Mediterranean to the middle
-        of the Atlantic) involves the cooperation between all the stakeholders (more than 10 fishing nations) in a
-        Regional Fishery Management Organization (RFMO, the International Commission for the Conservation of Atlantic
-        Tunas ICCAT). Every two years the Commission established through a voting process different kinds of
-        regulations applicable to all stakeholders into their national management scheme (e.g. quota, season closure,
-        gear restriction). All these decisions are based on a scientific advice promulgated by a Standing Committee on
-        Research and Statistic (SCRS) which estimates the status of the resource and multiple predictions based on
-        future harvested assumptions. This advice is uncertain, with process errors (poorly known biological processes:
-        natural mortality due to changing environmental conditions; recruitment process; stock structuring…),
-        and observations errors (e.g. misreported catch in length, effort…). These uncertainties alter the estimation
-        of the stock status and the predicted impact of fishing mortality upon the stock, and therefore the predicted
-        outcome expected by the fishery.
-        Moreover, the fishery has experienced a brutal shift in there management regime in 2009 as a result of communications campaign
-        from several NGOs which condemned together discrepancy between the scientific advice and the management decision and
-        the high level of Illegal, Unreported and Unregulated fishing (IUU). The harvest level has been reduced roughly and the
-        level of control has been increased to stop IUU fishing. This management shift had an economic impact on fleet involved in the
-        exploitation of the Atlantic bluefin tuna.
+
+    <p align ="center">
+        You will be paid proportionately to your profit during the experiment at a rate of :<br>
+        <b> 1 (10<sup>7</sup> € in the experiement) = ? € </b>
     </p>
+
     <p>
-        The fishery is dominated by the purse seine fishing vessels which represent more than 60% of the catch realized
-        from 8 nations (in 2013 for the purse seine fishery, data from task 1 of the ICCAT). This fishery is
-        characterized by an international market with a strong demand for high quality tuna. The value chain is rather
-        complex with a fattening phase in offshore farms strongly linked with the Japanese wholesalers.
-        To have an abstract representation of this situation we represent {{ Constants.players_per_group }}
-        similar stakeholders (with the same fleet) as coalitions of nations (European Union EU,
-        distant-water fishing nations DWFNs and other coastal states (OCS)) which control the planning of the fishing harvest for
-        their fishing industry (from one kind of fishing vessel).
-        The Commission is also a simplified representation of the RMFO organization, in which representative of
-        stakeholders (here the players) have to choose unilaterally (non cooperative way) their harvest level.
+     <b> Remember some rules during the experiment:</b>
     </p>
-    <b>
-        Our 2 main goals are to analyze decision making in a dynamic Common Pool Resource (CPR) dilemma when:
-        <ul>
-            <li>a critical resource size of different nature is introduced: non present, known with certainty and kown with uncertainty,</li>
-            <li>the resource size is known with uncertainty. </li>
-        </ul>
+      <ul>
+        <li>Talking is not permitted.</li>
+        <li>You are not permitted to operate other software such as email or internet during the experiment.</li>
+        <li>You may ask questions to the instructor during the experiment if you have any problems. But keep in mind that you must make decisions and develop strategies by yourself.</li>
+      </ul>
 
-    </b>
+    <h4 class="panel-sub-heading">
+        <b>Context</b>
+    </h4>
+     <p>
+         This experiment is concerned with the way stakeholders of international fisheries make collective decisions.<br>
+         You will play as a representative and the manager of a Bluefin tuna fishing coalition of nations industry
+         <b>International Commission for the Conservation of Atlantic Tunas (ICCAT)</b>.<br>
+         You will be assigned to a fishing coalition which has the same characteristics in term of fishing efficiency and capacity as others.<br>
+         You will harvest the same stock of resource, the Bluefin tuna stock, with others nations controlled by a manager, a player, but you
+         don't know who are these players and how they plan their fishing activity.<br>
+         The game isn't not in a sequential nature like, in other words each year, each round you take a decision in
+         term of abstraction from the resource, your decision more the others players decision will be felt in the next
+         round.
+     </p>
+    <h4 class="panel-sub-heading">
+        <b>Resource dynamic and Profit</b>
+    </h4>
+     <p>
+         The resource supports a dynamic which is known from players and shown through the <b>''Growth function'' </b>.<br>
+         This function gives you the growth potential of any stock level you left behind you.<br> The maximum growth is reached for a resource of {{ Constants.Bmsy }}
+         (10<sup>7</sup> tones).<br>
+         Each year, each round, you will select the level of catch allowable for your fishing industry.<br>
+         You can select this catch from <b>{{ Constants.min_catch }} to {{ Constants.max_catch }} (10<sup>4</sup> tones) </b>, so each a maximum of
+         {{ Constants.max_total_catch }} (10<sup>4</sup> tones) can be harvested. <br>
+         The profit expected from this catch is linked to the state of the resource and can be deduced from the <b>''Profit
+         functions''</b>.<br>
+         In view of this relationship, at the Maximum Sustainable Yield (MSY, the maximum harvest allowing a constant resource size)
+         which represent a catch of <b>{{ Constants.Ymsy }} (10<sup>4</sup> tones) per year </b>, the total profit shared by all nations will be <b>25.1 (10<sup>7</sup> €)</b>.
+     </p>
+    <h4 class="panel-sub-heading">
+       <b> Treatments </b>
+    </h4>
+     <p>
+         Depending on the treatment in which you are assiociated with, a critical level of biomass exists which determine an additional cost
+         if the threshold <b>Blim</b> is exceeded.<br>
+         This threshold represents a sudden shift in the management regime to mimic the socio-economic situation of the Atlantic bluefin tuna fishery.<br>
+         The scientific committee of the ICCAT has an uncertain or a perfect (depending on the treatment) method to estimate the critical level of biomass.<br>
+         This information is shared in the form of an accurate value of <b>Blim</b> or a range of values <b>[Blim,min:Bmin,max]</b>.
+     </p>
+    <h4 class="panel-sub-heading">
+        <b>Phases</b>
+    </h4>
+     <p>
+         Finally, during the experiment you will play 2 phases of this game with a different uncertainty on the resource state.<br>
+         The accurate information about the resource size Bt will be deteriorate and you will have access only to the
+         range of values <b>[Bmin,t;Bmax,t]</b> each year.
+     </p>
 
-
-    <p align="center"> <img src="{% static "XP1p2/BFT-case.jpg"   %}" style="margin:auto; max-width:100%"/> </p>
-
+    <p align="center">  <b>Good luck!</b> </p>
 
 
 </div>

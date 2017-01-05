@@ -77,7 +77,7 @@ class Constants(BaseConstants):
     carrying_capacity = 70 # K [10^4 t]
     init_biomass      = 50 # B0 [10^4 t]
     Bmsy              = carrying_capacity/2   # MSY [10^4 t]
-    Ymsy              = (growth_rate * carrying_capacity)/4   # MSY [10^4 t]
+    Ymsy              = round((growth_rate * carrying_capacity)/4,0)   # MSY [10^4 t]
     uncertainty       = 0.2 # resource level uncertainty epsilon []
     max_uncertainty   = uncertainty + (0.05 * nb_sim_years)  # projection uncertainty
     Blim              = 10  # Blim [10^3 t]

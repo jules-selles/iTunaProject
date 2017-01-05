@@ -1,7 +1,7 @@
 $(function () {
     $('#containerProfit').highcharts({
         title: {
-            text: 'Profit (.UVM)',
+            text: 'Profit (10^7 €)',
         },
         xAxis: {
             categories: {{ Constants.xp_years }},
@@ -12,7 +12,7 @@ $(function () {
             }
         },
         tooltip: {
-            valueSuffix: ' (.UVM)'
+            valueSuffix: ' (10^7 €)'
         },
         legend: {
             layout: 'vertical',

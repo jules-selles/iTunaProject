@@ -81,7 +81,7 @@ class Constants(BaseConstants):
     carrying_capacity = 70                                  # K [10^4 t]
     init_biomass      = 50                                  # B0 [10^4 t]
     Bmsy              = carrying_capacity/2                 # MSY [10^4 t]
-    Ymsy              = (growth_rate * carrying_capacity)/4 # MSY [10^4 t]
+    Ymsy              = round((growth_rate * carrying_capacity)/4,0) # MSY [10^4 t]
     uncertainty       = 0.01 # resource level uncertainty epsilon []
     max_uncertainty   = uncertainty + (0.05 * nb_sim_years)  # projection uncertainty
     Blim              = 10  # Blim [10^3 t]
@@ -211,6 +211,35 @@ class Group(BaseGroup):
 
         return prof
 
+    def compute_payoff_test(self, stock, harvest=0, harvestInd=0):
+
+        if (harvest + harvestInd) == 0:
+            prop = 0
+        else:
+            prop = harvestInd / (harvest + harvestInd)
+
+        if stock - (harvest + harvestInd) <= 0:
+            prof = Constants.max_negative_profit
+        else:
+            if self.session.config['treatment'] == 'T1':
+                    prof = round((Constants.price_fish * harvestInd) -
+                                 (Constants.beta * (math.log(self.growth(b=stock)) -
+                                                    math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)),
+                                 1)
+            else:
+                    if stock <= Constants.Blim:
+                        prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
+                                     (Constants.beta * (math.log(self.growth(b=stock)) -
+                                                        math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
+                                      prop)), 1)
+                    if stock > Constants.Blim:
+                        prof = round((Constants.price_fish * harvestInd) -
+                                     (Constants.beta * (math.log(self.growth(b=stock)) -
+                                                        math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
+                                      prop)), 1)
+
+        return prof
+
     ## biomass schaefer dynamic
     def schaefer(self, b, c=0):
         if b <= 0:
@@ -243,6 +272,22 @@ class Group(BaseGroup):
                         payoff_tab[inc].append(Constants.max_negative_profit)
                     else:
                         payoff_tab[inc].append(self.compute_payoff(harvest=j, harvestInd=i, stock=self.b_round))
+
+        return (payoff_tab)
+
+    def set_payoffTable_test(self,biomasse=Constants.b_test):
+        payoff_tab = [[] for _ in range(Constants.nb_catch_choice)]
+        inc = -1
+        for i in Constants.choice_catch:
+            inc = inc + 1
+            for j in Constants.other_choice_catch:
+                if i == 0 & j == 0:
+                    payoff_tab[inc].append(self.compute_payoff_test(harvest=j, harvestInd=i, stock=biomasse))
+                else:
+                    if (biomasse - (j + i)) <= 0:
+                        payoff_tab[inc].append(Constants.max_negative_profit)
+                    else:
+                        payoff_tab[inc].append(self.compute_payoff_test(harvest=j, harvestInd=i, stock=biomasse))
 
         return (payoff_tab)
 
@@ -344,9 +389,11 @@ class Group(BaseGroup):
 
         upperUn = numpy.asarray(b_proj[0:11]) * (1 + numpy.asarray(un)[0:11])
         upUN.append([int(x) for x in upperUn])
+        #upUN = [round(elem, 0) for elem in upUN]
 
         lowerUn = numpy.asarray(b_proj[0:11]) * (1 - numpy.asarray(un)[0:11])
         lwUN.append([int(x) for x in lowerUn])
+        #lwUN = [round(elem, 0) for elem in lwUN]
 
         range = numpy.vstack((upperUn, lowerUn)).T
         unrange.append(range.tolist())
@@ -372,9 +419,9 @@ class Player(BasePlayer):
                 "Scientists (other)"])
 
    # test Form variables
-   growthTest     = models.PositiveIntegerField(min=0, max=6)
-   profitTest     = models.PositiveIntegerField(min=-10, max=7)
-   biomassTest    = models.PositiveIntegerField(min=0, max=30)
+   growthTest     = models.PositiveIntegerField(min=0, max= 3)
+   profitTest     = models.PositiveIntegerField(min=-50, max=150)
+   biomassTest    = models.PositiveIntegerField(min=0, max=70)
 
    ##-------------------------------
    ## players variables

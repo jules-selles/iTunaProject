@@ -9,21 +9,21 @@
     </p>
 
     <p>
-        First of all, if at the beginning of the year the biomass is at a level of 25 UVS, could you indicate how many
-        UVS the stock will regenerate for the next year ?<br>
+        First of all, if at the beginning of the year the biomass is at a level of 25 (10<sup>4</sup> t), could you indicate how many
+        (10<sup>4</sup> t) the stock will regenerate for the next year ?<br>
         <b>{{ growthRes }} {{ g }}</b>
     </p>
 
     <p>
-        Then, still with a stock of 25 UVS if the 3 coalitions decide to harvest 9 UVS (3UVS each), could you indicate how many
-        profit profit in UVM the harvest will generate this year?<br>
+        Then, still with a stock of 25 10<sup>4</sup> t if the 3 coalitions decide to harvest 9 10<sup>4</sup> t (3 10<sup>4</sup> t each), could you indicate how many
+        profit profit in 10<sup>7</sup> € the harvest will generate this year?<br>
         <b>{{ profitRes }} {{ p }}</b>
 
     </p>
 
     <p>
-        Finally, still with a stock of 25 UVS and a total harvest of 9 UVS by the 3 coalitions (3UVS each), could you indicate how many
-        biomass in UVM will be available for the next year?<br>
+        Finally, still with a stock of 25 10<sup>4</sup> t and a total harvest of 9 10<sup>4</sup> t by the 3 coalitions (3 10<sup>4</sup> t each), could you indicate how many
+        biomass in 10<sup>7</sup> € will be available for the next year?<br>
         <b>{{ biomassRes }} {{ b }}</b>
 
     </p>
@@ -31,6 +31,48 @@
 
     {% next_button %}
 
+
+ <div class="panel panel-default">
+
+
+     <div class="panel-heading"> Individual Profit Table (10<sup>7</sup> €) </div>
+     <div class="panel-body" >
+
+
+        <style type="text/css">
+                .tg  {border-collapse:collapse; margin-left:auto;margin-right:auto;border-color:#ccc;}
+                .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+                .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+                .tg .tg-s6z2{text-align:center;background-color:#ffffff}
+                .tg .tg-bdiw{font-weight:bold;background-color:#344bf9;color:#ffffff;text-align:center}
+                .tg .tg-ipa1{font-weight:bold;background-color:#efefef;text-align:center}
+        </style>
+
+        <table class="tg">
+          <tr>
+            <th class="tg-bdiw" rowspan="2"> My harvest (10<sup>4</sup> t)  </th>
+            <th class="tg-bdiw" colspan="{{ Constants.dim_other_choice_catch }}"> Sum of choices made by others (10<sup>4</sup> t) </th>
+          </tr>
+
+          <tr>
+            {% for data in  Constants.other_choice_catch %}
+                <td class="tg-ipa1"> {{data}} </td>
+            {% endfor %}
+          </tr>
+
+             {% for i in  j %}
+               <tr>
+                    <td class="tg-ipa1">  {{ Constants.choice_catch|index:i }} </td>
+                   {% for e in  r %}  <td class="tg-s6z2">  {{ Payoff|index:i|index:e }} </td> {% endfor %}
+               </tr>
+
+            {% endfor %}
+
+        </table>
+
+     </div>
+
+ </div>
     {% include Constants.functions_template  %}
 
 {% endblock %}
