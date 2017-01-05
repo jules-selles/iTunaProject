@@ -5,9 +5,9 @@
 {% block content %}
 
 <p>
-    You have selected an harvest of {{ player.catch_choice }}.
-    Your profit for the last year is {{ player.profit }}. <br>
-    <b> Your total profit since the beginning of the fishery is {{ TotalIndProfit }}. </b> <br>
+    You have selected an harvest of {{ player.catch_choice }} (10<sup>4</sup> t).
+    Your profit for the last year is {{ player.profit }} (10<sup>7</sup> €). <br>
+    <b> Your total profit since the beginning of the fishery is {{ TotalIndProfit }} (10<sup>7</sup> €). </b> <br>
     ICCAT commission gives you also the statistic from the total catch and profit realized last years.
 </p>
 
@@ -57,13 +57,13 @@
                         {% endfor %}
                     </tr>
                     <tr>
-                         <th class="tg-ccb6">Catch (.UVS)</th>
+                         <th class="tg-ccb6">Catch (10<sup>4</sup> t)</th>
                         {% for data in  catch %}
                             <td class="tg-4jb6"> {{data}} </td>
                         {% endfor %}
                     </tr>
                      <tr>
-                         <th class="tg-ccb6">Profit (.UVM)</th>
+                         <th class="tg-ccb6">Profit (10<sup>7</sup> €)</th>
                         {% for data in  profit %}
                             <td class="tg-4jb6"> {{data}} </td>
                         {% endfor %}
