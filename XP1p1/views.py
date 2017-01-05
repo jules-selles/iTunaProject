@@ -16,7 +16,7 @@ register = template.Library()
 ##-------------------------------
 class Introduction(Page):
 
-    timeout_seconds = 160
+    timeout_seconds = 220
 
     def vars_for_template(self):
         return {'image_path': Constants.xp_name}
@@ -52,7 +52,7 @@ class Form_WaitPage(WaitPage):
 
     def after_all_players_arrive(self):
 
-        #set biomass
+        # set biomass
         self.group.set_biomass()
         # set Blim & uncertainty
         self.group.set_Un_Blim()
@@ -74,7 +74,14 @@ class Test(Page):
     ##-------------------------------
     ## variables for template
     def vars_for_template(self):
-       data = {}
+       tab_payoff = self.group.set_payoffTable_test()
+       choice = "0:%d" % (Constants.elementPayoff_Tab)
+       j = range(0, len(Constants.choice_catch))
+       r = range(0, len(Constants.other_choice_catch))
+
+       data = {'Payoff': tab_payoff,
+                'choicevar': choice,
+               'j': j, 'r': r}
        return data
 
     ##-------------------------------
@@ -96,8 +103,13 @@ class resTest(Page):
     ## variables for template
     def vars_for_template(self):
         g = self.group.growth(b=Constants.b_test) - Constants.b_test
-        p = round(self.group.compute_payoff(stock=Constants.b_test,harvest=Constants.c_test,harvestInd=(Constants.c_test/3)) * 3,0)
+        p = round(self.group.compute_payoff_test(stock=Constants.b_test,harvest=Constants.c_test - (Constants.c_test/Constants.players_per_group),harvestInd=(Constants.c_test/Constants.players_per_group))*Constants.players_per_group,0)
         b = self.group.schaefer(b=Constants.b_test,c=Constants.c_test)
+        j = range(0, len(Constants.choice_catch))
+        r = range(0, len(Constants.other_choice_catch))
+
+        tab_payoff = self.group.set_payoffTable_test()
+        choice = "0:%d" % (Constants.elementPayoff_Tab)
 
         if self.player.growthTest != g:
             gorwthRes = "Sorry the answer is: "
@@ -119,7 +131,11 @@ class resTest(Page):
                'biomassRes':biomassRes,
                 'g':g,
                 'p':p,
-                'b':b}
+                'b':b,
+                'Payoff': tab_payoff,
+                'choicevar': choice,
+                'j': j, 'r': r
+                }
 
         return data
 
