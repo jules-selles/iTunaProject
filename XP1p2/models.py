@@ -138,7 +138,7 @@ class Group(BaseGroup):
     ## local variables
     total_catch   = models.FloatField()
     total_profit  = models.FloatField()
-    payoff_tab    = [None] * Constants.nb_catch_choice * 2
+    #payoff_tab    = [None] * Constants.nb_catch_choice * 2
     b_round       = models.FloatField()
     y             = models.FloatField()
 

@@ -190,6 +190,8 @@ class Pledge_Results(Page):
         r = range(0,len(Constants.other_choice_catch)*2)
         name = self.player.in_round(1).name
 
+        tab_payoff = self.group.set_payoffTable()
+
         pledge_round = []
         pledge_ID    = []
         pledge_data  = []
@@ -204,7 +206,7 @@ class Pledge_Results(Page):
         for element, value in data.items():
             pledge_data.append(value)
 
-        return {'data':data,'MyID':self.player.id_in_group, 'nation': pledge_data[0], 'pledge': pledge_data[1],'Payoff': self.group.payoff_tab,
+        return {'data':data,'MyID':self.player.id_in_group, 'nation': pledge_data[0], 'pledge': pledge_data[1],'Payoff': tab_payoff,
                 'variation':var, 'j': j,'r':r,'MyName':name}
 
 ##-------------------------------
