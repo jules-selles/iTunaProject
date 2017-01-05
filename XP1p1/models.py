@@ -64,7 +64,7 @@ class Constants(BaseConstants):
     ## oTree parameters
     name_in_url       = 'XP1p1'  #
     players_per_group = 3
-    num_rounds        = random.choice([10])  # !! random value to put into before session in subsession
+    num_rounds        = random.choice([15])  # !! random value to put into before session in subsession
 
     ##-------------------------------
     ## Model parameters
@@ -77,23 +77,23 @@ class Constants(BaseConstants):
     xp_years          = list(range(init_year, end_year + 1))
 
     # biologic parameters
-    growth_rate       = 0.8 # r []
-    carrying_capacity = 30 # K [10^4 t]
-    init_biomass      = carrying_capacity# B0 [10^3 t]
-    Bmsy              = carrying_capacity/2   # MSY [10^3 t]
-    Ymsy              = (growth_rate * carrying_capacity)/4   # MSY [10^3 t]
+    growth_rate       = 0.15                                # r []
+    carrying_capacity = 70                                  # K [10^4 t]
+    init_biomass      = 50                                  # B0 [10^4 t]
+    Bmsy              = carrying_capacity/2                 # MSY [10^4 t]
+    Ymsy              = round((growth_rate * carrying_capacity)/4,0) # MSY [10^4 t]
     uncertainty       = 0.01 # resource level uncertainty epsilon []
     max_uncertainty   = uncertainty + (0.05 * nb_sim_years)  # projection uncertainty
     Blim              = 10  # Blim [10^3 t]
     Blim_uncertainty  = 0.4 #uncertainty range around Blim []
 
     ## economic paramyeters
-    price_fish          = 1  # p [$/.1000 t]
-    discount_rate       = 0  # theta []
+    price_fish          = 10                  # p [10^7$/.1000 t]
+    discount_rate       = 0                   # theta []
     theta               = 1/(1+discount_rate)
-    beta                = 13 # cost parameter [$]
-    tFixedCost          = 5  # threshold fixed cost [$]
-    max_negative_profit = -5 # limit for negative profit
+    beta                = 60                  # cost parameter [$]
+    tFixedCost          = 20                   # threshold fixed cost [10^7$]
+    max_negative_profit = -50                  # limit for negative profit
 
     ##  global harvest choice parameters
     min_catch         = 0   # ymin [10^3 t]
@@ -187,8 +187,8 @@ class Group(BaseGroup):
             if self.session.config['treatment']=='T1':
                 if self.subsession.round_number == 1:
                     prof = round((Constants.price_fish * harvestInd) -
-                             (Constants.beta *(math.log(self.growth(b=Constants.carrying_capacity)) -
-                                               math.log(self.growth(b=Constants.carrying_capacity) - (harvest+harvestInd)))*(prop)),1)
+                             (Constants.beta *(math.log(self.growth(b=Constants.init_biomass)) -
+                                               math.log(self.growth(b=Constants.init_biomass) - (harvest+harvestInd)))*(prop)),1)
 
                 else:
                     prof = round((Constants.price_fish * harvestInd) -
@@ -197,8 +197,8 @@ class Group(BaseGroup):
             else:
                 if self.subsession.round_number == 1:
                     prof = round((Constants.price_fish * harvestInd) -
-                             (Constants.beta * (math.log(self.growth(b=Constants.carrying_capacity)) -
-                                                math.log(self.growth(b=Constants.carrying_capacity) - (harvest+harvestInd)))*(prop)), 1)
+                             (Constants.beta * (math.log(self.growth(b=Constants.init_biomass)) -
+                                                math.log(self.growth(b=Constants.init_biomass) - (harvest+harvestInd)))*(prop)), 1)
                 else:
                     if stock <= Constants.Blim:
                         prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
@@ -208,6 +208,35 @@ class Group(BaseGroup):
                         prof = round((Constants.price_fish * harvestInd) -
                              (Constants.beta * (math.log(self.growth(b=stock)) -
                                                 math.log(self.growth(b=stock) - (harvest+harvestInd)))*(prop)), 1)
+
+        return prof
+
+    def compute_payoff_test(self, stock, harvest=0, harvestInd=0):
+
+        if (harvest + harvestInd) == 0:
+            prop = 0
+        else:
+            prop = harvestInd / (harvest + harvestInd)
+
+        if stock - (harvest + harvestInd) <= 0:
+            prof = Constants.max_negative_profit
+        else:
+            if self.session.config['treatment'] == 'T1':
+                    prof = round((Constants.price_fish * harvestInd) -
+                                 (Constants.beta * (math.log(self.growth(b=stock)) -
+                                                    math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)),
+                                 1)
+            else:
+                    if stock <= Constants.Blim:
+                        prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
+                                     (Constants.beta * (math.log(self.growth(b=stock)) -
+                                                        math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
+                                      prop)), 1)
+                    if stock > Constants.Blim:
+                        prof = round((Constants.price_fish * harvestInd) -
+                                     (Constants.beta * (math.log(self.growth(b=stock)) -
+                                                        math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
+                                      prop)), 1)
 
         return prof
 
@@ -233,36 +262,33 @@ class Group(BaseGroup):
     def set_payoffTable(self):
         payoff_tab = [[] for _ in range(Constants.nb_catch_choice)]
         inc = -1
+        for i in Constants.choice_catch:
+            inc = inc + 1
+            for j in Constants.other_choice_catch:
+                if i == 0 & j == 0:
+                    payoff_tab[inc].append(self.compute_payoff(harvest=j, harvestInd=i, stock=self.b_round))
+                else:
+                    if (self.b_round - (j + i)) <= 0:
+                        payoff_tab[inc].append(Constants.max_negative_profit)
+                    else:
+                        payoff_tab[inc].append(self.compute_payoff(harvest=j, harvestInd=i, stock=self.b_round))
 
-        if self.subsession.round_number == 1:
-              for i in Constants.choice_catch:
-                    inc = inc + 1
-                    for j in Constants.other_choice_catch:
-                        if i==0 & j== 0:
-                            if self.session.config['treatment']=='T1':
-                                payoff_tab[inc].append(0)
-                            elif (self.b_round <= Constants.Blim):
-                                payoff_tab[inc].append(self.compute_payoff(harvest=j,harvestInd=i, stock=Constants.init_biomass))
-                            else:
-                                payoff_tab[inc].append(0)
-                        else:
-                            if (self.b_round - (j + i)) <= 0:
-                                payoff_tab[inc].append(Constants.max_negative_profit)
-                            else:
-                                payoff_tab[inc].append(self.compute_payoff(harvest=j,harvestInd=i, stock=Constants.init_biomass))
-        else:
-                for i in Constants.choice_catch:
-                    inc = inc + 1
-                    for j in Constants.other_choice_catch:
-                        if i == 0 & j == 0:
-                            payoff_tab[inc].append(0)
-                        else:
-                            if (self.growth(b=self.b_round) - (j + i)) <= 0:
-                                payoff_tab[inc].append(Constants.max_negative_profit)
-                            else:
-                                payoff_tab[inc].append(
-                                    self.compute_payoff(harvest=j, harvestInd=i,
-                                                stock=self.b_round))
+        return (payoff_tab)
+
+    def set_payoffTable_test(self,biomasse=Constants.b_test):
+        payoff_tab = [[] for _ in range(Constants.nb_catch_choice)]
+        inc = -1
+        for i in Constants.choice_catch:
+            inc = inc + 1
+            for j in Constants.other_choice_catch:
+                if i == 0 & j == 0:
+                    payoff_tab[inc].append(self.compute_payoff_test(harvest=j, harvestInd=i, stock=biomasse))
+                else:
+                    if (biomasse - (j + i)) <= 0:
+                        payoff_tab[inc].append(Constants.max_negative_profit)
+                    else:
+                        payoff_tab[inc].append(self.compute_payoff_test(harvest=j, harvestInd=i, stock=biomasse))
+
         return (payoff_tab)
 
     ## update payoff for the year by player
@@ -363,9 +389,11 @@ class Group(BaseGroup):
 
         upperUn = numpy.asarray(b_proj[0:11]) * (1 + numpy.asarray(un)[0:11])
         upUN.append([int(x) for x in upperUn])
+        #upUN = [round(elem, 0) for elem in upUN]
 
         lowerUn = numpy.asarray(b_proj[0:11]) * (1 - numpy.asarray(un)[0:11])
         lwUN.append([int(x) for x in lowerUn])
+        #lwUN = [round(elem, 0) for elem in lwUN]
 
         range = numpy.vstack((upperUn, lowerUn)).T
         unrange.append(range.tolist())
@@ -391,9 +419,9 @@ class Player(BasePlayer):
                 "Scientists (other)"])
 
    # test Form variables
-   growthTest     = models.PositiveIntegerField(min=0, max=6)
-   profitTest     = models.PositiveIntegerField(min=-10, max=7)
-   biomassTest    = models.PositiveIntegerField(min=0, max=30)
+   growthTest     = models.PositiveIntegerField(min=0, max= 3)
+   profitTest     = models.PositiveIntegerField(min=-50, max=150)
+   biomassTest    = models.PositiveIntegerField(min=0, max=70)
 
    ##-------------------------------
    ## players variables
