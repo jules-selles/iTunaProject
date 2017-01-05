@@ -16,7 +16,7 @@ register = template.Library()
 ##-------------------------------
 class Introduction(Page):
 
-    timeout_seconds = 160
+    timeout_seconds = 220
 
     def vars_for_template(self):
         return {'image_path': Constants.xp_name}
@@ -206,7 +206,8 @@ class Pledge_Results(Page):
         for element, value in data.items():
             pledge_data.append(value)
 
-        return {'data':data,'MyID':self.player.id_in_group, 'nation': pledge_data[0], 'pledge': pledge_data[1],'Payoff': tab_payoff,
+
+        return {'data':data,'MyID':self.player.id_in_group, 'nation': pledge_data[0], 'pledge': pledge_data[1],
                 'variation':var, 'j': j,'r':r,'MyName':name}
 
 ##-------------------------------
