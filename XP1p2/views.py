@@ -204,7 +204,7 @@ class Pledge_Results(Page):
         for element, value in data.items():
             pledge_data.append(value)
 
-        return {'data':data,'MyID':self.player.id_in_group, 'nation': pledge_data[0], 'pledge': pledge_data[1],'Payoff': self.group.payoff_tab,
+        return {'data':data,'MyID':self.player.id_in_group, 'nation': pledge_data[0], 'pledge': pledge_data[1],
                 'variation':var, 'j': j,'r':r,'MyName':name}
 
 ##-------------------------------
