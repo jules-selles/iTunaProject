@@ -259,12 +259,8 @@ class Group(BaseGroup):
             inc = inc + 1
             for j in Constants.other_choice_catch:
                 if i == 0 & j == 0:
-                    if (self.b_round <= Constants.Blim):
                         payoff_tab[inc].append(self.compute_payoff(harvest=j, harvestInd=i, stock=self.bmin_round))
                         payoff_tab[inc].append(self.compute_payoff(harvest=j, harvestInd=i, stock=self.bmax_round))
-                    else:
-                        payoff_tab[inc].append(0)
-                        payoff_tab[inc].append(0)
                 else:
                     if (self.b_round - (j + i)) <= 0:
                         payoff_tab[inc].append(Constants.max_negative_profit)

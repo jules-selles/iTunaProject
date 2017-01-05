@@ -233,34 +233,17 @@ class Group(BaseGroup):
     def set_payoffTable(self):
         payoff_tab = [[] for _ in range(Constants.nb_catch_choice)]
         inc = -1
+        for i in Constants.choice_catch:
+            inc = inc + 1
+            for j in Constants.other_choice_catch:
+                if i == 0 & j == 0:
+                    payoff_tab[inc].append(self.compute_payoff(harvest=j, harvestInd=i, stock=self.b_round))
+                else:
+                    if (self.b_round - (j + i)) <= 0:
+                        payoff_tab[inc].append(Constants.max_negative_profit)
+                    else:
+                        payoff_tab[inc].append(self.compute_payoff(harvest=j, harvestInd=i, stock=self.b_round))
 
-        if self.subsession.round_number == 1:
-              for i in Constants.choice_catch:
-                    inc = inc + 1
-                    for j in Constants.other_choice_catch:
-                        if i==0 & j== 0:
-                            if (self.b_round <= Constants.Blim):
-                                payoff_tab[inc].append(self.compute_payoff(harvest=j,harvestInd=i, stock=Constants.init_biomass))
-                            else:
-                                payoff_tab[inc].append(0)
-                        else:
-                            if (self.b_round - (j + i)) <= 0:
-                                payoff_tab[inc].append(Constants.max_negative_profit)
-                            else:
-                                payoff_tab[inc].append(self.compute_payoff(harvest=j,harvestInd=i, stock=Constants.init_biomass))
-        else:
-                for i in Constants.choice_catch:
-                    inc = inc + 1
-                    for j in Constants.other_choice_catch:
-                        if i == 0 & j == 0:
-                            payoff_tab[inc].append(0)
-                        else:
-                            if (self.growth(b=self.b_round) - (j + i)) <= 0:
-                                payoff_tab[inc].append(Constants.max_negative_profit)
-                            else:
-                                payoff_tab[inc].append(
-                                    self.compute_payoff(harvest=j, harvestInd=i,
-                                                stock=self.b_round))
         return (payoff_tab)
 
     ## update payoff for the year by player
