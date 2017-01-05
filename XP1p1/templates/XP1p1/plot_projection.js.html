@@ -24,7 +24,7 @@ $(function () {
                     to: {{ Blim_max }},
                     color: '{{  colorBlim_range  }}',
                     label: {
-                        text: 'Blim uncertainty range [{{ Blim_min }} ; {{ Blim_max }}] (.UVS)',
+                        text: 'Blim uncertainty range [{{ Blim_min }} ; {{ Blim_max }}] (10^4 t)',
                         style: {
                             color: '{{ colorBlim_range_label  }}',
                         }
@@ -38,7 +38,7 @@ $(function () {
                     width: 2,
                     zIndex:2,
                     label: {
-                        text: 'Bmsy [{{ Bmsy }}] (.UVS)',
+                        text: 'Bmsy [{{ Bmsy }}] (10^4 t)',
                         align: 'right',
                         style: {
                         color: 'gray'
@@ -52,7 +52,7 @@ $(function () {
                     width: 2,
                     zIndex:2,
                     label: {
-                        text: 'Blim [{{ Blim }}] (.UVS)',
+                        text: 'Blim [{{ Blim }}] (10^4 t)',
                         align: 'left',
                         style: {
                         color: '{{ colorBlim_label  }}'
@@ -63,7 +63,7 @@ $(function () {
             tooltip: {
                 crosshairs: true,
                 shared: true,
-                valueSuffix: ' (UVS)'
+                valueSuffix: ' (10^4 t)'
             },
             legend: {
                 enabled: false
