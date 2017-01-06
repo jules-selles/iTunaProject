@@ -16,8 +16,6 @@ register = template.Library()
 ##-------------------------------
 class Introduction(Page):
 
-    timeout_seconds = 220
-
     def vars_for_template(self):
         return {'image_path': Constants.xp_name}
 
