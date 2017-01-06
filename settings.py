@@ -136,7 +136,7 @@ SESSION_CONFIGS = [
         'name': 'XP1_p2',
         'display_name': "iTuna phase 2 TEST",
         'num_demo_participants': 3,
-        'treatment': 'T2',
+        'treatment': 'T3',
         'app_sequence': ['XP1p2']  # , 'survey', 'payment_info'],
 
     },
@@ -144,7 +144,7 @@ SESSION_CONFIGS = [
         'name': 'XP1_p1',
         'display_name': "iTuna  phase 1 TEST",
         'num_demo_participants': 3,
-        'treatment': 'T2',
+        'treatment': 'T3',
         'app_sequence': ['XP1p1']  # , 'survey', 'payment_info'],
 
     },

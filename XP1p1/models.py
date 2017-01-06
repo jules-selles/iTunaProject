@@ -149,6 +149,9 @@ class Group(BaseGroup):
     # Threshold and uncertainty range
     Blim_min      = models.FloatField()
     Blim_max      = models.FloatField()
+    # Biomass uncertainty
+    bmin_round = models.FloatField()
+    bmax_round = models.FloatField()
 
     # end
     end           = models.BooleanField(initial=False)
