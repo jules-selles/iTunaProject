@@ -58,7 +58,7 @@ class Constants(BaseConstants):
     instructions_template = xp_name + '/instruction.html'
     functions_template    = xp_name + '/functions.html'
     endPhase_template     = xp_name + '/endPhase.html'
-    convertionCurrency    = 0.05
+    convertionCurrency    = 0.035
 
     ##-------------------------------
     ## oTree parameters
