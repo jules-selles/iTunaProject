@@ -101,7 +101,7 @@ class Constants(BaseConstants):
     nb_catch_choice   = 6
     max_total_catch   = max_catch * players_per_group
     stepChoices       = (max_catch - min_catch)/(nb_catch_choice - 1)
-    rowPayoff_Tab     = ((max_catch * players_per_group)/5) + 2
+    #rowPayoff_Tab     = ((max_catch * players_per_group)/5) + 2
     elementPayoff_Tab = nb_catch_choice * ((players_per_group * nb_catch_choice)-1)
 
     ##  player harvest choice parameters
