@@ -69,7 +69,7 @@ class Constants(BaseConstants):
     init_year          = 2000
     end_year           = init_year + num_rounds
     xp_years           = list(range(init_year, end_year + 1))
-    convertionCurrency = 0.3
+    convertionCurrency = 0.05
 
     ##-------------------------------
     #biologic variables
