@@ -80,7 +80,7 @@ class Constants(BaseConstants):
     Ymsy              = round((growth_rate * carrying_capacity)/4,0)   # MSY [10^4 t]
     uncertainty       = 0.2 # resource level uncertainty epsilon []
     max_uncertainty   = uncertainty + (0.05 * nb_sim_years)  # projection uncertainty
-    Blim              = 10  # Blim [10^3 t]
+    Blim              = random.choice(7,8,9,10,11,12,13)  # Blim [10^3 t]
     Blim_uncertainty  = 0.4 #uncertainty range around Blim []
 
     ##-------------------------------
