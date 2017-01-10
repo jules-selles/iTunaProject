@@ -80,7 +80,8 @@ class Constants(BaseConstants):
     Ymsy              = round((growth_rate * carrying_capacity)/4,0)   # MSY [10^4 t]
     uncertainty       = 0.2 # resource level uncertainty epsilon []
     max_uncertainty   = uncertainty + (0.05 * nb_sim_years)  # projection uncertainty
-    Blim              = random.choice(7,8,9,10,11,12,13)  # Blim [10^3 t]
+    Blim              = random.choice([7,8,9,10,11,12,13])  # Blim [10^3 t]
+    Blim_un           = 10
     Blim_uncertainty  = 0.4 #uncertainty range around Blim []
 
     ##-------------------------------
@@ -316,8 +317,8 @@ class Group(BaseGroup):
     ## function uncertainty around Blim for all rounds
     def set_Un_Blim(self):
         # uncertainty bounds around Blim
-        self.Blim_max = Constants.Blim + (Constants.Blim * Constants.Blim_uncertainty)
-        self.Blim_min = Constants.Blim - (Constants.Blim * Constants.Blim_uncertainty)
+        self.Blim_max = Constants.Blim_un + (Constants.Blim_un * Constants.Blim_uncertainty)
+        self.Blim_min = Constants.Blim_un - (Constants.Blim_un * Constants.Blim_uncertainty)
 
     ## function variation for each catch level
     def variation(self):
