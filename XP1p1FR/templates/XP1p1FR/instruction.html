@@ -1,0 +1,82 @@
+{% load staticfiles otree_tags %}
+{% load staticfiles  %}
+
+<div class="instructions well well-lg">
+
+    <h3 class="panel-sub-heading">
+        <b>Règles de l'Expèrience</b>
+    </h3>
+
+    <h4 class="panel-sub-heading">
+        <b>Règles générales</b>
+    </h4>
+
+    <p align ="center">
+        Vous serez rémunéré proportionnellement au profit que vous aurez accumulé lors de l'expérience à un taux de :<br>
+        <b> 1 (10<sup>7</sup> € dans l'expérience) = {{ Constants.convertionCurrency }} € </b>
+    </p>
+    <p>
+     <b> Quelques règles:</b>
+    </p>
+      <ul>
+        <li>Aucune communication n'est autorisée entre les joueurs.</li>
+        <li>Vous n’avez pas l’autorisation d’ouvrir d’autres fenêtres (pages web, logiciel…) durant l’expérience.</li>
+        <li>Vous pouvez poser des questions à l’administrateur avant et durant l’expérience.</li>
+      </ul>
+    <p>
+     <b> Attention : Si vous ne respectez pas les règles vous devrez quitter l’expérience et vous ne serez donc pas payé. </b>
+    </p>
+
+
+    <h4 class="panel-sub-heading">
+        <b>Contexte</b>
+    </h4>
+     <p>
+         Cette expérience a pour objectif d’analyser la prise de décision de parties prenantes (groupements de nations)
+         impliquées dans l’exploitation d’une pêcherie internationale.<br>
+         Vous allez représenter un pays pêcheur de thon rouge Atlantique.<br>
+         Vous interviendrez dans la gestion de cette ressource, par l’intermédiaire de la Commission Internationale pour la Conservation des Thonidés Atlantique (<b>CICTA</b>)
+         qui a pour objectif d’assurer l’exploitation durable du stock en assurant un niveau de biomasse au Rendement Maximal Durable (<b>RMD</b>).<br>
+         En tant qu’un des 3 participants de l’expérience, vous allez décider annuellement (chaque tour représente une année dans cette expérience)
+         d'un montant de captures pour votre flotte de pêche nationale. Chaque participant est identique en termes de technologie de pêche.
+     </p>
+    <h4 class="panel-sub-heading">
+        <b>Dynamique de la Resource et Profit</b>
+    </h4>
+     <p>
+         La ressource suit une dynamique connue des participants et décrite dans la <b>"Fonction de Croissance"</b>.<br>
+         Le stock à l’état vierge, c’est-à-dire qu'il n'a jamais subi la moindre exploitation par l'homme,
+         peut atteindre une biomasse maximum de <b>{{ Constants.Bmsy }} 10<sup>7</sup> t </b>.<br>
+         La fonction de croissance indique que la capacité de régénération annuelle (croissance)
+         atteint une valeur maximum de <b>{{ Constants.Ymsy }} (10<sup>4</sup> tones) par an </b> si le stock se maintient à un niveau du RMD,
+         puis diminue jusqu'à être nulle pour les deux niveaux extrêmes, c'est-à-dire un stock nul (car alors les poissons ne peuvent plus se reproduire) ou
+         un stock maximal à <b>{{ Constants.carrying_capacity }} (10<sup>4</sup> t)</b> (car alors il a réalisé tout son potentiel et ne peut plus croître davantage).<br>
+         La croissance du stock permet de définir un niveau de <b>capture équilibré</b>. Ce niveau de capture annuel total est égal au niveau de croissance de la ressource,
+         c'est-à-dire qui permet sa reconstitution à l'identique d'année en année.<br>
+         Cette notion nous permet de définir la capture au Rendement Maximal Durable (<b>RMD</b>) qui équivaut,
+         dans l’expérience, à une capture de <b>{{ Constants.Ymsy }} (10<sup>4</sup> t)</b> pour un niveau de stock stabilisé à <b>{{ Constants.Bmsy }} 10<sup>7</sup> t </b>
+         qui permet un profit total (pour les 3 nations)de <b>23.1 10<sup>7</sup> €</b>.
+     </p>
+
+    <h4 class="panel-sub-heading">
+       <b> Traitements </b>
+    </h4>
+     <p>
+         Selon le traitement auquel vous êtes associé, un niveau critique de biomasse <b>Blim</b> introduit un coût additionnel
+         de <b>{{ Constants.tFixedCost }} 10<sup>7</sup> €</b> si le seuil est dépassé.<br>
+         Ce seuil représente un changement soudain du régime de gestion du stock reproduisant la situation socio-économique de la pêcherie de thon rouge Atlantique.<br>
+         Le comité scientifique de la <b>CICTA</b> a une méthode certaine ou incertaine (selon le traitement) pour estimer le niveau critique de la biomasse.<br>
+         Ces informations sont partagées sous la forme d'une valeur précise de <b> Blim </b> ou d'une plage de valeurs <b> [Blim,min: Bmin,max]</b>.
+     </p>
+    <h4 class="panel-sub-heading">
+        <b>Phases</b>
+    </h4>
+     <p>
+         Enfin, pendant l'expérience, vous jouerez 2 phases du même jeu avec une incertitude différente sur l'état de la ressource.<br>
+         Les informations précises sur la taille de la ressource Bt se dégraderont et vous n'aurez accès qu'à la plage de valeurs <b> [Bmin,t; Bmax,t] </b> chaque année.
+     </p>
+
+    <p align="center">  <b>Bonne chance!</b> </p>
+
+
+</div>
