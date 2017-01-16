@@ -37,7 +37,6 @@ iTuna Experiment
 ## To do list
 
 ##Buggs priority 1
-##-> end phase 1
 ##-> demo mode
 ##-> postgreSql
 
@@ -52,10 +51,14 @@ class Constants(BaseConstants):
 
     ##-------------------------------
     ##Environment variables
-    xp_name               = 'XP1p2'
-    instructions_template = xp_name + '/instruction.html'
-    functions_template    = xp_name + '/functions.html'
-    endSession_template   = xp_name + '/endSession.html'
+    xp_name                         = 'XP1p2'
+    functions_template              = xp_name + '/functions.html'
+    endSession_template             = xp_name + '/EndSession.html'
+    profitTable_template            = xp_name + '/Profit_Table.html'
+    biomassVariationTable_template  = xp_name + '/Biomass_Variation_Table.html'
+    scientificAssessment_template   = xp_name + '/Scientific_Assessment.html'
+
+    convertionCurrency    = 0.035
 
     ##-------------------------------
     ## oTree variables
@@ -69,7 +72,6 @@ class Constants(BaseConstants):
     init_year          = 2000
     end_year           = init_year + num_rounds
     xp_years           = list(range(init_year, end_year + 1))
-    convertionCurrency = 0.035
 
     ##-------------------------------
     #biologic variables
@@ -80,17 +82,20 @@ class Constants(BaseConstants):
     Ymsy              = round((growth_rate * carrying_capacity)/4,0)   # MSY [10^4 t]
     uncertainty       = 0.2 # resource level uncertainty epsilon []
     max_uncertainty   = uncertainty + (0.05 * nb_sim_years)  # projection uncertainty
-    Blim              = random.choice([7,8,9,10,11,12,13])  # Blim [10^3 t]
-    Blim_un           = 10
+    Blim_un           = 20
     Blim_uncertainty  = 0.4 #uncertainty range around Blim []
+    Blim_unmin        = int(Blim_un - (Blim_un*Blim_uncertainty))
+    Blim_unmax        = int(Blim_un + (Blim_un*Blim_uncertainty))
+    Blim              = random.choice(list(range(Blim_unmin, Blim_unmax + 1)))  # Blim [10^3 t]
+
 
     ##-------------------------------
     ## economic variables
-    price_fish        = 10  # p [10^7$/.1000 t]
-    discount_rate     = 0   # theta []
-    theta = 1 / (1 + discount_rate)
-    beta = 60  # cost parameter [10^7$/.1000 t]
-    tFixedCost = 20  # threshold fixed cost [10^7$]
+    price_fish          = 10  # p [10^7$/.1000 t]
+    discount_rate       = 0   # theta []
+    theta               = 1 / (1 + discount_rate)
+    beta                = 100  # cost parameter [10^7$/.1000 t]
+    tFixedCost          = 20  # threshold fixed cost [10^7$]
     max_negative_profit = -50 # limit for negative profit
 
     ##-------------------------------
@@ -101,7 +106,7 @@ class Constants(BaseConstants):
 
     max_total_catch   = nb_catch_choice * players_per_group
     stepChoices       = (max_catch - min_catch)/(nb_catch_choice - 1)
-    #rowPayoff_Tab     = ((max_catch * players_per_group)/5) + 2
+    #rowPayoff_Tab    = ((max_catch * players_per_group)/5) + 2
     elementPayoff_Tab = nb_catch_choice * ((players_per_group * nb_catch_choice)-1)
 
     ##-------------------------------
@@ -278,22 +283,22 @@ class Group(BaseGroup):
 
         if self.subsession.round_number == 1:
             for p in self.get_players():
-                p.profit = self.compute_payoff(harvestInd=p.catch_choice,
+                p.profit = round(self.compute_payoff(harvestInd=p.catch_choice,
                                                    harvest=(self.total_catch - p.catch_choice),
-                                                   stock=Constants.init_biomass)
+                                                   stock=Constants.init_biomass),1)
                 p.payoff = round(self.compute_payoff(harvestInd=p.catch_choice,
                                                    harvest=(self.total_catch - p.catch_choice),
                                                    stock=Constants.init_biomass)* Constants.convertionCurrency,1)
         else:
             for p in self.get_players():
-                p.profit = self.compute_payoff(harvestInd=p.catch_choice,
+                p.profit = round(self.compute_payoff(harvestInd=p.catch_choice,
                                                    harvest=(self.total_catch - p.catch_choice),
-                                                   stock=self.b_round)
+                                                   stock=self.b_round),1)
                 p.payoff = round(self.compute_payoff(harvestInd=p.catch_choice,
                                                    harvest=(self.total_catch - p.catch_choice),
                                                    stock=self.b_round) * Constants.convertionCurrency,1)
 
-        self.total_profit = sum([p.profit for p in self.get_players()])
+        self.total_profit = round(sum([p.profit for p in self.get_players()]),1)
 
     ## update biomass for the next year
     def set_biomass(self):
@@ -345,7 +350,7 @@ class Group(BaseGroup):
         proj.append(self.b_round)
         for i in Constants.sim_years:
             bint = proj[i] - self.total_catch
-            proj.append(round(self.schaefer(bint, c=0)))
+            proj.append(round(self.schaefer(bint, c=0),0))
         return(proj)
 
     ## function uncertainty around projection for 10 years
@@ -364,10 +369,10 @@ class Group(BaseGroup):
                                (Constants.max_uncertainty - Constants.uncertainty) / (len(Constants.sim_years))):
             un.append(numpy.random.normal(loc=meanNorm, scale=meanNorm / 10))
 
-        upperUn = numpy.asarray(b_proj[0:11]) * (1 + numpy.asarray(un)[0:11])
+        upperUn = numpy.round(numpy.asarray(b_proj[0:11]) * (1 + numpy.asarray(un)[0:11]),1)
         upUN.append([int(x) for x in upperUn])
 
-        lowerUn = numpy.asarray(b_proj[0:11]) * (1 - numpy.asarray(un)[0:11])
+        lowerUn = numpy.round(numpy.asarray(b_proj[0:11]) * (1 - numpy.asarray(un)[0:11]),1)
         lwUN.append([int(x) for x in lowerUn])
 
         range = numpy.vstack((upperUn, lowerUn)).T
