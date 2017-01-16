@@ -53,7 +53,7 @@ class Constants(BaseConstants):
 
     ##-------------------------------
     ##Environment parameters
-    xp_name = 'XP1p1'
+    xp_name = 'XP1p1FR'
     instructions_template          = xp_name + '/instruction.html'
     functions_template             = xp_name + '/functions.html'
     profitTable_template           = xp_name + '/Profit_Table.html'
@@ -65,7 +65,7 @@ class Constants(BaseConstants):
 
     ##-------------------------------
     ## oTree parameters
-    name_in_url       = 'XP1p1'  #
+    name_in_url       = 'XP1p1FR'  #
     players_per_group = 3
     num_rounds        = random.choice([15])  # !! random value to put into before session in subsession
 
