@@ -145,13 +145,13 @@ SESSION_CONFIGS = [
         'display_name': "iTuna  phase 1 TEST",
         'num_demo_participants': 3,
         'treatment': 'T3',
-        'app_sequence': ['XP1p1']  # , 'survey', 'payment_info'],
+        'app_sequence': ['XP1p1FR']  # , 'survey', 'payment_info'],
 
     },
 
     {
         'name': 'XP1_T1',
-        'display_name': "iTuna T1 Common Pool Resource Game (Beta)",
+        'display_name': "iTuna T1 Common Pool Resource Game",
         'num_demo_participants': 3,
         'treatment':'T1',
         'app_sequence': ['XP1p1','XP1p2']    #, 'survey', 'payment_info'],
@@ -159,7 +159,7 @@ SESSION_CONFIGS = [
 
     {
         'name': 'XP1_T2',
-        'display_name': "iTuna T2 Common Pool Resource Game (Beta)",
+        'display_name': "iTuna T2 Common Pool Resource Game",
         'num_demo_participants': 3,
         'treatment': 'T2',
         'app_sequence': ['XP1p1', 'XP1p2']  # , 'payment_info'  # , 'survey',
@@ -167,7 +167,7 @@ SESSION_CONFIGS = [
     },
     {
         'name': 'XP1_T3',
-        'display_name': "iTuna T3 Common Pool Resource Game (Beta)",
+        'display_name': "iTuna T3 Common Pool Resource Game",
         'num_demo_participants': 3,
         'treatment': 'T3',
         'app_sequence': ['XP1p1', 'XP1p2']  # , 'payment_info'  # , 'survey',
