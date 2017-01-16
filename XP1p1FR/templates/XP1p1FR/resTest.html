@@ -1,0 +1,47 @@
+{% extends "global/Base.html" %} {% load staticfiles otree_tags %} {% load list_filter %}
+
+{% block title %} Résultats du Test {% endblock %}
+
+{% block content %}
+
+    <p>
+       <b>Vos résultats du Test: </b>
+    </p>
+
+    <p>
+        Tout d'abord, si au début de l'année la biomasse se situe à <b>{{ Constants.b_test }} 10<sup>4</sup> t</b>,
+        pourriez-vous indiquer le niveau de regénération du stock (en 10<sup>4</sup> t)?<br>
+
+        <b>{{ growthRes }} {{ g }}</b>
+    </p>
+
+    <p>
+        Ensuite, toujours avec un stock de <b>{{ Constants.b_test }} 10<sup>4</sup> t </b> si les {{ Constants.players_per_group }} nations
+        décident de récolter <b>{{ Constants.c_test }} 10<sup>4</sup> t</b> ({{ Constants.c_ind_test }} 10<sup>4</sup> t chacun),
+        Pourriez-vous indiquer combien de bénéfices en 10 <sup> 7 </sup> € l'exploitation va générer cette année? <br>
+
+        <b>{{ profitRes }} {{ p }}</b>
+
+    </p>
+
+    <p>
+        Enfin, toujours avec un stock de <b>{{ Constants.b_test }} 10<sup>4</sup> t</b> et une capture totale de <b>{{ Constants.c_test }} 10<sup>4</sup> t</b> par les
+        {{ Constants.players_per_group }} nations ({{ Constants.c_ind_test }} 10<sup>4</sup> t chacun), pourriez-vous indiquer combien de biomasse en 10 <sup> 7 </sup> €
+        sera disponible pour l'année suivante? <br>
+
+        <b>{{ biomassRes }} {{ b }}</b>
+
+    </p>
+
+
+    <p> <b> Nous 5 minutes pour répondre à votre question sur la dynamique des stocks et les bénéfices .... S'il vous plaît, lever la main pour poser vos questions. </b> </p>
+
+
+    {% next_button %}
+
+
+    {% include Constants.profitTable_template %}
+
+    {% include Constants.functions_template  %}
+
+{% endblock %}
