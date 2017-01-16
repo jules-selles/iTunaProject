@@ -1,0 +1,72 @@
+$(function () {
+    $('#containerScientificAdvice').highcharts({
+        chart: {
+                zoomType: 'x'
+        },
+        title: {
+            text: 'Estimation de la Biomasse (10^4 t)',
+        },
+        xAxis: {
+            title: {
+                text: 'Années',
+            },
+            categories: {{ Constants.xp_years }},
+        },
+        yAxis: {
+            min:0,
+            title: {
+                text: 'Biomasse'
+            },
+             plotBands: [{
+                    from: {{ Blim_min }},
+                    to: {{ Blim_max }},
+                    color: '{{  colorBlim_range  }}',
+                    label: {
+                        text: 'Blim plage d'incertitude [{{ Blim_min }} ; {{ Blim_max }}] (10^4 t)',
+                        style: {
+                            color: '{{ colorBlim_range_label  }}',
+                        }
+                    }
+             }],
+
+             plotLines: [{
+                value: {{ Bmsy }},
+                color: 'blue',
+                dashStyle: 'shortdash',
+                width: 2,
+                zIndex:2,
+                label: {
+                    text: 'Brmd [{{ Bmsy }}] (10^4 t)',
+                    align: 'right',
+                    style: {
+                        color: 'gray'
+                    }
+                }
+            },
+            {
+                value: {{ Blim }},
+                color: '{{ colorBlim  }}',
+                dashStyle: 'shortdash',
+                width: 2,
+                zIndex:2,
+                label: {
+                    text: 'Blim [{{ Blim }}] (10^4 t)',
+                    align: 'left',
+                    style: {
+                        color: '{{ colorBlim_label  }}'
+                    }
+                }
+            }]
+        },
+        tooltip: {
+            valueSuffix: ' (10^4 t)'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: {{ seriesBiomass }}
+    });
+});
