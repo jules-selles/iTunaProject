@@ -14,16 +14,18 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Debug mode setting
 # the environment variable OTREE_PRODUCTION controls whether Django runs in
 # DEBUG mode. If OTREE_PRODUCTION==1, then DEBUG=False
+PRODUCTION=1
 
-if environ.get('OTREE_PRODUCTION') not in {None, '', '0'}:
-    DEBUG = False
-else:
+if environ.get('OTREE_PRODUCTION') not in {'1'}:
     DEBUG = True
+else:
+    DEBUG = False
 
-ADMIN_USERNAME = 'admin'
 
+ADMIN_USERNAME = 'jselles'
 # for security, best to set admin password in an environment variable
-ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD')
+#ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD')
+ADMIN_PASSWORD = 'ituna'
 
 # don't share this with anybody.
 SECRET_KEY = ')to-n3&(gtnv)ww2p8pei(*amxok8f%%i#+qzxojhk&f@hcaq-'
@@ -130,7 +132,6 @@ SESSION_CONFIG_DEFAULTS = {
     'mturk_hit_settings': mturk_hit_settings,
 }
 
-
 SESSION_CONFIGS = [
     {
         'name': 'XP1_p2',
@@ -138,7 +139,6 @@ SESSION_CONFIGS = [
         'num_demo_participants': 3,
         'treatment': 'T3',
         'app_sequence': ['XP1p2FR']  # , 'survey', 'payment_info'],
-
     },
     {
         'name': 'XP1_p1',
@@ -146,9 +146,7 @@ SESSION_CONFIGS = [
         'num_demo_participants': 3,
         'treatment': 'T3',
         'app_sequence': ['XP1p1FR']  # , 'survey', 'payment_info'],
-
     },
-
     {
         'name': 'XP1_T1',
         'display_name': "iTuna T1 Common Pool Resource Game",
@@ -156,14 +154,12 @@ SESSION_CONFIGS = [
         'treatment':'T1',
         'app_sequence': ['XP1p1FR','XP1p2FR']    #, 'survey', 'payment_info'],
     },
-
     {
         'name': 'XP1_T2',
         'display_name': "iTuna T2 Common Pool Resource Game",
         'num_demo_participants': 3,
         'treatment': 'T2',
         'app_sequence': ['XP1p1FR', 'XP1p2FR']  # , 'payment_info'  # , 'survey',
-
     },
     {
         'name': 'XP1_T3',

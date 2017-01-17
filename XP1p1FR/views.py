@@ -109,19 +109,19 @@ class resTest(Page):
         choice = "0:%d" % (Constants.elementPayoff_Tab)
 
         if self.player.growthTest != g:
-            gorwthRes = "Sorry the answer is: "
+            gorwthRes = "Désolé, mais la réponse est: "
         else:
-            gorwthRes= "Great you have the right answer:"
+            gorwthRes= "Bravo vous avez la bonne réponse:"
 
         if self.player.profitTest != p:
-            profitRes = "Sorry the answer is: "
+            profitRes = "Désolé, mais la réponse est: "
         else:
-            profitRes = "Great you have the right answer: "
+            profitRes = "Bravo vous avez la bonne réponse: "
 
         if self.player.biomassTest != b:
-            biomassRes = "Sorry the answer is: "
+            biomassRes = "Désolé, mais la réponse est: "
         else:
-            biomassRes = "Great you have the right answer: "
+            biomassRes = "Bravo vous avez la bonne réponse: "
 
         data = {'growthRes':gorwthRes,
                'profitRes':profitRes,

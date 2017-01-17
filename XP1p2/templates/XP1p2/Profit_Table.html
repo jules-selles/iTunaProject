@@ -4,7 +4,6 @@
 
 <div class="panel panel-default">
 
-
      <div class="panel-heading"> Profit Table (10<sup>7</sup> €) </div>
      <div class="panel-body" >
 
@@ -26,14 +25,14 @@
 
           <tr>
             {% for data in  Constants.other_choice_catch %}
-                <td class="tg-ipa1"> {{data}} </td>
+                <td class="tg-ipa1" colspan=2> {{data}} </td>
             {% endfor %}
           </tr>
 
              {% for i in  j %}
                <tr>
-                    <td class="tg-ipa1">  {{ Constants.choice_catch|index:i }} </td>
-                   {% for e in  r %}
+                    <td class="tg-ipa1" >  {{ Constants.choice_catch|index:i }} </td>
+                    {% for e in  r %}
                            {% if Payoff|index:i|index:e  >= 30 %}
                                 <td style="color: black; background-color: rgb(0,255,255) ; font-size:100%; text-align:center">{{ Payoff|index:i|index:e }}</td>
                            {% elif Payoff|index:i|index:e  < 30 and Payoff|index:i|index:e  >= 15 %}
@@ -43,8 +42,8 @@
                            {% else %}
                                <td style="color: black; background-color: rgb(249,133,133); font-size:100%; text-align:center">{{ Payoff|index:i|index:e }}</td>
                            {% endif %}
-
                    {% endfor %}
+
                </tr>
 
             {% endfor %}

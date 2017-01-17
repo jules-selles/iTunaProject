@@ -25,7 +25,7 @@
 
           <tr>
             {% for data in  Constants.other_choice_catch %}
-                <td class="tg-ipa1"> {{data}} </td>
+                <td class="tg-ipa1" colspan=2> {{data}} </td>
             {% endfor %}
           </tr>
 
@@ -33,19 +33,17 @@
                <tr>
                     <td class="tg-ipa1">  {{ Constants.choice_catch|index:i }} </td>
                    {% for e in  r %}
-                       <td >
                            {% if variation|index:i|index:e  > 25 %}
-                                <p style="color: black; background-color: rgb(0,255,255) ; font-size:100%; text-align:center">{{ variation|index:i|index:e }}</p>
+                                <td style="color: black; background-color: rgb(0,255,255) ; font-size:100%; text-align:center">{{ variation|index:i|index:e }}</td>
                            {% elif variation|index:i|index:e  <= 25 and variation|index:i|index:e > 0 %}
-                                <p style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{ variation|index:i|index:e}}</p>
+                                <td style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{ variation|index:i|index:e}}</td>
                            {% elif variation|index:i|index:e  == 0 %}
-                                <p style="color: black; background-color: white; font-size:100%; text-align:center">{{ variation|index:i|index:e}}</p>
+                                <td style="color: black; background-color: white; font-size:100%; text-align:center">{{ variation|index:i|index:e}}</td>
                            {% elif variation|index:i|index:e  < 0 and variation|index:i|index:e >= -25 %}
-                                <p style="color: black; background-color: rgb(249,133,133); font-size:100%; text-align:center">{{ variation|index:i|index:e}}</p>
+                                <td style="color: black; background-color: rgb(249,133,133); font-size:100%; text-align:center">{{ variation|index:i|index:e}}</td>
                            {% else %}
-                               <p style="color: black; background-color: red; font-size:100%; text-align:center">{{ variation|index:i|index:e }}</p>
+                               <td style="color: black; background-color: red; font-size:100%; text-align:center">{{ variation|index:i|index:e }}</td>
                            {% endif %}
-                        </td>
                    {% endfor %}
                </tr>
 

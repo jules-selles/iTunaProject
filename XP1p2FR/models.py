@@ -151,6 +151,7 @@ class Group(BaseGroup):
     # Biomass uncertainty
     bmin_round    = models.FloatField()
     bmax_round    = models.FloatField()
+    balea         = models.FloatField()
 
     # Threshold and uncertainty range
     Blim_min      = models.FloatField()
@@ -232,10 +233,11 @@ class Group(BaseGroup):
 
     ## biomass random variable N~(schaefer, epsilon)
     def randomB(self, mean, sd):
-        Balea= numpy.random.normal(loc=mean, scale=sd)
+        Balea= numpy.random.normal(loc=mean, scale=mean*(sd/2))
         B_min= Balea - Balea * sd
         B_max= Balea + Balea * sd
         B_un= [round(B_min,0),round(B_max,0)]
+        self.balea = Balea
 
         Bun_data = {'Balea':round(Balea),'B_min':round(B_min), 'B_max':round(B_max),'B_un':B_un}
         return  Bun_data  # []
@@ -347,7 +349,9 @@ class Group(BaseGroup):
         proj = []
         bint = models.FloatField()
 
-        proj.append(self.b_round)
+        #proj.append(self.b_round)
+        proj.append(self.balea)
+
         for i in Constants.sim_years:
             bint = proj[i] - self.total_catch
             proj.append(round(self.schaefer(bint, c=0),0))
@@ -367,7 +371,7 @@ class Group(BaseGroup):
         # uncertainty bounds around real projection
         for meanNorm in arange(Constants.uncertainty, Constants.max_uncertainty,
                                (Constants.max_uncertainty - Constants.uncertainty) / (len(Constants.sim_years))):
-            un.append(numpy.random.normal(loc=meanNorm, scale=meanNorm / 10))
+            un.append(numpy.random.normal(loc=meanNorm, scale=meanNorm *(Constants.uncertainty/2)))
 
         upperUn = numpy.round(numpy.asarray(b_proj[0:11]) * (1 + numpy.asarray(un)[0:11]),1)
         upUN.append([int(x) for x in upperUn])
