@@ -10,20 +10,23 @@ import numpy
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-
 # Debug mode setting
 # the environment variable OTREE_PRODUCTION controls whether Django runs in
 # DEBUG mode. If OTREE_PRODUCTION==1, then DEBUG=False
-PRODUCTION=1
 
-if environ.get('OTREE_PRODUCTION') not in {'1'}:
-    DEBUG = True
-else:
-    DEBUG = False
+#if environ.get('OTREE_PRODUCTION') not in {None, '', '0'}:
+#    DEBUG = False
+#else:
+#    DEBUG = True
 
+DEBUG = True
+
+# Sentry service in production mode
+#SENTRY_DSN = 'http://e0b873e62bfe4ec38b69265e4b7f76fc:1986db995f6444c6b1bb50fc06ce1eed@sentry.otree.org/117'
 
 ADMIN_USERNAME = 'jselles'
 # for security, best to set admin password in an environment variable
+
 #ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD')
 ADMIN_PASSWORD = 'ituna'
 
@@ -36,18 +39,18 @@ PAGE_FOOTER = ''
 
 ROOM_DEFAULTS = {}
 
-ROOMS = [
-    {
-        'name': 'iTuna_test1',
-        'display_name': 'iTuna_test1',
-        'participant_label_file': 'participant_test1.txt'
-    },
-    {
-        'name': 'iTuna_test2',
-        'display_name': 'iTuna_test2',
-        'participant_label_file': 'participant_test2.txt'
-    }
-]
+#ROOMS = [
+#    {
+#        'name': 'iTuna_test1',
+#        'display_name': 'iTuna_test1',
+#        'participant_label_file': 'participant_test1.txt'
+#    },
+#    {
+#        'name': 'iTuna_test2',
+#        'display_name': 'iTuna_test2',
+#        'participant_label_file': 'participant_test2.txt'
+#    }
+#]
 
 
 # To use a database other than sqlite,
