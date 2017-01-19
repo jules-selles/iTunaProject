@@ -188,10 +188,7 @@ class Group(BaseGroup):
         else:
             prop=harvestInd/(harvest+harvestInd)
 
-        if stock - (harvest + harvestInd) <= 0:
-            prof = Constants.max_negative_profit
-        else:
-            if self.session.config['treatment']=='T1':
+        if self.session.config['treatment']=='T1':
                 if self.subsession.round_number == 1:
                     prof = round((Constants.price_fish * harvestInd) -
                              (Constants.beta *(math.log(self.growth(b=Constants.init_biomass)) -
@@ -201,7 +198,7 @@ class Group(BaseGroup):
                     prof = round((Constants.price_fish * harvestInd) -
                                  (Constants.beta * (math.log(self.growth(b=stock)) -
                                                     math.log(self.growth(b=stock) - (harvest+harvestInd))) * (prop)), 1)
-            else:
+        else:
                 if self.subsession.round_number == 1:
                     prof = round((Constants.price_fish * harvestInd) -
                              (Constants.beta * (math.log(self.growth(b=Constants.init_biomass)) -
@@ -225,15 +222,12 @@ class Group(BaseGroup):
         else:
             prop = harvestInd / (harvest + harvestInd)
 
-        if stock - (harvest + harvestInd) <= 0:
-            prof = Constants.max_negative_profit
-        else:
-            if self.session.config['treatment'] == 'T1':
+        if self.session.config['treatment'] == 'T1':
                     prof = round((Constants.price_fish * harvestInd) -
                                  (Constants.beta * (math.log(self.growth(b=stock)) -
                                                     math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)),
                                  1)
-            else:
+        else:
                     if stock <= Constants.Blim:
                         prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
                                      (Constants.beta * (math.log(self.growth(b=stock)) -

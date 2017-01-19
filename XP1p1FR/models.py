@@ -188,9 +188,6 @@ class Group(BaseGroup):
         else:
             prop=harvestInd/(harvest+harvestInd)
 
-        if stock - (harvest + harvestInd) <= 0:
-            prof = Constants.max_negative_profit
-        else:
             if self.session.config['treatment']=='T1':
                 if self.subsession.round_number == 1:
                     prof = round((Constants.price_fish * harvestInd) -
@@ -225,9 +222,6 @@ class Group(BaseGroup):
         else:
             prop = harvestInd / (harvest + harvestInd)
 
-        if stock - (harvest + harvestInd) <= 0:
-            prof = Constants.max_negative_profit
-        else:
             if self.session.config['treatment'] == 'T1':
                     prof = round((Constants.price_fish * harvestInd) -
                                  (Constants.beta * (math.log(self.growth(b=stock)) -

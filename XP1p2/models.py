@@ -64,7 +64,7 @@ class Constants(BaseConstants):
     ## oTree variables
     name_in_url       = 'XP1p2'  #
     players_per_group = 3
-    num_rounds = random.choice([5,6,7,8,9,10])  # !! random value to put into before session in subsession
+    num_rounds = random.choice([15,16,17,18,19,20])  # !! random value to put into before session in subsession
 
     ## global variables
     nb_sim_years       = 10
@@ -188,10 +188,7 @@ class Group(BaseGroup):
         else:
             prop = harvestInd / (harvest + harvestInd)
 
-        if stock - (harvest + harvestInd) <= 0:
-            prof = Constants.max_negative_profit
-        else:
-            if self.session.config['treatment'] == 'T1':
+        if self.session.config['treatment'] == 'T1':
                 if self.subsession.round_number == 1:
                    prof = round((Constants.price_fish * harvestInd) -
                              (Constants.beta * (math.log(self.growth(b=Constants.init_biomass)) -
@@ -200,7 +197,7 @@ class Group(BaseGroup):
                    prof = round((Constants.price_fish * harvestInd) -
                              (Constants.beta * (math.log(self.growth(b=stock)) -
                                                 math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)), 1)
-            else:
+        else:
                 if self.subsession.round_number == 1:
                     prof = round((Constants.price_fish * harvestInd) -
                              (Constants.beta * (math.log(self.growth(b=Constants.init_biomass)) -
