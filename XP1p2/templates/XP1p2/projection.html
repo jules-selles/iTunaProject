@@ -1,14 +1,12 @@
-{% extends "global/Base.html" %} {% load staticfiles otree_tags %}
-
-{% block title %} Evaluation Scientifique {% endblock %}
-
-{% block content %}
+{% load staticfiles otree_tags %}
+{% load list_filter %}
+{% load staticfiles  %}
 
 <div class="panel panel-default">
          <!-- Default panel contents -->
-         <div class="panel-heading">Evaluation Scientifique</div>
+         <div class="panel-heading">Scientific Assessment</div>
  <div class="panel-body" >
-             <p>La commission scientifique de la <b>CICTA</b> vous donne une estimation du niveau de biomasse si le niveau d'exploitation reste inchangé:</p>
+             <p>The scientific body of ICCAT give you the projection of the biomass level under statu quo scenario:</p>
     <div id="containerProjection" style="width: 500px; height: 250px; margin: 0 auto"></div>
 
   {% block scripts %}
@@ -17,13 +15,9 @@
         <script src="https://code.highcharts.com/highcharts-more.js"></script>
 
         <script>
-            {% include "XP1p1FR/plot_projection.js.html" %}
+            {% include "XP1p2/plot_projection.js.html" %}
         </script>
 
   {% endblock %}
  </div>
 </div>
-
-{% next_button %}
-
-{% endblock %}

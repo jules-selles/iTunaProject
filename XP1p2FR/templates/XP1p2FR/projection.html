@@ -1,8 +1,7 @@
-{% extends "global/Base.html" %} {% load staticfiles otree_tags %}
+{% load staticfiles otree_tags %}
+{% load list_filter %}
+{% load staticfiles  %}
 
-{% block title %} Evaluation Scientifique {% endblock %}
-
-{% block content %}
 
 <div class="panel panel-default">
          <!-- Default panel contents -->
@@ -17,13 +16,9 @@
         <script src="https://code.highcharts.com/highcharts-more.js"></script>
 
         <script>
-            {% include "XP1p1FR/plot_projection.js.html" %}
+            {% include "XP1p2FR/plot_projection.js.html" %}
         </script>
 
   {% endblock %}
  </div>
 </div>
-
-{% next_button %}
-
-{% endblock %}

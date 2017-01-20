@@ -1,6 +1,6 @@
 {% extends "global/Base.html" %} {% load staticfiles otree_tags %}
 
-{% block title %} Results from harvest {% endblock %}
+{% block title %} ICCAT feedback {% endblock %}
 
 {% block content %}
 
@@ -75,6 +75,10 @@
 
    </div>
  </div>
+
+    {% include Constants.projection_template %}
+
+
 
   {% next_button %}
 

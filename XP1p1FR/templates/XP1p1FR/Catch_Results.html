@@ -1,6 +1,6 @@
 {% extends "global/Base.html" %} {% load staticfiles otree_tags %}
 
-{% block title %} Résultats de l'exploitation {% endblock %}
+{% block title %} CICTA statistiques {% endblock %}
 
 {% block content %}
 
@@ -75,6 +75,9 @@
 
    </div>
  </div>
+
+    {% include Constants.projection_template %}
+
 
   {% next_button %}
 

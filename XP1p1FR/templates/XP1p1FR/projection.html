@@ -1,8 +1,7 @@
-{% extends "global/Base.html" %} {% load staticfiles otree_tags %}
+{% load staticfiles otree_tags %}
+{% load list_filter %}
+{% load staticfiles  %}
 
-{% block title %} Evaluation Scientifique {% endblock %}
-
-{% block content %}
 
 <div class="panel panel-default">
          <!-- Default panel contents -->
@@ -23,7 +22,3 @@
   {% endblock %}
  </div>
 </div>
-
-{% next_button %}
-
-{% endblock %}

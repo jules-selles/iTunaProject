@@ -546,6 +546,6 @@ page_sequence = [
     Catch_Choice,
     CatchChoice_WaitPage,
     Catch_Results,
-    ScientificAdvice,
+    #ScientificAdvice,
     End
 ]

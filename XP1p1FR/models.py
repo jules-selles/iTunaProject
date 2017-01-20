@@ -59,6 +59,7 @@ class Constants(BaseConstants):
     profitTable_template           = xp_name + '/Profit_Table.html'
     biomassVariationTable_template =  xp_name + '/Biomass_Variation_Table.html'
     scientificAssessment_template  =  xp_name + '/Scientific_Assessment.html'
+    projection_template            = xp_name + '/projection.html'
     endPhase_template              = xp_name + '/endPhase.html'
 
     convertionCurrency    = 0.035
@@ -188,28 +189,33 @@ class Group(BaseGroup):
         else:
             prop=harvestInd/(harvest+harvestInd)
 
-            if self.session.config['treatment']=='T1':
+        if self.session.config['treatment']=='T1':
                 if self.subsession.round_number == 1:
                     prof = round((Constants.price_fish * harvestInd) -
                              (Constants.beta *(math.log(self.growth(b=Constants.init_biomass)) -
                                                math.log(self.growth(b=Constants.init_biomass) - (harvest+harvestInd)))*(prop)),1)
-
                 else:
-                    prof = round((Constants.price_fish * harvestInd) -
+                    if stock - (harvest+harvestInd) <= 0:
+                        prof = -Constants.beta
+                    else:
+                        prof = round((Constants.price_fish * harvestInd) -
                                  (Constants.beta * (math.log(self.growth(b=stock)) -
                                                     math.log(self.growth(b=stock) - (harvest+harvestInd))) * (prop)), 1)
-            else:
+        else:
                 if self.subsession.round_number == 1:
                     prof = round((Constants.price_fish * harvestInd) -
                              (Constants.beta * (math.log(self.growth(b=Constants.init_biomass)) -
                                                 math.log(self.growth(b=Constants.init_biomass) - (harvest+harvestInd)))*(prop)), 1)
                 else:
-                    if stock <= Constants.Blim:
-                        prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
+                    if stock - (harvest + harvestInd) <= 0:
+                        prof = -Constants.beta
+                    else:
+                        if stock <= Constants.Blim:
+                            prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
                                  (Constants.beta * (math.log(self.growth(b=stock)) -
                                                     math.log(self.growth(b=stock) - (harvest+harvestInd))) * (prop)), 1)
-                    if stock > Constants.Blim:
-                        prof = round((Constants.price_fish * harvestInd) -
+                        if stock > Constants.Blim:
+                            prof = round((Constants.price_fish * harvestInd) -
                              (Constants.beta * (math.log(self.growth(b=stock)) -
                                                 math.log(self.growth(b=stock) - (harvest+harvestInd)))*(prop)), 1)
 
@@ -222,18 +228,23 @@ class Group(BaseGroup):
         else:
             prop = harvestInd / (harvest + harvestInd)
 
-            if self.session.config['treatment'] == 'T1':
-                    prof = round((Constants.price_fish * harvestInd) -
-                                 (Constants.beta * (math.log(self.growth(b=stock)) -
-                                                    math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)),
-                                 1)
+        if self.session.config['treatment'] == 'T1':
+            if stock - (harvest + harvestInd) <= 0:
+                prof = -Constants.beta
             else:
-                    if stock <= Constants.Blim:
+                prof = round((Constants.price_fish * harvestInd) -
+                            (Constants.beta * (math.log(self.growth(b=stock)) -
+                                                    math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)),1)
+        else:
+            if stock - (harvest + harvestInd) <= 0:
+                prof = -Constants.beta
+            else:
+                if stock <= Constants.Blim:
                         prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
                                      (Constants.beta * (math.log(self.growth(b=stock)) -
                                                         math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
                                       prop)), 1)
-                    if stock > Constants.Blim:
+                if stock > Constants.Blim:
                         prof = round((Constants.price_fish * harvestInd) -
                                      (Constants.beta * (math.log(self.growth(b=stock)) -
                                                         math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
