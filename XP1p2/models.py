@@ -189,7 +189,11 @@ class Group(BaseGroup):
         else:
             prop = harvestInd / (harvest + harvestInd)
 
-        if self.session.config['treatment'] == 'T1':
+        if stock <= 0:
+            prof = 0
+        else:
+
+            if self.session.config['treatment'] == 'T1':
                 if self.subsession.round_number == 1:
                    prof = round((Constants.price_fish * harvestInd) -
                              (Constants.beta * (math.log(self.growth(b=Constants.init_biomass)) -
@@ -201,7 +205,7 @@ class Group(BaseGroup):
                         prof = round((Constants.price_fish * harvestInd) -
                              (Constants.beta * (math.log(self.growth(b=stock)) -
                                                 math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)), 1)
-        else:
+            else:
                 if self.subsession.round_number == 1:
                     prof = round((Constants.price_fish * harvestInd) -
                              (Constants.beta * (math.log(self.growth(b=Constants.init_biomass)) -
@@ -270,16 +274,16 @@ class Group(BaseGroup):
         for i in Constants.choice_catch:
             inc = inc + 1
             for j in Constants.other_choice_catch:
-                if i == 0 & j == 0:
+                #if i == 0 & j == 0:
                         payoff_tab[inc].append(self.compute_payoff(harvest=j, harvestInd=i, stock=self.bmin_round))
                         payoff_tab[inc].append(self.compute_payoff(harvest=j, harvestInd=i, stock=self.bmax_round))
-                else:
-                    if (self.b_round - (j + i)) <= 0:
-                        payoff_tab[inc].append(Constants.max_negative_profit)
-                        payoff_tab[inc].append(Constants.max_negative_profit)
-                    else:
-                      payoff_tab[inc].append(self.compute_payoff(harvest=j, harvestInd=i, stock=self.bmin_round))
-                      payoff_tab[inc].append(self.compute_payoff(harvest=j, harvestInd=i, stock=self.bmax_round))
+                #else:
+                #    if (self.b_round - (j + i)) <= 0:
+                #        payoff_tab[inc].append(Constants.max_negative_profit)
+                #        payoff_tab[inc].append(Constants.max_negative_profit)
+                #    else:
+                #      payoff_tab[inc].append(self.compute_payoff(harvest=j, harvestInd=i, stock=self.bmin_round))
+                #      payoff_tab[inc].append(self.compute_payoff(harvest=j, harvestInd=i, stock=self.bmax_round))
 
         return (payoff_tab)
 
