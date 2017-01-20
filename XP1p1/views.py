@@ -522,7 +522,7 @@ class End(Page):
     def vars_for_template(self):
         if self.group.b_round <= 0:
             message=' You have driven the stock to the collapse!! ' \
-                    '.... Sorry you have to click on he next button UVS until the last period.... '
+                    '.... Sorry you have to click on he next button until the last period.... '
         else:
             message='_'
         data={'message':message}
