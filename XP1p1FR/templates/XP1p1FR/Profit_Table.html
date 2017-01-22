@@ -34,18 +34,17 @@
                <tr>
                     <td class="tg-ipa1">  {{ Constants.choice_catch|index:i }} </td>
                    {% for e in  r %}
-                           {% if Payoff|index:i|index:e  >= 30 %}
+                           {% if Payoff|index:i|index:e  > 15 %}
                                 <td style="color: black; background-color: rgb(0,255,255) ; font-size:100%; text-align:center">{{ Payoff|index:i|index:e }}</td>
-                           {% elif Payoff|index:i|index:e  < 30 and Payoff|index:i|index:e  >= 15 %}
+                           {% elif Payoff|index:i|index:e  <= 15 and Payoff|index:i|index:e  > 0 %}
                                 <td style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{ Payoff|index:i|index:e }}</td>
-                           {% elif Payoff|index:i|index:e  < 15 and  Payoff|index:i|index:e  >= 0 %}
+                           {% elif Payoff|index:i|index:e  == 0 %}
                                 <td style="color: black; background-color: white; font-size:100%; text-align:center">{{ Payoff|index:i|index:e }}</td>
                            {% elif Payoff|index:i|index:e  < 0 and  Payoff|index:i|index:e  >= -5 %}
                                <td style="color: black; background-color: rgb(249,133,133); font-size:100%; text-align:center">{{ Payoff|index:i|index:e }}</td>
                            {% else %}
                               <td style="color: black; background-color: red; font-size:100%; text-align:center">{{ Payoff|index:i|index:e }}</td>
                            {% endif %}
-
                    {% endfor %}
                </tr>
 

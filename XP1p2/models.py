@@ -89,7 +89,6 @@ class Constants(BaseConstants):
     Blim_unmax        = int(Blim_un + (Blim_un*Blim_uncertainty))
     Blim              = random.choice(list(range(Blim_unmin, Blim_unmax + 1)))  # Blim [10^3 t]
 
-
     ##-------------------------------
     ## economic variables
     price_fish          = 10  # p [10^7$/.1000 t]
