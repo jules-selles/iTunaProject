@@ -615,10 +615,31 @@ class End(Page):
         return self.subsession.round_number == Constants.num_rounds or self.group.b_round <= 0
 
 ##-------------------------------
+class Form(Page):
+
+        timeout_seconds = 120
+
+        ##-------------------------------
+        ## condition to display page
+        def is_displayed(self):
+            return self.subsession.round_number == Constants.num_rounds
+
+        ##-------------------------------
+        ## variables for template
+        def vars_for_template(self):
+            data = {}
+            return data
+
+        ##-------------------------------
+        ## form set up
+        form_model = models.Player
+
+        form_fields = ['dynamicKnowledge', 'groupCooperation', 'leverageCooperation', 'suffConditionCooperation',
+                       'biomassUncertainty', 'blimUncertainty']
+
+##-------------------------------
 ##page sequence
 page_sequence = [
-    #Introduction,
-    #Form,
     Form_WaitPage,
     Catch_Pledge,
     Pledge_WaitPage,
@@ -627,5 +648,6 @@ page_sequence = [
     CatchChoice_WaitPage,
     Catch_Results,
     #ScientificAdvice,
-    End
+    End,
+    Form
 ]

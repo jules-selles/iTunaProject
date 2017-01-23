@@ -1,0 +1,21 @@
+{% extends "global/Base.html" %} {% load staticfiles otree_tags %} {% load list_filter %}
+
+{% block title %} Enquête sur l'expérience  {% endblock %}
+
+{% block content %}
+
+    <p>
+        Veuillez remplir ce sondage avant de procéder au paiement.
+    </p>
+
+    {% formfield player.dynamicKnowledge with label="Comment jugez-vous votre connaissance de la dynamique de la ressource? " %}
+    {% formfield player.groupCooperation with label="Comment jugez-vous la coopération au sein de votre groupe?" %}
+    {% formfield player.leverageCooperation with label="Quel a été l'élément principal responsable de la coopération ou de la non coopération au cours de l'expérience?" %}
+    {% formfield player.suffConditionCooperation with label="Les bénéfices possibles en cas de coopération vous ont-ils semblé une condition nécessaire pour la coopération au cours de l'expérience? " %}
+    {% formfield player.suffConditionCooperation with label=" L'incertitude sur le niveau de la ressource en phase a-t-elle entravé la mise en place de stratégie coopérative? " %}
+    {% formfield player.biomassUncertainty with label="L'incertitude sur le niveau de la ressource a-t-elle entravé votre perception de vos gains et de la dynamique de la ressource? " %}
+    {% formfield player.blimUncertainty with label="Si vous n'étiez pas sujet à un seuil limite, sélectionnez : Pas dans mon traitement. Sinon, l'incertitude sur le seuil Blim a-t-elle favorisé le développement d'une stratégie coopérative? " %}
+
+    {% next_button %}
+
+{% endblock %}
