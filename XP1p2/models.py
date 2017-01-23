@@ -400,13 +400,29 @@ class Player(BasePlayer):
    TT = models.CharField() # treatment player variable
 
    ##-------------------------------
-   # 1st Form variables
+   # Form variables
    name = models.CharField()
-   profession = models.CharField()
-   age = models.PositiveIntegerField()
-   playAs =  models.CharField(
-       choices=["General audience", "Fisherman", "Manager", "Scientists in the field of fisheries",
-                "Scientists (other)"])
+
+   dynamicKnowledge =  models.CharField(
+       choices=["Very good", "Good", "Moderate", "Little",
+                "Very little"])
+   groupCooperation = models.CharField(
+       choices=["Very good", "Good", "Moderate", "Little",
+                "Very little"])
+   leverageCooperation = models.CharField(
+       choices=["Profit table analysis", "Pledge analysis", "Biomass analysis",
+                "Catch & others profit analysis"])
+   suffConditionCooperation = models.CharField(
+       choices=["Fully agree", "Agree", "Somewhat agree ",
+                "Disagree","Fully disagree"])
+   biomassUncertainty = models.CharField(
+       choices=["Fully agree", "Agree", "Somewhat agree ",
+                "Disagree", "Fully disagree"])
+
+   blimUncertainty = models.CharField(
+            choices=["Fully agree", "Agree", "Somewhat agree ",
+                "Disagree", "Fully disagree","Not in my treatment"])
+
 
    ##-------------------------------
    ## players variables
