@@ -403,6 +403,11 @@ class Player(BasePlayer):
    ##-------------------------------
    # 1st Form variables
    name = models.CharField()
+   profession = models.CharField()
+   age = models.PositiveIntegerField()
+   playAs = models.CharField(
+       choices=["General audience", "Fisherman", "Manager", "Scientist in the field of fisheries",
+                "Scientist (other)", "Student in the field of fisheries", "Student (other)"])
 
    dynamicKnowledge = models.CharField(
        choices=["Très bien", "Bien", "Moyennement", "Peu",
