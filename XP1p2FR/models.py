@@ -410,23 +410,23 @@ class Player(BasePlayer):
                 "Scientist (other)", "Student in the field of fisheries", "Student (other)"])
 
    dynamicKnowledge = models.CharField(
-       choices=["Très bien", "Bien", "Moyennement", "Peu",
-                "Très peu"])
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord,n ni pas d'accord",
+                "pas d'accord", "Complètement pas d'accord"])
    groupCooperation = models.CharField(
-       choices=["Très bien", "Bien", "Moyennement", "Peu",
-                "Très peu"])
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord,n ni pas d'accord",
+                "pas d'accord", "Complètement pas d'accord"])
    leverageCooperation = models.CharField(
        choices=["Analyse du tableau des profits", "Analyse des propositions", "Analyse du niveau de biomasse",
                 "Analyse du niveau de capture et de profit des autres participants"])
    suffConditionCooperation = models.CharField(
-       choices=["Complètement d'accord", "D'accord", "Plutôt d'accord",
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord,n ni pas d'accord",
                 "pas d'accord", "Complètement pas d'accord"])
    biomassUncertainty = models.CharField(
-       choices=["Complètement d'accord", "D'accord", "Plutôt d'accord",
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord,n ni pas d'accord",
                 "pas d'accord", "Complètement pas d'accord"])
 
    blimUncertainty = models.CharField(
-       choices=["Complètement d'accord", "D'accord", "Plutôt d'accord",
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord,n ni pas d'accord",
                 "pas d'accord", "Complètement pas d'accord","Pas dans mon traitement"])
 
    ##-------------------------------

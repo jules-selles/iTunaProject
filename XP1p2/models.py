@@ -409,23 +409,23 @@ class Player(BasePlayer):
                 "Scientist (other)", "Student in the field of fisheries", "Student (other)"])
 
    dynamicKnowledge =  models.CharField(
-       choices=["Very good", "Good", "Moderate", "Little",
-                "Very little"])
+       choices=["Fully agree", "Agree", "Neither agree nor disagree ",
+                "Disagree","Fully disagree"])
    groupCooperation = models.CharField(
-       choices=["Very good", "Good", "Moderate", "Little",
-                "Very little"])
+       choices=["Fully agree", "Agree", "Neither agree nor disagree ",
+                "Disagree","Fully disagree"])
    leverageCooperation = models.CharField(
        choices=["Profit table analysis", "Pledge analysis", "Biomass analysis",
                 "Catch & others profit analysis"])
    suffConditionCooperation = models.CharField(
-       choices=["Fully agree", "Agree", "Somewhat agree ",
+       choices=["Fully agree", "Agree", "Neither agree nor disagree ",
                 "Disagree","Fully disagree"])
    biomassUncertainty = models.CharField(
-       choices=["Fully agree", "Agree", "Somewhat agree ",
+       choices=["Fully agree", "Agree", "Neither agree nor disagree ",
                 "Disagree", "Fully disagree"])
 
    blimUncertainty = models.CharField(
-            choices=["Fully agree", "Agree", "Somewhat agree ",
+            choices=["Fully agree", "Agree", "Neither agree nor disagree ",
                 "Disagree", "Fully disagree","Not in my treatment"])
 
 
