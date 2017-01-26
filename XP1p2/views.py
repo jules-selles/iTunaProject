@@ -353,8 +353,8 @@ class Catch_Results(Page):
         for p in self.player.in_all_rounds():
             catch_round.append(p.catch_choice)
             profit_round.append(p.profit)
-            totalIndCatch = sum(catch_round)
-            totalIndProfit = sum(profit_round)
+            totalIndCatch = round(sum(catch_round),1)
+            totalIndProfit = round(sum(profit_round),1)
 
         # others cacth & profit per player
         for p in self.player.get_others_in_group():
