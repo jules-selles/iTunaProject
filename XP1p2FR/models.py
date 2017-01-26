@@ -65,7 +65,7 @@ class Constants(BaseConstants):
     ## oTree variables
     name_in_url       = 'XP1p2FR'  #
     players_per_group = 3
-    num_rounds = 1#random.choice([15,16,17,18,19,20])  # !! random value to put into before session in subsession
+    num_rounds = random.choice([15,16,17,18,19,20])  # !! random value to put into before session in subsession
 
     ## global variables
     nb_sim_years       = 10
@@ -153,6 +153,7 @@ class Group(BaseGroup):
     bmin_round    = models.FloatField()
     bmax_round    = models.FloatField()
     balea         = models.FloatField()
+    b_lim         = models.FloatField()
 
     # Threshold and uncertainty range
     Blim_min      = models.FloatField()
@@ -309,6 +310,7 @@ class Group(BaseGroup):
                                                    stock=self.b_round) * Constants.convertionCurrency,1)
 
         self.total_profit = round(sum([p.profit for p in self.get_players()]),1)
+        self.b_lim = Constants.Blim
 
     ## update biomass for the next year
     def set_biomass(self):

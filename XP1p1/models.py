@@ -154,6 +154,8 @@ class Group(BaseGroup):
     # Threshold and uncertainty range
     Blim_min      = models.FloatField()
     Blim_max      = models.FloatField()
+    b_lim         = models.FloatField()
+
     # Biomass uncertainty
     bmin_round = models.FloatField()
     bmax_round = models.FloatField()
@@ -332,6 +334,7 @@ class Group(BaseGroup):
                                                stock=self.b_round) * Constants.convertionCurrency,1)
 
          self.total_profit = round(sum([p.profit for p in self.get_players()]),1)
+         self.b_lim = Constants.Blim
 
     ## update biomass for the next year
     def set_biomass(self):
