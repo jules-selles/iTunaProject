@@ -277,7 +277,6 @@ class Catch_Choice(Page):
     form_model = models.Player
     form_fields = ['catch_choice']
 
-
 ##-------------------------------
 class CatchChoice_WaitPage(WaitPage):
 

@@ -65,7 +65,7 @@ class Constants(BaseConstants):
     ## oTree variables
     name_in_url       = 'XP1p2FR'  #
     players_per_group = 3
-    num_rounds = 1#random.choice([15,16,17,18,19,20])  # !! random value to put into before session in subsession
+    num_rounds = random.choice([15,16,17,18,19,20])  # !! random value to put into before session in subsession
 
     ## global variables
     nb_sim_years       = 10
