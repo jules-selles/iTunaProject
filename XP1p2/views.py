@@ -283,6 +283,7 @@ class CatchChoice_WaitPage(WaitPage):
 
     def after_all_players_arrive(self):
         self.group.set_payoffs()
+        self.group.set_payoff_prediction()
         #self.group.projection()
         #self.group.projUncertainty()
 

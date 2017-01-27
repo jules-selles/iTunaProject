@@ -304,6 +304,7 @@ class CatchChoice_WaitPage(WaitPage):
 
     def after_all_players_arrive(self):
         self.group.set_payoffs()
+        self.group.set_payoff_prediction()
         #self.group.projection()
         #self.group.projUncertainty()
 
@@ -531,7 +532,6 @@ class ScientificAdvice(Page):
 
         ## Filling the data for graph
         ## Biomass estimation + projection under statu quo (same harvest level)
-
 
         data = {'Biomass': self.group.b_round,
                 'Bmsy': Constants.Bmsy,

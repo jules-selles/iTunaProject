@@ -65,7 +65,7 @@ class Constants(BaseConstants):
     ## oTree variables
     name_in_url       = 'XP1p2FR'  #
     players_per_group = 3
-    num_rounds = random.choice([15,16,17,18,19,20])  # !! random value to put into before session in subsession
+    num_rounds = 1#random.choice([15,16,17,18,19,20])  # !! random value to put into before session in subsession
 
     ## global variables
     nb_sim_years       = 10
@@ -311,6 +311,12 @@ class Group(BaseGroup):
 
         self.total_profit = round(sum([p.profit for p in self.get_players()]),1)
         self.b_lim = Constants.Blim
+
+    ## update payoff and only payoff for player who best predict others harvest
+    def set_payoff_prediction(self):
+        for p in self.get_players():
+            if p.other_choice == self.total_catch - p.catch_choice:
+                p.payoff = p.payoff + 0.2
 
     ## update biomass for the next year
     def set_biomass(self):
