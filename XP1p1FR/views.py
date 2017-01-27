@@ -36,7 +36,7 @@ class Form(Page):
     ##-------------------------------
     ## variables for template
     def vars_for_template(self):
-       data = {'time':time}
+       data = {}
        return data
 
     ##-------------------------------
