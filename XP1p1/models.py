@@ -336,6 +336,12 @@ class Group(BaseGroup):
          self.total_profit = round(sum([p.profit for p in self.get_players()]),1)
          self.b_lim = Constants.Blim
 
+    ## update payoff and only payoff for player who best predict others harvest
+    def set_payoff_prediction(self):
+        for p in self.get_players():
+            if p.other_choice == self.total_catch - p.catch_choice:
+                p.payoff = p.payoff + 0.2
+
     ## update biomass for the next year
     def set_biomass(self):
 
