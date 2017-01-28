@@ -90,7 +90,6 @@ class Test(Page):
 ##-------------------------------
 class resTest(Page):
 
-
     ##-------------------------------
     ## condition to display page
     def is_displayed(self):
@@ -139,7 +138,7 @@ class resTest(Page):
 ##-------------------------------
 class Catch_Pledge(Page):
 
-    #timeout_seconds = 60
+    timeout_seconds = 60
 
     def is_displayed(self):
         return self.group.b_round > 0 or self.group.end is False
@@ -235,7 +234,7 @@ class Pledge_Results(Page):
     ##-------------------------------
     ## variables for template
 
-    #timeout_seconds = 30
+    timeout_seconds = 30
 
     def is_displayed(self):
         return self.group.b_round > 0 or self.group.end is False
@@ -269,7 +268,7 @@ class Pledge_Results(Page):
 ##-------------------------------
 class Catch_Choice(Page):
 
-    #timeout_seconds = 60
+    timeout_seconds = 60
 
     def is_displayed(self):
         return self.group.b_round > 0 or self.group.end is False
@@ -353,7 +352,7 @@ class CatchChoice_WaitPage(WaitPage):
 ##-------------------------------
 class Catch_Results(Page):
 
-    #timeout_seconds = 30
+    timeout_seconds = 30
 
     def is_displayed(self):
         return self.group.b_round > 0 or self.group.end is False
