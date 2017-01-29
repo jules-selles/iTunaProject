@@ -437,8 +437,8 @@ class Player(BasePlayer):
    profession = models.CharField()
    age        = models.PositiveIntegerField()
    playAs     =  models.CharField(
-       choices=["General audience", "Fisherman", "Manager", "Scientist in the field of fisheries",
-                "Scientist (other)","Student in the field of fisheries", "Student (other)"])
+       choices=["Pêcheur", "Gestionnaire dans le domaine de l'halieutique", "Scientifique dans le domaine de l'halieutique",
+                "Scientifique (autre)","Etudiant dans le domaine de l'halieutique", "Etudiant (autre)","Autre"])
 
    # test Form variables
    growthTest     = models.PositiveIntegerField(min=0, max= 3)
