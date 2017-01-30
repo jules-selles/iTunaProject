@@ -5,12 +5,13 @@
 {% block content %}
 
     <p>
-        Avant de commencer la session expérimetnale, nous voulons nous assurer que vous comprenez le processus dynamique de la ressource.
+        Avant de commencer la session expérimentale, nous voulons nous assurer que vous comprenez le processus dynamique de la ressource.
     </p>
 
     <p>
         Tout d'abord, si au début de l'année la biomasse se situe à {{ Constants.b_test }} 10<sup>4</sup> t,
         pourriez-vous indiquer le niveau de regénération du stock (en 10<sup>4</sup> t)?<br>
+        Servez-vous de la fonction de croissance.
 
         {% formfield player.growthTest with label="Croissance de la ressource en 10^4 t pour l'année" %}
 
@@ -20,6 +21,8 @@
         Ensuite, toujours avec un stock de <b>{{ Constants.b_test }} 10<sup>4</sup> t </b> si les {{ Constants.players_per_group }} nations
         décident d'exploiter <b>{{ Constants.c_test }} 10<sup>4</sup> t</b> ({{ Constants.c_ind_test }} 10<sup>4</sup> t chacun),
         Pourriez-vous indiquer combien de bénéfices en 10 <sup> 7 </sup> € l'exploitation va générer cette année? <br>
+        Servez-vous de la fonction de profit et du tableau des profits individuels.
+
 
         {% formfield player.profitTest with label="Profit total en 10^7 € pour l'année" %}
 
