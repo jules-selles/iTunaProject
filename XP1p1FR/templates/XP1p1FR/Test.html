@@ -5,7 +5,7 @@
 {% block content %}
 
     <p>
-        Before beginning the session, We want to make sure that you understand the dynamic process which drive the resource level.
+        Avant de commencer la session expérimetnale, nous voulons nous assurer que vous comprenez le processus dynamique de la ressource.
     </p>
 
     <p>
@@ -18,7 +18,7 @@
 
     <p>
         Ensuite, toujours avec un stock de <b>{{ Constants.b_test }} 10<sup>4</sup> t </b> si les {{ Constants.players_per_group }} nations
-        décident de récolter <b>{{ Constants.c_test }} 10<sup>4</sup> t</b> ({{ Constants.c_ind_test }} 10<sup>4</sup> t chacun),
+        décident d'exploiter <b>{{ Constants.c_test }} 10<sup>4</sup> t</b> ({{ Constants.c_ind_test }} 10<sup>4</sup> t chacun),
         Pourriez-vous indiquer combien de bénéfices en 10 <sup> 7 </sup> € l'exploitation va générer cette année? <br>
 
         {% formfield player.profitTest with label="Profit total en 10^7 € pour l'année" %}
@@ -36,10 +36,9 @@
 
     {% next_button %}
 
-    {% include Constants.profitTable_template %}
 
     {% include Constants.functions_template  %}
-
+    {% include Constants.profitTable_template %}
 
 
 {% endblock %}
