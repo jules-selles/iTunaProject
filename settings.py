@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 #else:
 #    DEBUG = True
 
-DEBUG = True
+DEBUG = TRUE
 
 # Sentry service in production mode
 #SENTRY_DSN = 'http://e0b873e62bfe4ec38b69265e4b7f76fc:1986db995f6444c6b1bb50fc06ce1eed@sentry.otree.org/117'
