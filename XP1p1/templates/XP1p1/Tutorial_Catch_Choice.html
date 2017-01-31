@@ -1,0 +1,25 @@
+{% extends "global/Base.html" %} {% load staticfiles otree_tags %} {% load list_filter %}
+{% block title %} Catch Choice  {% endblock %}
+
+{% block content %}
+
+    <p>
+         Select your harvest level for the year,<br>
+         but keep in mind that all decisions will be available for all coalitions through ICCAT statistics.
+    </p>
+
+    {% formfield player.catch_choice with label="How much will you harvest?" %}
+
+    {% include Constants.scientificAssessment_template %}
+
+    {% include Constants.profitTable_template %}
+
+    {% include Constants.biomassVariationTable_template %}
+
+    {% next_button %}
+
+
+{% include Constants.functions_template  %}
+
+{% endblock %}
+

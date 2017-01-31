@@ -142,7 +142,7 @@ class Catch_Pledge(Page):
     timeout_seconds = 60
 
     def is_displayed(self):
-        return self.group.b_round > 0 or self.group.end is False
+        return self.subsession.round_number != 1 and self.group.b_round > 0 or self.group.end is False
 
     ##-------------------------------
     ## variables for template
@@ -221,6 +221,14 @@ class Catch_Pledge(Page):
 
 
 ##-------------------------------
+class Tutorial_Catch_Pledge(Catch_Pledge):
+
+    timeout_seconds = 240
+
+    def is_displayed(self):
+        return self.subsession.round_number==1
+
+##-------------------------------
 class Pledge_WaitPage(WaitPage):
 
     def is_displayed(self):
@@ -270,7 +278,7 @@ class Pledge_Results(Page):
 class Catch_Choice(Page):
 
     def is_displayed(self):
-        return self.group.b_round > 0 or self.group.end is False
+        return self.subsession.round_number != 1 and self.group.b_round > 0 or self.group.end is False
 
     timeout_seconds = 60
 
@@ -339,6 +347,15 @@ class Catch_Choice(Page):
     ## form set up
     form_model = models.Player
     form_fields = ['catch_choice']
+
+
+##-------------------------------
+class Tutorial_Catch_Choice(Catch_Choice):
+
+    timeout_seconds = 240
+
+    def is_displayed(self):
+        return self.subsession.round_number==1
 
 ##-------------------------------
 class CatchChoice_WaitPage(WaitPage):
@@ -640,9 +657,11 @@ page_sequence = [
     Test,
     resTest,
     Form_WaitPage,
+    Tutorial_Catch_Pledge,
     Catch_Pledge,
     Pledge_WaitPage,
     Pledge_Results,
+    Tutorial_Catch_Choice,
     Catch_Choice,
     CatchChoice_WaitPage,
     Catch_Results,

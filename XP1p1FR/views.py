@@ -26,7 +26,8 @@ class Introduction(Page):
 ##-------------------------------
 class Form(Page):
 
-    timeout_seconds = 90
+    timeout_seconds =  90
+
     ##-------------------------------
     ## condition to display page
     def is_displayed(self):
@@ -49,7 +50,6 @@ class Form(Page):
 class Form_WaitPage(WaitPage):
 
     def after_all_players_arrive(self):
-
         # set biomass
         self.group.set_biomass()
         # set Blim & uncertainty
@@ -68,6 +68,7 @@ class Test(Page):
     ## condition to display page
     def is_displayed(self):
         return self.subsession.round_number == 1
+
 
     ##-------------------------------
     ## variables for template
@@ -135,13 +136,14 @@ class resTest(Page):
 
         return data
 
+
 ##-------------------------------
 class Catch_Pledge(Page):
 
     timeout_seconds = 60
 
     def is_displayed(self):
-        return self.group.b_round > 0 or self.group.end is False
+        return self.subsession.round_number != 1 and self.group.b_round > 0 or self.group.end is False
 
     ##-------------------------------
     ## variables for template
@@ -220,6 +222,14 @@ class Catch_Pledge(Page):
 
 
 ##-------------------------------
+class Tutorial_Catch_Pledge(Catch_Pledge):
+
+    timeout_seconds = 240
+
+    def is_displayed(self):
+        return self.subsession.round_number==1
+
+##-------------------------------
 class Pledge_WaitPage(WaitPage):
 
     def is_displayed(self):
@@ -231,9 +241,9 @@ class Pledge_WaitPage(WaitPage):
 
 ##-------------------------------
 class Pledge_Results(Page):
+
     ##-------------------------------
     ## variables for template
-
     timeout_seconds = 30
 
     def is_displayed(self):
@@ -271,7 +281,7 @@ class Catch_Choice(Page):
     timeout_seconds = 60
 
     def is_displayed(self):
-        return self.group.b_round > 0 or self.group.end is False
+        return self.subsession.round_number != 1 and self.group.b_round > 0 or self.group.end is False
 
     ## variables for template
     def vars_for_template(self):
@@ -338,6 +348,15 @@ class Catch_Choice(Page):
     ## form set up
     form_model = models.Player
     form_fields = ['catch_choice']
+
+
+##-------------------------------
+class Tutorial_Catch_Choice(Catch_Choice):
+
+    timeout_seconds = 240
+
+    def is_displayed(self):
+        return self.subsession.round_number==1
 
 ##-------------------------------
 class CatchChoice_WaitPage(WaitPage):
@@ -518,102 +537,6 @@ class Catch_Results(Page):
                 }
 
 ##-------------------------------
-class ScientificAdvice(Page):
-
-    def is_displayed(self):
-        return self.group.b_round > 0 or self.group.end is False
-
-    timeout_seconds = 60
-
-    ##-------------------------------
-    ## variables for template
-    def vars_for_template(self):
-
-        ##create area range series for projection uncertainty on biomass plot
-        ## projection uncertainty
-        proj = self.group.projection()
-        proj_un = self.group.projUncertainty()
-
-        j = -1
-        UNarea = []
-        seq = list(range(len(proj) + 1))
-
-        # simplify nested list
-        for i in range(1, 2):
-            unArea = sum(proj_un, [])
-
-        for row in unArea[0]:
-            j = j + 1
-            UNarea.append([[seq[j]] + row])
-
-        UNarea = sum(UNarea, [])
-
-        ## color setting
-        if self.session.config['treatment'] == 'T1':
-            colorBlim = "rgba(68, 170, 213, 0)"
-            colorBlim_label='rgba(68, 170, 213, 0)'
-            colorBlim_range = 'rgba(68, 170, 213, 0)'
-            colorBlim_range_label='rgba(68, 170, 213, 0)'
-        elif self.session.config['treatment'] == 'T2':
-            colorBlim ="red"
-            colorBlim_label='gray'
-            colorBlim_range = 'rgba(68, 170, 213, 0)'
-            colorBlim_range_label='rgba(68, 170, 213, 0)'
-        elif self.session.config['treatment'] == 'T3':
-            colorBlim ="rgba(68, 170, 213, 0)"
-            colorBlim_label='rgba(68, 170, 213, 0)'
-            colorBlim_range= 'rgba(213, 70, 150, 0.2)'
-            colorBlim_range_label = 'gray'
-
-        ## Filling the data for graph
-        ## Biomass estimation + projection under statu quo (same harvest level)
-
-        data = {'Biomass': self.group.b_round,
-                'Bmsy': Constants.Bmsy,
-                'Blim':Constants.Blim,
-                'Projection': proj,
-                'UnRange': UNarea,
-                'Blim_min':self.group.Blim_min,
-                'Blim_max': self.group.Blim_max,
-                'years' : Constants.xp_years,
-                'colorBlim':colorBlim,
-                'colorBlim_range':colorBlim_range,
-                'colorBlim_range_label':colorBlim_range_label,
-                'colorBlim_label':colorBlim_label}
-
-        data['seriesBiomass'] = list()
-        data['seriesBmsy'] = list()
-        data['seriesBlim'] = list()
-        data['seriesProjection'] = list()
-        data['seriesUnRange'] = list()
-        data['seriesBlim_min'] = list()
-        data['seriesBlim_max'] = list()
-
-        data['seriesProjection'].append({'name': 'Projection',
-                                         'data': proj})
-        biomass = [p.b_round for p in self.group.in_all_rounds()]
-
-        data['seriesBiomass'].append({'name': 'Biomass', 'data': biomass})
-
-        data['seriesUnRange'].append({'name': 'UnRange',
-                                      'data': UNarea})
-        data['seriesBlim_min'].append({'name': 'Blim_min',
-                                      'data': self.group.Blim_min})
-        data['seriesBlim_max'].append({'name': 'Blim_max',
-                                       'data': self.group.Blim_max})
-
-        data['seriesBiomass'] = safe_json(data['seriesBiomass'])
-        data['seriesBmsy'] = safe_json(data['seriesBmsy'])
-        data['seriesBlim'] = safe_json(data['seriesBlim'])
-        data['seriesProjection'] = safe_json(data['seriesProjection'])
-        data['seriesUnRange'] = safe_json(data['seriesUnRange'])
-        data['seriesBlim_min'] = safe_json(data['seriesBlim_min'])
-        data['seriesBlim_max'] = safe_json(data['seriesBlim_max'])
-
-        return data
-
-    ##-------------------------------
-
 class End(Page):
 
     timeout_seconds = 30
@@ -639,12 +562,13 @@ page_sequence = [
     Test,
     resTest,
     Form_WaitPage,
+    Tutorial_Catch_Pledge,
     Catch_Pledge,
     Pledge_WaitPage,
     Pledge_Results,
+    Tutorial_Catch_Choice,
     Catch_Choice,
     CatchChoice_WaitPage,
     Catch_Results,
-    #ScientificAdvice,
     End
 ]
