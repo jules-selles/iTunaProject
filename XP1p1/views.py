@@ -90,7 +90,6 @@ class Test(Page):
 ##-------------------------------
 class resTest(Page):
 
-
     ##-------------------------------
     ## condition to display page
     def is_displayed(self):
@@ -101,6 +100,7 @@ class resTest(Page):
     def vars_for_template(self):
         g = self.group.growth(b=Constants.b_test) - Constants.b_test
         p = round(self.group.compute_payoff_test(stock=Constants.b_test,harvest=Constants.c_test - (Constants.c_test/Constants.players_per_group),harvestInd=(Constants.c_test/Constants.players_per_group))*Constants.players_per_group,0)
+        pi = round(self.group.compute_payoff_test(stock=Constants.b_test,harvest=Constants.c_test - (Constants.c_test/Constants.players_per_group),harvestInd=(Constants.c_test/Constants.players_per_group)),0)
         b = self.group.schaefer(b=Constants.b_test,c=Constants.c_test)
         j = range(0, len(Constants.choice_catch))
         r = range(0, len(Constants.other_choice_catch))
@@ -118,16 +118,23 @@ class resTest(Page):
         else:
             profitRes = "Great you have the right answer: "
 
+        if self.player.profitIndTest != pi:
+            profitIndRes = "Sorry the answer is: "
+        else:
+            profitIndRes = "Great you have the right answer: "
+
         if self.player.biomassTest != b:
             biomassRes = "Sorry the answer is: "
         else:
             biomassRes = "Great you have the right answer: "
 
         data = {'growthRes':gorwthRes,
-               'profitRes':profitRes,
-               'biomassRes':biomassRes,
+                'profitRes':profitRes,
+                'profitIndRes': profitIndRes,
+                'biomassRes':biomassRes,
                 'g':g,
                 'p':p,
+                'pi':pi,
                 'b':b,
                 'Payoff': tab_payoff,
                 'choicevar': choice,
@@ -142,7 +149,7 @@ class Catch_Pledge(Page):
     timeout_seconds = 60
 
     def is_displayed(self):
-        return self.subsession.round_number != 1 and self.group.b_round > 0 or self.group.end is False
+        return self.subsession.round_number > 2 and self.group.b_round > 0 or self.group.end is False
 
     ##-------------------------------
     ## variables for template
@@ -226,7 +233,7 @@ class Tutorial_Catch_Pledge(Catch_Pledge):
     timeout_seconds = 240
 
     def is_displayed(self):
-        return self.subsession.round_number==1
+        return self.subsession.round_number <= 2
 
 ##-------------------------------
 class Pledge_WaitPage(WaitPage):
@@ -278,7 +285,7 @@ class Pledge_Results(Page):
 class Catch_Choice(Page):
 
     def is_displayed(self):
-        return self.subsession.round_number != 1 and self.group.b_round > 0 or self.group.end is False
+        return self.subsession.round_number > 2 and self.group.b_round > 0 or self.group.end is False
 
     timeout_seconds = 60
 
@@ -355,7 +362,7 @@ class Tutorial_Catch_Choice(Catch_Choice):
     timeout_seconds = 240
 
     def is_displayed(self):
-        return self.subsession.round_number==1
+        return self.subsession.round_number <= 2
 
 ##-------------------------------
 class CatchChoice_WaitPage(WaitPage):
@@ -373,7 +380,7 @@ class Catch_Results(Page):
     timeout_seconds = 60
 
     def is_displayed(self):
-        return self.group.b_round > 0 or self.group.end is False
+        return self.subsession.round_number > 2  and self.group.b_round > 0 or self.group.end is False
 
     ##-------------------------------
     ## variables for template
@@ -536,6 +543,14 @@ class Catch_Results(Page):
                 }
 
 ##-------------------------------
+class Tutorial_Catch_Results(Catch_Results):
+
+    timeout_seconds = 240
+
+    def is_displayed(self):
+        return self.subsession.round_number <= 2
+
+##-------------------------------
 class ScientificAdvice(Page):
 
     def is_displayed(self):
@@ -664,6 +679,7 @@ page_sequence = [
     Tutorial_Catch_Choice,
     Catch_Choice,
     CatchChoice_WaitPage,
+    Tutorial_Catch_Results,
     Catch_Results,
     #ScientificAdvice,
     End

@@ -427,13 +427,13 @@ class Catch_Results(Page):
         data['seriesBlim_max'] = list()
 
         seriesCatch=[]
-        seriesCatch.append({'name': 'Own Catch', 'data': catch_round})
-        seriesCatch.append({'name':'Total Catch', 'data': totalCatch_round})
+        seriesCatch.append({'name': 'Ma capture', 'data': catch_round})
+        seriesCatch.append({'name':'Capture totale', 'data': totalCatch_round})
         Catchseries = safe_json(seriesCatch)
 
         seriesProfit = []
-        seriesProfit.append({'name': 'Own Profit', 'data': profit_round})
-        seriesProfit.append({'name': 'Total Profit', 'data': totalProfit_round})
+        seriesProfit.append({'name': 'Mon profit', 'data': profit_round})
+        seriesProfit.append({'name': 'Profit total', 'data': totalProfit_round})
         Profitseries = safe_json(seriesProfit)
 
         data['seriesProjection'].append({'name': 'Projection',
@@ -617,7 +617,7 @@ class End(Page):
         return self.subsession.round_number == Constants.num_rounds or self.group.b_round <= 0
 
 ##-------------------------------
-class Form(Page):
+class Formend(Page):
 
         timeout_seconds = 120
 
@@ -651,5 +651,5 @@ page_sequence = [
     Catch_Results,
     #ScientificAdvice,
     End,
-    Form
+    Formend
 ]

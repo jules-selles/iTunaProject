@@ -1,0 +1,22 @@
+{% extends "global/Base.html" %} {% load staticfiles otree_tags %} {% load list_filter %}
+
+{% block title %} Survey about the Experiment  {% endblock %}
+
+{% block content %}
+
+    <p>
+        Please, complete this survey before proceeding to the payment.
+    </p>
+
+    {% formfield player.dynamicKnowledge with label="Were you fully understand the dynamic of the resource? " %}
+    {% formfield player.groupCooperation with label="Has your group been able to cooperate?" %}
+    {% formfield player.leverageCooperation with label="What was the main element responsible for cooperation or non-cooperation during the experiment?" %}
+    {% formfield player.suffConditionCooperation with label="Did the possible benefits in case of cooperation seem to you a necessary condition for cooperation during the expériment? " %}
+    {% formfield player.suffConditionCooperation with label="Has uncertainty about the resource level in phase 2 impeded the development of a cooperative strategy? " %}
+    {% formfield player.biomassUncertainty with label="Has uncertainty about the level of the resource impeded your perception of your earnings and the dynamic of the resource? " %}
+    {% formfield player.blimUncertainty with label="If you were not subject to the threshold limit, select: Not in my treatment.Else, has the uncertainty on the Blim threshold promoted your development of a cooperative strategy? " %}
+
+    {% next_button %}
+
+{% endblock %}
+

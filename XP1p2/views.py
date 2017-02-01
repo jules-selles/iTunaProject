@@ -597,7 +597,7 @@ class End(Page):
         return self.subsession.round_number == Constants.num_rounds or self.group.b_round <= 0
 
 ##-------------------------------
-class Form(Page):
+class FormEnd(Page):
 
         timeout_seconds = 120
 
@@ -631,5 +631,5 @@ page_sequence = [
     Catch_Results,
     #ScientificAdvice,
     End,
-    Form
+    FormEnd
 ]

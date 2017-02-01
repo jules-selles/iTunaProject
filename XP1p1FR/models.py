@@ -63,12 +63,13 @@ class Constants(BaseConstants):
     endPhase_template              = xp_name + '/endPhase.html'
 
     convertionCurrency    = 0.035
+    anticipation          = 0.2
 
     ##-------------------------------
     ## oTree parameters
     name_in_url       = 'XP1p1FR'  #
     players_per_group = 3
-    num_rounds        = random.choice([15])  # !! random value to put into before session in subsession
+    num_rounds        = 1#random.choice([15])  # !! random value to put into before session in subsession
 
     ##-------------------------------
     ## Model parameters
@@ -338,7 +339,7 @@ class Group(BaseGroup):
     def set_payoff_prediction(self):
         for p in self.get_players():
             if p.other_choice == self.total_catch - p.catch_choice:
-                p.payoff = p.payoff + 0.2
+                p.payoff = p.payoff + Constants.anticipation
 
     ## update biomass for the next year
     def set_biomass(self):
@@ -442,8 +443,8 @@ class Player(BasePlayer):
 
    # test Form variables
    growthTest     = models.PositiveIntegerField(min=0, max= 3)
-   profitTest     = models.PositiveIntegerField(min=-50, max=150)
-   profitIndTest  = models.PositiveIntegerField(min=-50, max=150)
+   profitTest     = models.PositiveIntegerField(min=0, max=150)
+   profitIndTest  = models.PositiveIntegerField(min=0, max=150)
    biomassTest    = models.PositiveIntegerField(min=0, max=70)
 
    ##-------------------------------

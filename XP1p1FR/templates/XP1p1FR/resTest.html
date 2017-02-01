@@ -25,6 +25,16 @@
     </p>
 
     <p>
+        Toujours dans les mêmes conditions si les {{ Constants.players_per_group }} nations
+        décident d'exploiter <b>{{ Constants.c_test }} 10<sup>4</sup> t</b> ({{ Constants.c_ind_test }} 10<sup>4</sup> t chacun),<br>
+        Pourriez-vous indiquer combien de bénéfices en 10 <sup> 7 </sup> € vous allez gagner cette année? <br>
+        Servez-vous du tableau des profits individuels.<br>
+
+        <b>{{ profitIndRes }} {{ pi }}</b>
+
+    </p>
+
+    <p>
         Enfin, toujours avec un stock de <b>{{ Constants.b_test }} 10<sup>4</sup> t</b> et une capture totale de <b>{{ Constants.c_test }} 10<sup>4</sup> t</b> par les
         {{ Constants.players_per_group }} nations ({{ Constants.c_ind_test }} 10<sup>4</sup> t chacun), pourriez-vous indiquer le niveau de biomasse en 10 <sup> 4 </sup> t
         qui sera disponible pour l'année suivante? <br>
@@ -40,8 +50,7 @@
     {% next_button %}
 
 
-    {% include Constants.profitTable_template %}
-
     {% include Constants.functions_template  %}
+    {% include Constants.profitTable_template %}
 
 {% endblock %}

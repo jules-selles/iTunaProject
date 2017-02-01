@@ -10,7 +10,7 @@
 
     <p>
         First of all, if at the beginning of the year the biomass is at a level of {{ Constants.b_test }}10<sup>4</sup> t, could you indicate how many units
-        (in 10<sup>4</sup> t) the stock will regenerate for the next year ?
+        (in 10<sup>4</sup> t) the stock will grow for the next year ?
         Use the growth function.
 
         {% formfield player.growthTest with label="Resource growth in 10^4 t for the year" %}
@@ -30,8 +30,8 @@
       <p>
         Under the same conditions, if the {{ Constants.players_per_group }} nations
         decide to harvest <b>{{ Constants.c_test }} 10<sup>4</sup> t</b> ({{ Constants.c_ind_test }} 10<sup>4</sup> t each),
-        Could you indicate how many profits in 10 <sup> 7 </sup> € you will win this year?? <br>
-        Use the table of individual profits.
+        Could you indicate how many profits in 10 <sup> 7 </sup> € you will win this year? <br>
+        Use the table of individual profits and round to the lower integer.
 
         {% formfield player.profitIndTest with label="Individual profit in 10^7 € for the year" %}
 
@@ -48,7 +48,6 @@
 
 
     {% next_button %}
-
 
     {% include Constants.functions_template  %}
     {% include Constants.profitTable_template %}
