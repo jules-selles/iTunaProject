@@ -314,7 +314,7 @@ class CatchChoice_WaitPage(WaitPage):
 ##-------------------------------
 class Catch_Results(Page):
 
-    timeout_seconds = 30
+    timeout_seconds = 60
 
     def is_displayed(self):
         return self.group.b_round > 0 or self.group.end is False

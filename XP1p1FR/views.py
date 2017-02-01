@@ -62,7 +62,7 @@ class Form_WaitPage(WaitPage):
 ##-------------------------------
 class Test(Page):
 
-    timeout_seconds = 240
+    timeout_seconds = 300
 
     ##-------------------------------
     ## condition to display page
@@ -86,7 +86,7 @@ class Test(Page):
     ##-------------------------------
     ## form set up
     form_model = models.Player
-    form_fields = ['growthTest', 'profitTest','biomassTest']
+    form_fields = ['growthTest', 'profitTest','profitIndTest','biomassTest']
 
 ##-------------------------------
 class resTest(Page):
@@ -371,7 +371,7 @@ class CatchChoice_WaitPage(WaitPage):
 ##-------------------------------
 class Catch_Results(Page):
 
-    timeout_seconds = 30
+    timeout_seconds = 60
 
     def is_displayed(self):
         return self.subsession.round_number != 1 and self.group.b_round > 0 or self.group.end is False

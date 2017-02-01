@@ -445,6 +445,7 @@ class Player(BasePlayer):
    # test Form variables
    growthTest     = models.PositiveIntegerField(min=0, max= 3)
    profitTest     = models.PositiveIntegerField(min=-50, max=150)
+   profitIndTest  = models.PositiveIntegerField(min=-50, max=150)
    biomassTest    = models.PositiveIntegerField(min=0, max=70)
 
    ##-------------------------------
