@@ -374,7 +374,7 @@ class Catch_Results(Page):
     timeout_seconds = 30
 
     def is_displayed(self):
-        return self.group.b_round > 0 or self.group.end is False
+        return self.subsession.round_number != 1 and self.group.b_round > 0 or self.group.end is False
 
     ##-------------------------------
     ## variables for template
@@ -537,6 +537,14 @@ class Catch_Results(Page):
                 }
 
 ##-------------------------------
+class Tutorial_Catch_Results(Catch_Results):
+
+    timeout_seconds = 240
+
+    def is_displayed(self):
+        return self.subsession.round_number == 1
+
+##-------------------------------
 class End(Page):
 
     timeout_seconds = 30
@@ -569,6 +577,7 @@ page_sequence = [
     Tutorial_Catch_Choice,
     Catch_Choice,
     CatchChoice_WaitPage,
+    Tutorial_Catch_Results,
     Catch_Results,
     End
 ]
