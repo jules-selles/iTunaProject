@@ -471,13 +471,13 @@ class Catch_Results(Page):
 
         # create series to plot
         seriesCatch=[]
-        seriesCatch.append({'name': 'Ma Capture', 'data': catch_round})
-        seriesCatch.append({'name':'Capture totale', 'data': totalCatch_round})
+        seriesCatch.append({'name': 'Own catch', 'data': catch_round})
+        seriesCatch.append({'name':'Total catch', 'data': totalCatch_round})
         Catchseries = safe_json(seriesCatch)
 
         seriesProfit = []
-        seriesProfit.append({'name': 'Mon profit', 'data': profit_round})
-        seriesProfit.append({'name': 'Profit total', 'data': totalProfit_round})
+        seriesProfit.append({'name': 'Own profit', 'data': profit_round})
+        seriesProfit.append({'name': 'Total profit', 'data': totalProfit_round})
         Profitseries = safe_json(seriesProfit)
 
         data['seriesBiomass'] = list()
