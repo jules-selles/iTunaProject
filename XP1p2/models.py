@@ -65,7 +65,7 @@ class Constants(BaseConstants):
     ## oTree variables
     name_in_url       = 'XP1p2'  #
     players_per_group = 3
-    num_rounds = random.choice([15,16,17,18,19,20])  # !! random value to put into before session in subsession
+    num_rounds        = 18  # !! random value to put into before session in subsession
 
     ## global variables
     nb_sim_years       = 10
@@ -87,7 +87,7 @@ class Constants(BaseConstants):
     Blim_uncertainty  = 0.4 #uncertainty range around Blim []
     Blim_unmin        = int(Blim_un - (Blim_un*Blim_uncertainty))
     Blim_unmax        = int(Blim_un + (Blim_un*Blim_uncertainty))
-    Blim              = random.choice(list(range(Blim_unmin, Blim_unmax + 1)))  # Blim [10^3 t]
+    Blim              = 20  # Blim [10^3 t]
 
     ##-------------------------------
     ## economic variables
