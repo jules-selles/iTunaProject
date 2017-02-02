@@ -69,7 +69,7 @@ class Constants(BaseConstants):
     ## oTree parameters
     name_in_url       = 'XP1p1FR'  #
     players_per_group = 3
-    num_rounds        = 1#random.choice([15])  # !! random value to put into before session in subsession
+    num_rounds        = random.choice([15])  # !! random value to put into before session in subsession
 
     ##-------------------------------
     ## Model parameters
