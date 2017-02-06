@@ -86,7 +86,7 @@ class Test(Page):
     ##-------------------------------
     ## form set up
     form_model = models.Player
-    form_fields = ['growthTest', 'profitTest','profitIndTest','biomassTest']
+    form_fields = ['growthTest', 'profitTest','profitIndTest']
 
 ##-------------------------------
 class resTest(Page):
@@ -125,15 +125,9 @@ class resTest(Page):
         else:
             profitIndRes = "Bravo vous avez la bonne réponse: "
 
-        if self.player.biomassTest != b:
-            biomassRes = "Désolé, mais la réponse est: "
-        else:
-            biomassRes = "Bravo vous avez la bonne réponse: "
-
         data = {'growthRes':gorwthRes,
                 'profitRes':profitRes,
                 'profitIndRes': profitIndRes,
-                'biomassRes':biomassRes,
                 'g':g,
                 'p':p,
                 'pi':pi,
