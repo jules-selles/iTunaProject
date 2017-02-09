@@ -100,7 +100,7 @@ class resTest(Page):
     def vars_for_template(self):
         g = self.group.growth(b=Constants.b_test) - Constants.b_test
         p = round(self.group.compute_payoff_test(stock=Constants.b_test,harvest=Constants.c_test - (Constants.c_test/Constants.players_per_group),harvestInd=(Constants.c_test/Constants.players_per_group))*Constants.players_per_group,0)
-        pi = round(self.group.compute_payoff_test(stock=Constants.b_test,harvest=Constants.c_test - (Constants.c_test/Constants.players_per_group),harvestInd=(Constants.c_test/Constants.players_per_group)),0)
+        pi = round(self.group.compute_payoff_test(stock=Constants.b_test,harvest=Constants.c_test - (Constants.c_test/Constants.players_per_group),harvestInd=(Constants.c_test/Constants.players_per_group)),1)
         b = self.group.schaefer(b=Constants.b_test,c=Constants.c_test)
         j = range(0, len(Constants.choice_catch))
         r = range(0, len(Constants.other_choice_catch))
@@ -427,6 +427,8 @@ class Catch_Results(Page):
         oProfit = []
         oID = []
         oData =[]
+        IndHarvestEuros = []
+        IndpredEuros = []
 
         # own cacth & profit per player
         for p in self.player.in_all_rounds():
@@ -434,6 +436,9 @@ class Catch_Results(Page):
             profit_round.append(p.profit)
             totalIndCatch  = round(sum(catch_round),1)
             totalIndProfit = round(sum(profit_round),1)
+            IndHarvestEuros = round(sum(profit_round) * Constants.convertionCurrency, 1)
+
+        IndpredEuros = self.participant.payoff - round(IndHarvestEuros, 1)
 
         # others cacth & profit per player
         for p in self.player.get_others_in_group():
@@ -456,6 +461,7 @@ class Catch_Results(Page):
         data = {'Player': self.player.id_in_group, 'Catch': catch_round,'Profit': profit_round,
                 'TotalIndCatch':totalIndCatch,'TotalIndProfit':totalIndProfit,
                 'Total_catch':  totalCatch_round, 'Total_profit':  totalProfit_round,
+                'Harvestpayoff': IndHarvestEuros, 'Predpayoff': IndpredEuros,
                 'Biomass': self.group.b_round,
                 'Bmsy': Constants.Bmsy,
                 'Blim': Constants.Blim,
@@ -512,6 +518,7 @@ class Catch_Results(Page):
 
         return {'data': data, 'Catchseries': Catchseries, 'Profitseries': Profitseries,'others_data':others_data,
                 'nation': oData[0], 'catch': oData[1], 'profit': oData[2],
+                'Harvestpayoff': IndHarvestEuros, 'Predpayoff': IndpredEuros,
                 'TotalIndProfit': totalIndProfit,
                 'seriesBiomass': data['seriesBiomass'],
                 'seriesBmsy': data['seriesBmsy'],

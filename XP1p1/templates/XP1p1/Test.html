@@ -19,9 +19,9 @@
 
     <p>
         Then, still with a stock of {{ Constants.b_test }} 10<sup>4</sup> t if the {{ Constants.players_per_group }} nations decide to harvest
-        {{ Constants.c_test }} 10<sup>4</sup> t ({{ Constants.c_ind_test }} 10<sup>4</sup> t each), could you indicate how many
+        {{ Constants.c_test }} 10<sup>4</sup> t, could you indicate how many
         profit (in 10<sup>7</sup> €) the harvest will generate this year?
-        Use the profit function and the table of individual profits.
+        Use the profit function and round the value.
 
         {% formfield player.profitTest with label="Total profit in 10^7 € for the year" %}
 
@@ -30,8 +30,8 @@
       <p>
         Under the same conditions, if the {{ Constants.players_per_group }} nations
         decide to harvest <b>{{ Constants.c_test }} 10<sup>4</sup> t</b> ({{ Constants.c_ind_test }} 10<sup>4</sup> t each),
-        Could you indicate how many profits in 10 <sup> 7 </sup> € you will win this year? <br>
-        Use the table of individual profits and round to the lower integer.
+        Could you indicate how many profits in 10 <sup> 7 </sup> € you will win this year (individual profit)? <br>
+        Use the table of individual profits.
 
         {% formfield player.profitIndTest with label="Individual profit in 10^7 € for the year" %}
 

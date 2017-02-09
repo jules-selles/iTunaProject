@@ -69,7 +69,7 @@ class Constants(BaseConstants):
     ## oTree parameters
     name_in_url       = 'XP1p1FR'  #
     players_per_group = 3
-    num_rounds        = random.choice([15])  # !! random value to put into before session in subsession
+    num_rounds        = 1#random.choice([15])  # !! random value to put into before session in subsession
 
     ##-------------------------------
     ## Model parameters
@@ -444,8 +444,8 @@ class Player(BasePlayer):
    # test Form variables
    growthTest     = models.PositiveIntegerField(min=0, max= 3)
    profitTest     = models.PositiveIntegerField(min=0, max=150)
-   profitIndTest  = models.PositiveIntegerField(min=0, max=150)
-   biomassTest    = models.PositiveIntegerField(min=0, max=70)
+   profitIndTest  = models.FloatField()
+  #biomassTest    = models.PositiveIntegerField(min=0, max=70)
 
    ##-------------------------------
    ## players variables

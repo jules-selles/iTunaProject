@@ -19,9 +19,9 @@
 
     <p>
         Ensuite, toujours avec un stock de <b>{{ Constants.b_test }} 10<sup>4</sup> t </b> si les {{ Constants.players_per_group }} nations
-        décident d'exploiter <b>{{ Constants.c_test }} 10<sup>4</sup> t</b> ({{ Constants.c_ind_test }} 10<sup>4</sup> t chacun),
-        Pourriez-vous indiquer combien de bénéfices en 10 <sup> 7 </sup> € l'exploitation va générer cette année? <br>
-        Servez-vous de la fonction de profit et du tableau des profits individuels.
+        décident d'exploiter <b>{{ Constants.c_test }} 10<sup>4</sup> t</b>,
+        Pourriez-vous indiquer combien de bénéfices en 10 <sup> 7 </sup> € l'exploitation va générer au total cette année? <br>
+        Servez-vous de la fonction de profit et arrondissez la valeur.
 
         {% formfield player.profitTest with label="Profit total en 10^7 € pour l'année" %}
 
@@ -30,8 +30,8 @@
     <p>
         Toujours dans les mêmes conditions si les {{ Constants.players_per_group }} nations
         décident d'exploiter <b>{{ Constants.c_test }} 10<sup>4</sup> t</b> ({{ Constants.c_ind_test }} 10<sup>4</sup> t chacun),<br>
-        Pourriez-vous indiquer combien de bénéfices en 10 <sup> 7 </sup> € vous allez gagner cette année? <br>
-        Servez-vous du tableau des profits individuels et arrondissez à l'entier inférieur.
+        Pourriez-vous indiquer combien de bénéfices en 10 <sup> 7 </sup> € vous allez gagner cette année (profit individuel)? <br>
+        Servez-vous du tableau des profits individuels.
 
         {% formfield player.profitIndTest with label="Profit individuel en 10^7 € pour l'année" %}
 
