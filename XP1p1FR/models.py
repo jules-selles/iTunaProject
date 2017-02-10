@@ -69,7 +69,7 @@ class Constants(BaseConstants):
     ## oTree parameters
     name_in_url       = 'XP1p1FR'  #
     players_per_group = 3
-    num_rounds        = 1#random.choice([15])  # !! random value to put into before session in subsession
+    num_rounds        = random.choice([15])  # !! random value to put into before session in subsession
 
     ##-------------------------------
     ## Model parameters
@@ -445,7 +445,28 @@ class Player(BasePlayer):
    growthTest     = models.PositiveIntegerField(min=0, max= 3)
    profitTest     = models.PositiveIntegerField(min=0, max=150)
    profitIndTest  = models.FloatField()
-  #biomassTest    = models.PositiveIntegerField(min=0, max=70)
+   biomassTest    = models.FloatField()
+
+   # 2nd Form variables
+   dynamicKnowledge = models.CharField(
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord,n ni pas d'accord",
+                "pas d'accord", "Complètement pas d'accord"])
+   groupCooperation = models.CharField(
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord,n ni pas d'accord",
+                "pas d'accord", "Complètement pas d'accord"])
+   leverageCooperation = models.CharField(
+       choices=["Analyse du tableau des profits", "Analyse des propositions", "Analyse du niveau de biomasse",
+                "Analyse du niveau de capture et de profit des autres participants"])
+   suffConditionCooperation = models.CharField(
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord,n ni pas d'accord",
+                "pas d'accord", "Complètement pas d'accord"])
+   biomassUncertainty = models.CharField(
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord,n ni pas d'accord",
+                "pas d'accord", "Complètement pas d'accord"])
+
+   blimUncertainty = models.CharField(
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord,n ni pas d'accord",
+                "pas d'accord", "Complètement pas d'accord", "Pas dans mon traitement"])
 
    ##-------------------------------
    ## players variables

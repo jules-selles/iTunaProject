@@ -65,7 +65,7 @@ class Constants(BaseConstants):
     ## oTree variables
     name_in_url       = 'XP1p2FR'
     players_per_group = 3
-    num_rounds        = 1#18  # !! random value to put into before session in subsession
+    num_rounds        = 18  # !! random value to put into before session in subsession
 
     ## global variables
     nb_sim_years       = 10
@@ -407,6 +407,12 @@ class Player(BasePlayer):
    # treatment assigment variable
    TT = models.CharField() # treatment player variable
 
+   # test Form variables
+   growthTest    = models.PositiveIntegerField(min=0, max=3)
+   profitTest    = models.PositiveIntegerField(min=0, max=150)
+   profitIndTest = models.FloatField()
+   biomassTest   = models.PositiveIntegerField()
+
    ##-------------------------------
    # 1st Form variables
    name = models.CharField()
@@ -415,7 +421,7 @@ class Player(BasePlayer):
    playAs = models.CharField(
        choices=["General audience", "Fisherman", "Manager", "Scientist in the field of fisheries",
                 "Scientist (other)", "Student in the field of fisheries", "Student (other)"])
-
+   # 2nd Form variables
    dynamicKnowledge = models.CharField(
        choices=["Complètement d'accord", "D'accord", "Ni d'accord,n ni pas d'accord",
                 "pas d'accord", "Complètement pas d'accord"])
