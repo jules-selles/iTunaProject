@@ -1,0 +1,42 @@
+{% extends "global/Base.html" %} {% load staticfiles otree_tags %} {% load list_filter %}
+
+{% block title %} Estimation et Proposition {% endblock %}
+
+{% block content %}
+   <div class="panel panel-default">
+     <div class="panel-heading">Identification</div>
+     <div class="panel-body" >
+
+        <p> <b>ID :</b> {{ MyID }} </p>
+        <p> <b> Période :</b> {{ Round }} , <b> Année :</b> {{ Year }}  </p>
+
+      </div>
+   </div>
+
+       {% include Constants.scientificAssessment_template %}
+
+     <p>
+        Sélectionnez votre estimation de la capture agrégée des autres participants pour l'année.<br>
+        Cette estimation doit refléter votre anticipation de la stratégie d'exploitation de vos concurrents sur laquelle vous basez votre propore stratégie.
+     </p>
+
+        {% formfield player.other_choice with label="Estimez l'exploitation des autres nations pour l'année" %}
+
+    <p>
+        Sélectionnez votre proposition d'exploitation pour l'année aux autres participants.<br>
+        Cette annonce et celles des autres participants vous seront utiles pour établir votre stratégie d'exploitation.<br>
+        Gardez à l'esprit que les captures que vous effectuerez seront rendues publiques par la <b> CICTA </b>.
+    </p>
+
+  {% formfield player.catch_pledge with label="Faite votre proposition d'exploitation pour l'année" %}
+
+ {% include Constants.profitTable_template %}
+
+ {% include Constants.biomassVariationTable_template %}
+
+ {% next_button %}
+
+
+{% include Constants.functions_template  %}
+
+{% endblock %}
