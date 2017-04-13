@@ -9,31 +9,31 @@
     </p>
 
     <p>
-        Tout d'abord, si au début de l'année la biomasse se situe à {{ Constants.b_test }} 10<sup>4</sup> t,
-        pourriez-vous indiquer le niveau de croissance du stock (en 10<sup>4</sup> t)?<br>
+        Tout d'abord, si au début de l'année la ressource (biomasse) se situe à {{ Constants.b_test }} unités,
+        pourriez-vous indiquer le niveau de croissance du stock ?<br>
         Servez-vous de la fonction de croissance.
 
-        {% formfield player.growthTest with label="Croissance de la ressource en 10^4 t pour l'année" %}
+        {% formfield player.growthTest with label="Croissance de la ressource pour l'année" %}
 
     </p>
 
     <p>
-        Ensuite, toujours avec un stock de <b>{{ Constants.b_test }} 10<sup>4</sup> t </b> si les {{ Constants.players_per_group }} nations
-        décident d'exploiter <b>{{ Constants.c_test }} 10<sup>4</sup> t</b>,
-        Pourriez-vous indiquer combien de bénéfices en 10 <sup> 7 </sup> € l'exploitation va générer au total cette année? <br>
+        Ensuite, toujours avec un stock de <b>{{ Constants.b_test }} unités </b> si les {{ Constants.players_per_group }} nations
+        décident d'exploiter <b>{{ Constants.c_test }} unités </b>.
+        Pourriez-vous indiquer combien de bénéfices, profits en unités, l'exploitation va générer au total cette année? <br>
         Servez-vous de la fonction de profit et arrondissez la valeur.
 
-        {% formfield player.profitTest with label="Profit total en 10^7 € pour l'année" %}
+        {% formfield player.profitTest with label="Profit total pour l'année" %}
 
     </p>
 
     <p>
         Toujours dans les mêmes conditions si les {{ Constants.players_per_group }} nations
-        décident d'exploiter <b>{{ Constants.c_test }} 10<sup>4</sup> t</b> ({{ Constants.c_ind_test }} 10<sup>4</sup> t chacun),<br>
-        Pourriez-vous indiquer combien de bénéfices en 10 <sup> 7 </sup> € vous allez gagner cette année (profit individuel)? <br>
+        décident d'exploiter <b>{{ Constants.c_test }} unités </b> ({{ Constants.c_ind_test }} unités chacun),<br>
+        Pourriez-vous indiquer combien de bénéfices, profits, vous allez gagner cette année (profit individuel)? <br>
         Servez-vous du tableau des profits individuels.
 
-        {% formfield player.profitIndTest with label="Profit individuel en 10^7 € pour l'année" %}
+        {% formfield player.profitIndTest with label="Profit individuel pour l'année" %}
 
     </p>
 
