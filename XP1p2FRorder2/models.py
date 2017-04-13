@@ -71,7 +71,7 @@ class Constants(BaseConstants):
     ## oTree variables
     name_in_url       = 'XP1p2FRorder2'
     players_per_group = 3
-    num_rounds        = 8 #15  #
+    num_rounds        = 15
 
     ## global variables
     nb_sim_years       = 10
