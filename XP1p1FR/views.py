@@ -424,24 +424,25 @@ class Catch_Results(Page):
         totalCatch_round = []
         totalIndCatch    = []
         profit_round     = []
+        predProfit_round = []
         totalProfit_round= []
         totalIndProfit   = []
         oCatch           = []
         oProfit          = []
         oID              = []
-        oData            =[]
-        IndHarvestEuros  =[]
-        IndpredEuros     =[]
+        oData            = []
+        IndHarvestEuros  = []
+        IndpredEuros     = []
 
         # own cacth & profit per player
         for p in self.player.in_all_rounds():
             catch_round.append(p.catch_choice)
             profit_round.append(p.profit)
+            predProfit_round.append(p.predProfit)
             totalIndCatch  = round(sum(catch_round),1)
             totalIndProfit = round(sum(profit_round),1)
             IndHarvestEuros= round(sum(profit_round) * Constants.convertionCurrency, 1)
-
-        IndpredEuros = self.participant.payoff - round(IndHarvestEuros,1)
+            IndpredEuros   = round(sum(predProfit_round), 1)
 
         # others cacth & profit per player
         for p in self.player.get_others_in_group():
@@ -462,7 +463,7 @@ class Catch_Results(Page):
 
         # gather data to make series
         data = {'Player': self.player.id_in_group, 'Catch': catch_round,'Profit': profit_round,
-                'TotalIndCatch':totalIndCatch,'TotalIndProfit':totalIndProfit,
+                'TotalIndCatch':totalIndCatch,'TotalIndProfit':totalIndProfit,'payoff':self.participant.payoff,
                 'Harvestpayoff':IndHarvestEuros,'Predpayoff': IndpredEuros,
                 'Total_catch':  totalCatch_round, 'Total_profit':  totalProfit_round,
                 'Biomass': self.group.b_round,
@@ -523,6 +524,7 @@ class Catch_Results(Page):
                 'nation': oData[0], 'catch': oData[1], 'profit': oData[2],
                 'Harvestpayoff': IndHarvestEuros, 'Predpayoff': IndpredEuros,
                 'TotalIndProfit': totalIndProfit,
+                'payoff':self.participant.payoff,
                 'seriesBiomass': data['seriesBiomass'],
                 'seriesBmsy': data['seriesBmsy'],
                 'seriesBlim': data['seriesBlim'],
@@ -565,8 +567,27 @@ class End(Page):
                     '.... Cliquez sur l bouton next jusqu à passer en phase 2 .... '
         else:
             message='_'
-        data={'message':message}
 
+        c_round    = []
+        p_round    = []
+        pred_round = []
+        totC       = []
+        totP       = []
+        totPred    = []
+
+        for p in self.player.in_all_rounds():
+            c_round.append(p.catch_choice)
+            p_round.append(p.profit)
+            pred_round.append(p.predProfit)
+            totC    = sum(c_round)
+            totP    = sum(p_round )
+            totPred = sum(pred_round)
+
+        euros = round(totP * Constants.convertionCurrency,1) + round(totPred,1)
+
+        data = {'cumulatedMoney':euros,
+                'profit':self.player.profit,
+                'message': message}
         return (data)
 
     def is_displayed(self):
