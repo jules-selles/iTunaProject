@@ -1,0 +1,22 @@
+{% load staticfiles otree_tags %}
+{% load list_filter %}
+{% load staticfiles  %}
+
+   <div class="panel panel-default">
+     <div class="panel-heading">Evaluation Scientifique</div>
+            <div class="panel-body" >
+                <p>La commission scientifique de la <b>CICTA</b> vous donne une estimation du niveau de biomasse:</p>
+                <div id="containerScientificAdvice" style="width: 500px; height: 250px; margin: 0 auto"></div>
+                 {% block scripts %}
+                    <script src="https://code.highcharts.com/highcharts.js"></script>
+                    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+                    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+
+                    <script>
+                        {% include "XP1p2FR/plot_scientificAdvice.js.html" %}
+                    </script>
+
+                {% endblock %}
+            </div>
+     </div>
+   </div>

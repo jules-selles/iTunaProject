@@ -1,0 +1,47 @@
+{% extends "global/Base.html" %} {% load staticfiles otree_tags %} {% load list_filter %}
+
+{% block title %} Test {% endblock %}
+
+{% block content %}
+
+    <p>
+        Avant de commencer la session expérimentale, nous voulons nous assurer que vous comprenez le processus dynamique de la ressource.
+    </p>
+
+    <p>
+        Tout d'abord, si au début de l'année la ressource (biomasse) se situe à {{ Constants.b_test }} unités,
+        pourriez-vous indiquer le niveau de croissance du stock ?<br>
+        Servez-vous de la fonction de croissance.
+
+        {% formfield player.growthTest with label="Croissance de la ressource pour l'année" %}
+
+    </p>
+
+    <p>
+        Ensuite, toujours avec un stock de <b>{{ Constants.b_test }} unités </b> si les {{ Constants.players_per_group }} nations
+        décident d'exploiter <b>{{ Constants.c_test }} unités </b>.
+        Pourriez-vous indiquer combien de bénéfices, profits en unités, l'exploitation va générer au total cette année? <br>
+        Servez-vous de la fonction de profit et arrondissez la valeur.
+
+        {% formfield player.profitTest with label="Profit total pour l'année" %}
+
+    </p>
+
+    <p>
+        Toujours dans les mêmes conditions si les {{ Constants.players_per_group }} nations
+        décident d'exploiter <b>{{ Constants.c_test }} unités </b> ({{ Constants.c_ind_test }} unités chacun),<br>
+        Pourriez-vous indiquer combien de bénéfices, profits, vous allez gagner cette année (profit individuel)? <br>
+        Servez-vous du tableau des profits individuels.
+
+        {% formfield player.profitIndTest with label="Profit individuel pour l'année" %}
+
+    </p>
+
+    {% next_button %}
+
+
+    {% include Constants.functions_template  %}
+    {% include Constants.profitTable_template %}
+
+
+{% endblock %}
