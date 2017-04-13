@@ -1,15 +1,15 @@
 {% extends "global/Base.html" %} {% load staticfiles otree_tags %}
 
-{% block title %} CICTA statistiques {% endblock %}
+{% block title %} Résultats de l'exploitation {% endblock %}
 
 {% block content %}
 
 <p>
     Vous avez sélectionnez une capture de {{ player.catch_choice }} (10<sup>4</sup> t).
-    Votre exploitation vous a permis d'engranger un profit de{{ player.profit }} (10<sup>7</sup> €). <br>
-    <b> Votre profit cumulé depuis le début de la pêcherie est de {{ TotalIndProfit }} (10<sup>7</sup> €). </b> <br>
+    Votre exploitation vous a permis d'engranger un profit de {{ player.profit }} (10<sup>7</sup> €). <br>
+    <b> Votre profit cumulé depuis le début de la pêcherie est de {{ TotalIndProfit }} 10<sup>7</sup> € (incluant la première année un profit initial de {{ Constants.baseProfit }}). </b> <br>
     Ceci équivaut à un paiement réel de {{Harvestpayoff }}€ plus un paiement bonus pour vos anticipations du niveau d'exploitation des autres nations de {{ Predpayoff }} €.<br>
-    La commission de la <b>CICTA</b> vous foruni les statistiques des captures et des profits totaux de la pêcherie.
+    La commission de la <b>CICTA</b> vous fourni les statistiques des captures et des profits totaux de la pêcherie.
 </p>
 
  <div class="panel panel-default">
@@ -78,7 +78,6 @@
  </div>
 
     {% include Constants.projection_template %}
-
 
   {% next_button %}
 
