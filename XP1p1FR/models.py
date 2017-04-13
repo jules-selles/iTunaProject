@@ -57,19 +57,21 @@ class Constants(BaseConstants):
     instructions_template          = xp_name + '/instruction.html'
     functions_template             = xp_name + '/functions.html'
     profitTable_template           = xp_name + '/Profit_Table.html'
-    biomassVariationTable_template =  xp_name + '/Biomass_Variation_Table.html'
-    scientificAssessment_template  =  xp_name + '/Scientific_Assessment.html'
+    biomassVariationTable_template = xp_name + '/Biomass_Variation_Table.html'
+    scientificAssessment_template  = xp_name + '/Scientific_Assessment.html'
     projection_template            = xp_name + '/projection.html'
     endPhase_template              = xp_name + '/endPhase.html'
 
-    convertionCurrency    = 0.035
+    convertionCurrency    = 0.05
     anticipation          = 0.2
+    baseProfit            = 50
+    baseProfitEuros       = 50 * convertionCurrency
 
     ##-------------------------------
     ## oTree parameters
     name_in_url       = 'XP1p1FR'  #
     players_per_group = 3
-    num_rounds        = random.choice([15])  # !! random value to put into before session in subsession
+    num_rounds        = random.choice([15,16,17,18,19,20])
 
     ##-------------------------------
     ## Model parameters
@@ -84,7 +86,7 @@ class Constants(BaseConstants):
     # biologic parameters
     growth_rate       = 0.15                                # r []
     carrying_capacity = 70                                  # K [10^4 t]
-    init_biomass      = 50                                  # B0 [10^4 t]
+    init_biomass      = 51                                  # B0 [10^4 t]
     Bmsy              = carrying_capacity/2                 # MSY [10^4 t]
     Ymsy              = round((growth_rate * carrying_capacity)/4,0) # MSY [10^4 t]
     uncertainty       = 0.01 # resource level uncertainty epsilon []
@@ -98,7 +100,7 @@ class Constants(BaseConstants):
     theta               = 1/(1+discount_rate)
     beta                = 100                  # cost parameter [$]
     tFixedCost          = 20                   # threshold fixed cost [10^7$]
-    max_negative_profit = -50                  # limit for negative profit
+    #max_negative_profit = -50                  # limit for negative profit
     max_profit          = price_fish * carrying_capacity
 
     ##  global harvest choice parameters
@@ -162,7 +164,7 @@ class Group(BaseGroup):
     bmax_round = models.FloatField()
 
     # end
-    end           = models.BooleanField(initial=False)
+    end        = models.BooleanField(initial=False)
 
     ## projection variables and uncertainty range
 
@@ -315,47 +317,57 @@ class Group(BaseGroup):
 
     ## update payoff for the year by player
     def set_payoffs(self):
-         self.total_catch = sum([p.catch_choice for p in self.get_players()])
 
-         if self.subsession.round_number == 1:
+        if self.b_round > 0:
 
-             for p in self.get_players():
-                 p.profit = round(self.compute_payoff(harvestInd=p.catch_choice,harvest=(self.total_catch-p.catch_choice),
-                                                stock=Constants.init_biomass),1)
-                 p.payoff = round(self.compute_payoff(harvestInd=p.catch_choice,harvest=(self.total_catch-p.catch_choice),
-                                                stock=Constants.init_biomass)* Constants.convertionCurrency,1)
-         else:
+            self.total_catch = sum([p.catch_choice for p in self.get_players()])
+            if self.subsession.round_number == 1:
 
-             for p in self.get_players():
-                p.profit = round(self.compute_payoff(harvestInd=p.catch_choice,harvest=(self.total_catch-p.catch_choice),
-                                               stock=self.b_round),1)
-                p.payoff = round(self.compute_payoff(harvestInd=p.catch_choice, harvest=(self.total_catch - p.catch_choice),
-                                               stock=self.b_round) * Constants.convertionCurrency,1)
+                for p in self.get_players():
+                    p.profit = round(self.compute_payoff(harvestInd=p.catch_choice,harvest=(self.total_catch-p.catch_choice),
+                                                stock=Constants.init_biomass),1) + Constants.baseProfit
+                    #p.payoff = round( (self.compute_payoff(harvestInd=p.catch_choice,harvest=(self.total_catch-p.catch_choice),
+                 #                               stock=Constants.init_biomass) + Constants.baseProfit )* Constants.convertionCurrency,1)
+            else:
 
-         self.total_profit = round(sum([p.profit for p in self.get_players()]),1)
-         self.b_lim        = Constants.Blim
+                for p in self.get_players():
+                    p.profit = round(self.compute_payoff(harvestInd=p.catch_choice,harvest=(self.total_catch-p.catch_choice),
+                                                   stock=self.b_round),1)
+                    #p.payoff = round(self.compute_payoff(harvestInd=p.catch_choice, harvest=(self.total_catch - p.catch_choice),
+                    #                               stock=self.b_round) * Constants.convertionCurrency,1)
+
+            self.total_profit = round(sum([p.profit for p in self.get_players()]),1)
+            self.b_lim        = Constants.Blim
 
     ## update payoff and only payoff for player who best predict others harvest
     def set_payoff_prediction(self):
         for p in self.get_players():
-            if p.other_choice == self.total_catch - p.catch_choice:
-                p.payoff = p.payoff + Constants.anticipation
+            if self.b_round > 0:
+                if p.other_choice == self.total_catch - p.catch_choice:
+                    #p.payoff = p.payoff + Constants.anticipation
+                    p.predProfit = p.predProfit + Constants.anticipation
 
     ## update biomass for the next year
     def set_biomass(self):
+            bplus = models.FloatField()
+            ctot  = models.FloatField()
 
-        bplus = models.FloatField()
-        ctot  = models.FloatField()
+            if self.subsession.round_number == 1:
+                self.b_round = Constants.init_biomass
 
-        if self.subsession.round_number == 1:
-            self.b_round = Constants.init_biomass
-        else:
-            ctot  = sum([p.in_round(self.subsession.round_number -1).catch_choice for p in self.get_players()])
+            elif  self.subsession.round_number == 2:
+                ctot = sum([p.in_round(self.subsession.round_number - 1).catch_choice for p in self.get_players()])
+                for i in self.in_previous_rounds():
+                    bplus = i.b_round
+                self.b_round = bplus - ctot
 
-            for i in self.in_previous_rounds():
-                bplus = i.b_round
+            else:
+                ctot  = sum([p.in_round(self.subsession.round_number -1).catch_choice for p in self.get_players()])
 
-            self.b_round = self.schaefer(b=bplus, c=ctot)
+                for i in self.in_previous_rounds():
+                    bplus = i.b_round
+
+                self.b_round = self.schaefer(b=bplus, c=ctot)
 
     ##--------------------------------
     ## scientific advice
@@ -376,9 +388,8 @@ class Group(BaseGroup):
             for i in Constants.choice_catch:
                 inc = inc +1
                 for j in Constants.other_choice_catch:
-                    s = self.schaefer( b=Constants.init_biomass, c=(i+j))
+                    s = Constants.init_biomass - (i+j)
                     var[inc].append(round(((s - Constants.init_biomass)/Constants.init_biomass)*100))
-
         else:
             for i in Constants.choice_catch:
                 inc = inc + 1
@@ -392,11 +403,19 @@ class Group(BaseGroup):
     def projection(self):
         proj = []
         bint = models.FloatField()
-
         proj.append(self.b_round)
-        for i in Constants.sim_years:
-            bint = proj[i] - self.total_catch
-            proj.append(round(self.schaefer(bint, c=0),0))
+
+        if self.subsession.round_number == 1:
+            for i in Constants.sim_years:
+                bint = proj[i] - self.total_catch
+                if i==1:
+                    proj.append(bint)
+                else:
+                    proj.append(round(self.schaefer(bint, c=0), 0))
+        else:
+            for i in Constants.sim_years:
+                bint = proj[i] - self.total_catch
+                proj.append(round(self.schaefer(bint, c=0),0))
         return (proj)
 
     ## function uncertainty around projection for 10 years
@@ -470,7 +489,8 @@ class Player(BasePlayer):
 
    ##-------------------------------
    ## players variables
-   profit = models.FloatField()
+   profit     = models.FloatField(initial=0)
+   predProfit = models.FloatField(initial=0)
 
    ## player etimation other harvesting level
    other_choice = models.PositiveIntegerField(
