@@ -1,0 +1,21 @@
+{% extends "global/Base.html" %} {% load staticfiles otree_tags %} {% load list_filter %}
+
+{% block title %} A propos de vous {% endblock %}
+
+{% block content %}
+
+    <p>
+        Avant le début de la session expérimentale, pourriez-vous nous fournir un certain nombre d'informations vous concernant.
+    </p>
+
+    {% formfield player.name with label="Votre nom" %}
+    {% formfield player.profession with label="Votre profession" %}
+    {% formfield player.age with label="Votre âge" %}
+    {% formfield player.playAs with label="Êtes-vous concerné par le sujet de l'étude? " %}
+
+
+    {% next_button %}
+
+
+{% endblock %}
+
