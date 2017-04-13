@@ -59,13 +59,16 @@ class Constants(BaseConstants):
     projection_template             = xp_name + '/projection.html'
     scientificAssessment_template   = xp_name + '/Scientific_Assessment.html'
 
-    convertionCurrency    = 0.035
+    convertionCurrency = 0.05
+    anticipation       = 0.2
+    baseProfit         = 50
+    baseProfitEuros    = 50 * convertionCurrency
 
     ##-------------------------------
     ## oTree variables
     name_in_url       = 'XP1p2FR'
     players_per_group = 3
-    num_rounds        = 18  # !! random value to put into before session in subsession
+    num_rounds        = 2 #15  #
 
     ## global variables
     nb_sim_years       = 10
@@ -78,7 +81,7 @@ class Constants(BaseConstants):
     #biologic variables
     growth_rate       = 0.15 # r []
     carrying_capacity = 70 # K [10^4 t]
-    init_biomass      = 50 # B0 [10^4 t]
+    init_biomass      = 51 # B0 [10^4 t]
     Bmsy              = carrying_capacity/2   # MSY [10^4 t]
     Ymsy              = round((growth_rate * carrying_capacity)/4,0)   # MSY [10^4 t]
     uncertainty       = 0.2 # resource level uncertainty epsilon []
@@ -87,7 +90,7 @@ class Constants(BaseConstants):
     Blim_uncertainty  = 0.4 #uncertainty range around Blim []
     Blim_unmin        = int(Blim_un - (Blim_un*Blim_uncertainty))
     Blim_unmax        = int(Blim_un + (Blim_un*Blim_uncertainty))
-    Blim              = 20  # Blim [10^3 t]
+    Blim              = random.choice([15,16,17,18,19,20,21,22,23,24,25])  # Blim [10^3 t]
 
     ##-------------------------------
     ## economic variables
@@ -96,7 +99,7 @@ class Constants(BaseConstants):
     theta               = 1 / (1 + discount_rate)
     beta                = 100  # cost parameter [10^7$/.1000 t]
     tFixedCost          = 20  # threshold fixed cost [10^7$]
-    max_negative_profit = -50 # limit for negative profit
+    #max_negative_profit = -50 # limit for negative profit
 
     ##-------------------------------
     ##  harvest choice parameters
@@ -225,13 +228,86 @@ class Group(BaseGroup):
                                                     math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)),1)
         return prof
 
+    def compute_payoff_tab(self, harvest, harvestInd, stock, realStock):
+
+        if (harvest + harvestInd) == 0:
+            prop = 0
+        else:
+            prop = harvestInd / (harvest + harvestInd)
+
+        if stock <= 0:
+            prof = 0
+        else:
+
+            if self.session.config['treatment'] == 'T1':
+                if self.subsession.round_number == 1:
+                    prof = round((Constants.price_fish * harvestInd) -
+                                 (Constants.beta * (math.log(self.growth(b=Constants.init_biomass)) -
+                                                    math.log(self.growth(b=Constants.init_biomass) - (
+                                                    harvest + harvestInd))) * (prop)), 1)
+                else:
+                    if stock - (harvest + harvestInd) <= 0:
+                        prof = -Constants.beta
+                    else:
+                        prof = round((Constants.price_fish * harvestInd) -
+                                     (Constants.beta * (math.log(self.growth(b=stock)) -
+                                                        math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
+                                      prop)), 1)
+            elif self.session.config['treatment'] == 'T2':
+                if self.subsession.round_number == 1:
+                    prof = round((Constants.price_fish * harvestInd) -
+                                 (Constants.beta * (math.log(self.growth(b=Constants.init_biomass)) -
+                                                    math.log(self.growth(b=Constants.init_biomass) - (
+                                                        harvest + harvestInd))) * (prop)), 1)
+                else:
+                    if stock - (harvest + harvestInd) <= 0:
+                        prof = -Constants.beta
+                    else:
+                        if stock <= Constants.Blim:
+                            prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
+                                         (Constants.beta * (math.log(self.growth(b=stock)) -
+                                                            math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
+                                          prop)), 1)
+                        if stock > Constants.Blim:
+                            prof = round((Constants.price_fish * harvestInd) -
+                                         (Constants.beta * (math.log(self.growth(b=stock)) -
+                                                            math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)), 1)
+            else:
+                if self.subsession.round_number == 1:
+                    prof = round((Constants.price_fish * harvestInd) -
+                                 (Constants.beta * (math.log(self.growth(b=Constants.init_biomass)) -
+                                                    math.log(self.growth(b=Constants.init_biomass) - (
+                                                        harvest + harvestInd))) * (prop)), 1)
+                else:
+                    if stock - (harvest + harvestInd) <= 0:
+                        prof = -Constants.beta
+                    else:
+                        if stock <= Constants.Blim_unmin:
+                            prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
+                                 (Constants.beta * (math.log(self.growth(b=stock)) -
+                                                    math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
+                                      prop)), 1)
+                        elif realStock > Constants.Blim:
+                            prof = round((Constants.price_fish * harvestInd) -
+                                 (Constants.beta * (math.log(self.growth(b=stock)) -
+                                                    math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
+                                      prop)), 1)
+                        elif realStock <= Constants.Blim:
+                            prof = round((Constants.price_fish * harvestInd) -
+                                         (Constants.beta * (math.log(self.growth(b=stock)) - Constants.tFixedCost-
+                                                            math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
+                                              prop)), 1)
+
+        return prof
+
     ## biomass schaefer dynamic
     def schaefer(self, b, c):
         if b <= 0:
             biomass = 0
         else:
             biomass = round(b + (Constants.growth_rate * b) * (1 - (b / Constants.carrying_capacity)) - c, 0)
-
+            if biomass <= 0:
+                biomass=0
         return biomass  # []
 
     ## Growth function
@@ -241,11 +317,12 @@ class Group(BaseGroup):
 
     ## biomass random variable N~(schaefer, epsilon)
     def randomB(self, mean, sd):
-        Balea= numpy.random.normal(loc=mean, scale=mean*(sd/2))
-        B_min= Balea - Balea * sd
-        B_max= Balea + Balea * sd
-        B_un= [round(B_min,0),round(B_max,0)]
-        self.balea = Balea
+        if mean > 0:
+            Balea= numpy.random.normal(loc=mean, scale=mean*(sd/2))
+            B_min= Balea - Balea * sd
+            B_max= Balea + Balea * sd
+            B_un= [round(B_min,0),round(B_max,0)]
+            self.balea = Balea
 
         Bun_data = {'Balea':round(Balea),'B_min':round(B_min), 'B_max':round(B_max),'B_un':B_un}
         return  Bun_data  # []
@@ -261,9 +338,10 @@ class Group(BaseGroup):
             self.bmax_round  = bUN['B_max']
 
         else:
-            bUN = self.randomB(mean=self.b_round, sd=Constants.uncertainty)
-            self.bmin_round    = bUN['B_min']
-            self.bmax_round    = bUN['B_max']
+            if self.b_round>0:
+                bUN = self.randomB(mean=self.b_round, sd=Constants.uncertainty)
+                self.bmin_round    = bUN['B_min']
+                self.bmax_round    = bUN['B_max']
 
     ## update payoff table
             ## update payoff table
@@ -275,8 +353,8 @@ class Group(BaseGroup):
             inc = inc + 1
             for j in Constants.other_choice_catch:
                 #if i == 0 & j == 0:
-                        payoff_tab[inc].append(self.compute_payoff(harvest=j, harvestInd=i, stock=self.bmin_round))
-                        payoff_tab[inc].append(self.compute_payoff(harvest=j, harvestInd=i, stock=self.bmax_round))
+                        payoff_tab[inc].append(self.compute_payoff_tab(harvest=j, harvestInd=i, stock=self.bmin_round, realStock=self.b_round))
+                        payoff_tab[inc].append(self.compute_payoff_tab(harvest=j, harvestInd=i, stock=self.bmax_round,  realStock=self.b_round))
                 #else:
                 #    if (self.b_round - (j + i)) <= 0:
                 #        payoff_tab[inc].append(Constants.max_negative_profit)
@@ -289,33 +367,37 @@ class Group(BaseGroup):
 
         ## update payoff for the year by player
     def set_payoffs(self):
-        self.total_catch = sum([p.catch_choice for p in self.get_players()])
 
-        if self.subsession.round_number == 1:
-            for p in self.get_players():
-                p.profit = round(self.compute_payoff(harvestInd=p.catch_choice,
+        if self.b_round > 0:
+            self.total_catch = sum([p.catch_choice for p in self.get_players()])
+
+            if self.subsession.round_number == 1:
+                for p in self.get_players():
+                    p.profit = round(self.compute_payoff(harvestInd=p.catch_choice,
                                                    harvest=(self.total_catch - p.catch_choice),
-                                                   stock=Constants.init_biomass),1)
-                p.payoff = round(self.compute_payoff(harvestInd=p.catch_choice,
+                                                   stock=Constants.init_biomass),1) + Constants.baseProfit
+                    p.payoff = round((self.compute_payoff(harvestInd=p.catch_choice,
                                                    harvest=(self.total_catch - p.catch_choice),
-                                                   stock=Constants.init_biomass)* Constants.convertionCurrency,1)
-        else:
-            for p in self.get_players():
-                p.profit = round(self.compute_payoff(harvestInd=p.catch_choice,
+                                                   stock=Constants.init_biomass) + Constants.baseProfit )* Constants.convertionCurrency,1)
+            else:
+                for p in self.get_players():
+                    p.profit = round(self.compute_payoff(harvestInd=p.catch_choice,
                                                    harvest=(self.total_catch - p.catch_choice),
                                                    stock=self.b_round),1)
-                p.payoff = round(self.compute_payoff(harvestInd=p.catch_choice,
+                    p.payoff = round(self.compute_payoff(harvestInd=p.catch_choice,
                                                    harvest=(self.total_catch - p.catch_choice),
                                                    stock=self.b_round) * Constants.convertionCurrency,1)
 
-        self.total_profit = round(sum([p.profit for p in self.get_players()]),1)
-        self.b_lim = Constants.Blim
+            self.total_profit = round(sum([p.profit for p in self.get_players()]),1)
+            self.b_lim = Constants.Blim
 
     ## update payoff and only payoff for player who best predict others harvest
     def set_payoff_prediction(self):
         for p in self.get_players():
-            if p.other_choice == self.total_catch - p.catch_choice:
-                p.payoff = p.payoff + 0.2
+            if self.b_round > 0:
+                if p.other_choice == self.total_catch - p.catch_choice:
+                    p.payoff = p.payoff + Constants.anticipation
+                    p.predProfit = p.predProfit + Constants.anticipation
 
     ## update biomass for the next year
     def set_biomass(self):
@@ -325,6 +407,13 @@ class Group(BaseGroup):
 
         if self.subsession.round_number == 1:
             self.b_round = Constants.init_biomass
+
+        elif self.subsession.round_number == 2:
+            ctot = sum([p.in_round(self.subsession.round_number - 1).catch_choice for p in self.get_players()])
+            for i in self.in_previous_rounds():
+                bplus = i.b_round
+            self.b_round = bplus - ctot
+
         else:
             ctot  = sum([p.in_round(self.subsession.round_number - 1).catch_choice for p in self.get_players()])
 
@@ -338,9 +427,10 @@ class Group(BaseGroup):
 
     ## function uncertainty around Blim for all rounds
     def set_Un_Blim(self):
+        if self.b_round>0:
         # uncertainty bounds around Blim
-        self.Blim_max = Constants.Blim_un + (Constants.Blim_un * Constants.Blim_uncertainty)
-        self.Blim_min = Constants.Blim_un - (Constants.Blim_un * Constants.Blim_uncertainty)
+            self.Blim_max = Constants.Blim_un + (Constants.Blim_un * Constants.Blim_uncertainty)
+            self.Blim_min = Constants.Blim_un - (Constants.Blim_un * Constants.Blim_uncertainty)
 
     ## function variation for each catch level
     def variation(self):
@@ -349,13 +439,22 @@ class Group(BaseGroup):
         s2   = models.FloatField()
         inc = -1
 
-        for i in Constants.choice_catch:
-            inc = inc + 1
-            for j in Constants.other_choice_catch:
-                s1 = self.schaefer(b=self.bmin_round, c=(i + j))
-                var[inc].append(round(((s1 - self.bmin_round) / self.bmin_round)*100))
-                s2 = self.schaefer(b=self.bmax_round, c=(i + j))
-                var[inc].append(round(((s2 - self.bmax_round) / self.bmax_round)*100))
+        if self.subsession.round_number == 1:
+            for i in Constants.choice_catch:
+                inc = inc + 1
+                for j in Constants.other_choice_catch:
+                    s1 = self.bmin_round - (i + j)
+                    var[inc].append(round(((s1 - self.bmin_round) / self.bmin_round) * 100))
+                    s2 = self.bmax_round - (i + j)
+                    var[inc].append(round(((s2 - self.bmax_round) / self.bmax_round) * 100))
+        else:
+            for i in Constants.choice_catch:
+                inc = inc + 1
+                for j in Constants.other_choice_catch:
+                    s1 = self.schaefer(b=self.bmin_round, c=(i + j))
+                    var[inc].append(round(((s1 - self.bmin_round) / self.bmin_round)*100))
+                    s2 = self.schaefer(b=self.bmax_round, c=(i + j))
+                    var[inc].append(round(((s2 - self.bmax_round) / self.bmax_round)*100))
 
         return(var)
 
@@ -363,17 +462,23 @@ class Group(BaseGroup):
     def projection(self):
         proj = []
         bint = models.FloatField()
-
         #proj.append(self.b_round)
         proj.append(self.balea)
 
-        for i in Constants.sim_years:
-            bint = proj[i] - self.total_catch
-            proj.append(round(self.schaefer(bint, c=0),0))
+        if self.subsession.round_number == 1:
+            for i in Constants.sim_years:
+                bint = proj[i] - self.total_catch
+                if i == 1:
+                    proj.append(bint)
+                else:
+                    proj.append(round(self.schaefer(bint, c=0), 0))
+        else:
+            for i in Constants.sim_years:
+                bint = proj[i] - self.total_catch
+                proj.append(round(self.schaefer(bint, c=0),0))
         return(proj)
 
     ## function uncertainty around projection for 10 years
-    ##!!!!!!!!! attention pb correspondance avec l'incertitude sur le stock!!
 
     def projUncertainty(self):
         unrange   = []
@@ -419,32 +524,34 @@ class Player(BasePlayer):
    profession = models.CharField()
    age = models.PositiveIntegerField()
    playAs = models.CharField(
-       choices=["General audience", "Fisherman", "Manager", "Scientist in the field of fisheries",
-                "Scientist (other)", "Student in the field of fisheries", "Student (other)"])
+       choices=["Pêcheur", "Gestionnaire dans le domaine de l'halieutique",
+                "Scientifique dans le domaine de l'halieutique",
+                "Scientifique (autre)", "Etudiant dans le domaine de l'halieutique", "Etudiant (autre)", "Autre"])
    # 2nd Form variables
    dynamicKnowledge = models.CharField(
-       choices=["Complètement d'accord", "D'accord", "Ni d'accord,n ni pas d'accord",
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord, ni pas d'accord",
                 "pas d'accord", "Complètement pas d'accord"])
    groupCooperation = models.CharField(
-       choices=["Complètement d'accord", "D'accord", "Ni d'accord,n ni pas d'accord",
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord, ni pas d'accord",
                 "pas d'accord", "Complètement pas d'accord"])
    leverageCooperation = models.CharField(
        choices=["Analyse du tableau des profits", "Analyse des propositions", "Analyse du niveau de biomasse",
                 "Analyse du niveau de capture et de profit des autres participants"])
    suffConditionCooperation = models.CharField(
-       choices=["Complètement d'accord", "D'accord", "Ni d'accord,n ni pas d'accord",
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord, ni pas d'accord",
                 "pas d'accord", "Complètement pas d'accord"])
    biomassUncertainty = models.CharField(
-       choices=["Complètement d'accord", "D'accord", "Ni d'accord,n ni pas d'accord",
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord, ni pas d'accord",
                 "pas d'accord", "Complètement pas d'accord"])
 
    blimUncertainty = models.CharField(
-       choices=["Complètement d'accord", "D'accord", "Ni d'accord,n ni pas d'accord",
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord, ni pas d'accord",
                 "pas d'accord", "Complètement pas d'accord","Pas dans mon traitement"])
 
    ##-------------------------------
    ## players variables
-   profit = models.FloatField()
+   profit       = models.FloatField()
+   predProfit = models.FloatField(initial=0)
 
    ## player etimation other harvesting level
    other_choice = models.PositiveIntegerField(
