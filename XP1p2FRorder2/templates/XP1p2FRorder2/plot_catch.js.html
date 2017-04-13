@@ -1,0 +1,26 @@
+$(function () {
+    $('#containerCatch').highcharts({
+        title: {
+            text: 'Capture (10^4 t)',
+        },
+        xAxis: {
+            categories: {{ Constants.xp_years }},
+        },
+        yAxis: {
+            min:0,
+            title: {
+                text: 'Capture'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' (10^4 t)'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: {{ Catchseries }}
+    });
+});
