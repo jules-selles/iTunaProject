@@ -1,0 +1,25 @@
+{% extends "global/Base.html" %} {% load staticfiles otree_tags %} {% load list_filter %}
+{% block title %} Sélection de la Capture  {% endblock %}
+
+{% block content %}
+
+    <p>
+         Sélectionnez votre niveau de capture pour l'année,<br>
+         mais gardez à l'esprit que toutes les décisions seront rendues publiques dans les statistiques de la CICTA.
+    </p>
+
+    {% formfield player.catch_choice with label="Sélectionnez votre niveau de capture:" %}
+
+    {% include Constants.scientificAssessment_template %}
+
+    {% include Constants.profitTable_template %}
+
+    {% include Constants.biomassVariationTable_template %}
+
+    {% next_button %}
+
+
+{% include Constants.functions_template  %}
+
+{% endblock %}
+
