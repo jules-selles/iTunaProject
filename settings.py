@@ -140,7 +140,7 @@ SESSION_CONFIGS = [
         'name': 'XP1_p2',
         'display_name': "iTuna phase 2 TEST",
         'num_demo_participants': 3,
-        'treatment': 'T2',
+        'treatment': 'T3',
         'app_sequence': ['XP1p2FR']  # , 'survey', 'payment_info'],
     },
     {
@@ -148,28 +148,50 @@ SESSION_CONFIGS = [
         'display_name': "iTuna  phase 1 TEST",
         'num_demo_participants': 3,
         'treatment': 'T3',
-        'app_sequence': ['XP1p1FR']  # , 'survey', 'payment_info'],
+        'app_sequence': ['XP1p1FRorder2']  # , 'survey', 'payment_info'],
     },
     {
-        'name': 'XP1_T1',
-        'display_name': "iTuna T1 Common Pool Resource Game",
+        'name': 'XP1_T1_order1',
+        'display_name': "iTuna T1 Common Pool Resource Game ordre 1",
         'num_demo_participants': 3,
         'treatment':'T1',
         'app_sequence': ['XP1p1FR','XP1p2FR']    #, 'survey', 'payment_info'],
     },
     {
-        'name': 'XP1_T2',
-        'display_name': "iTuna T2 Common Pool Resource Game",
+        'name': 'XP1_T2_order1',
+        'display_name': "iTuna T2 Common Pool Resource Game ordre 1",
         'num_demo_participants': 3,
         'treatment': 'T2',
         'app_sequence': ['XP1p1FR', 'XP1p2FR']  # , 'payment_info'  # , 'survey',
     },
     {
-        'name': 'XP1_T3',
-        'display_name': "iTuna T3 Common Pool Resource Game",
+        'name': 'XP1_T3_order1',
+        'display_name': "iTuna T3 Common Pool Resource Game ordre 1",
         'num_demo_participants': 3,
         'treatment': 'T3',
         'app_sequence': ['XP1p1FR', 'XP1p2FR']  # , 'payment_info'  # , 'survey',
+
+    },
+    {
+        'name': 'XP1_T1_order2',
+        'display_name': "iTuna T1 Common Pool Resource Game ordre 2",
+        'num_demo_participants': 3,
+        'treatment': 'T1',
+        'app_sequence': ['XP1p2FRorder2', 'XP1p1FRorder2']  # , 'survey', 'payment_info'],
+    },
+    {
+        'name': 'XP1_T2_order2',
+        'display_name': "iTuna T2 Common Pool Resource Game ordre 2",
+        'num_demo_participants': 3,
+        'treatment': 'T2',
+        'app_sequence': ['XP1p2FRorder2', 'XP1p1FRorder2']  # , 'payment_info'  # , 'survey',
+    },
+    {
+        'name': 'XP1_T3_order2',
+        'display_name': "iTuna T3 Common Pool Resource Game ordre 2",
+        'num_demo_participants': 3,
+        'treatment': 'T3',
+        'app_sequence': ['XP1p2FRorder2', 'XP1p1FRorder2']  # , 'payment_info'  # , 'survey',
 
     }
 ]
