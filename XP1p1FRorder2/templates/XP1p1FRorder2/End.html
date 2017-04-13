@@ -1,0 +1,13 @@
+{% extends "global/Base.html" %}
+{% load otree_tags %}
+{% load staticfiles otree_tags %}
+
+{% block title %}Fin{% endblock %}
+
+{% block content %}
+
+    <p align="center"> <img src="{% static "XP1p1FR/thon-rouge.jpg" %}" style="margin:auto; max-width:100%"  class="img-circle" /> </p>
+
+    {% include  Constants.endSession_template %}
+
+{% endblock %}
