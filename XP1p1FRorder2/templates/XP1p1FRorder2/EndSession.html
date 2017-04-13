@@ -1,0 +1,24 @@
+{% load staticfiles otree_tags %}
+{% load staticfiles  %}
+
+<div class="instructions well well-lg">
+
+    <h3 class="panel-sub-heading">
+        Fin de la Session
+    </h3>
+
+    <p>
+       <b>  {{ message }}  </b> <br>
+        Merci pour votre participation! <br>
+        <b> Vous avez potentiellement gagné {{ cumulatedMoney }} € pour votre participation à l'expérience ! </b>
+
+    <p>
+        Appuyer sur ''Next'' jusqu'au formulaire de Fin.
+
+    </p>
+    </p>
+
+    {% next_button %}
+
+</div>
+
