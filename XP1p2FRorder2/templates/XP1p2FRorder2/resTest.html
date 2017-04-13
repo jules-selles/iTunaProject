@@ -1,0 +1,47 @@
+{% extends "global/Base.html" %} {% load staticfiles otree_tags %} {% load list_filter %}
+
+{% block title %} Résultats du Test {% endblock %}
+
+{% block content %}
+
+    <p>
+       <b>Vos résultats du Test: </b>
+    </p>
+
+    <p>
+        Tout d'abord, si au début de l'année la biomasse se situe à <b>{{ Constants.b_test }} unités</b>,
+        pourriez-vous indiquer le niveau de regénération de la ressource ?<br>
+
+        <b>{{ growthRes }} {{ g }}</b>
+    </p>
+
+    <p>
+        Ensuite, toujours avec une biomasse de <b>{{ Constants.b_test }} unités </b> si les {{ Constants.players_per_group }} nations
+        décident de capturer <b>{{ Constants.c_test }} unités </b> ({{ Constants.c_ind_test }} unités chacun),
+        Pourriez-vous indiquer combien de bénéfices,profits, l'exploitation va générer cette année? <br>
+
+        <b>{{ profitRes }} {{ p }}</b>
+
+    </p>
+
+    <p>
+        Toujours dans les mêmes conditions si les {{ Constants.players_per_group }} nations
+        décident d'exploiter <b>{{ Constants.c_test }} unités </b> ({{ Constants.c_ind_test }} unités chacun),<br>
+        Pourriez-vous indiquer combien de bénéfices, profits, vous allez gagner cette année? <br>
+        Servez-vous du tableau des profits individuels.<br>
+
+        <b>{{ profitIndRes }} {{ pi }}</b>
+
+    </p>
+
+    <p align ="center"> <b> Nous avons 5 minutes pour répondre à vos questions sur la dynamique de la ressource et les profits .... S'il vous plaît, lever la main pour poser vos questions. <br>
+        Et attendez l'odre de l'administrateur de l'expérience pour continuer (cliquer sur le bouton ''Next'').</b> </p>
+
+
+    {% next_button %}
+
+
+    {% include Constants.functions_template  %}
+    {% include Constants.profitTable_template %}
+
+{% endblock %}
