@@ -1,0 +1,24 @@
+{% load staticfiles otree_tags %}
+{% load staticfiles  %}
+
+<div class="instructions well well-lg">
+
+    <h3 class="panel-sub-heading">
+        Fin de la première Phase
+    </h3>
+
+    <p align="center">
+        <b>{{ message }}</b>
+    </p>
+    <p>
+        <b> Vous avez potentiellement gagné {{ cumulatedMoney }} € ! </b>
+    </p>
+    <p>
+        Appuyer sur ''Next'' jusqu'à la prochaine phase
+
+    </p>
+
+    {% next_button %}
+
+
+</div>
