@@ -616,7 +616,7 @@ class End(Page):
             totP    = sum(p_round)
             totPred = sum(pred_round)
 
-        euros = round(totP * Constants.convertionCurrency,1) + totPred
+        euros = round(totP * Constants.convertionCurrency + totPred,1)
 
         if self.group.b_round <= 0:
             message = message='Vous avez conduit le stock à l effondrement!! '
@@ -624,7 +624,7 @@ class End(Page):
             message = ''
 
         data = {'cumulatedMoney':euros,
-                'profit':self.player.profit,
+                'moneyTest':self.participant.payoff,
                 'message': message}
 
         return data

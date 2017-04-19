@@ -11,18 +11,28 @@
         <b>Contexte</b>
     </h4>
      <p align="center">
-        <b> Vous allez participer à une expérience économique qui vise à étudier la prise de décision au cours d’un jeu sur l’exploitation d’une ressource renouvelable commune.</b>
+        <b> L'expérience à laquelle vous allez participer est destinée à l'étude de la prise de décision.<br>
+            Nous vous demandons de lire attentivement les instructions, elles doivent vous permettre de bien comprendre l'expérience.
+            Lorsque tous les participants auront lu ces instructions un expérimentateur procédera à une relecture à voix haute.<br>
+            Nous vous demanderons ensuite de visionner un tutoriel vidéo afin de vous familiariser avec l’interface de l’expérience.
+            Toutes vos décisions seront traitées de façon anonyme. Vous indiquerez vos choix à l'ordinateur devant lequel vous êtes assis(e).
+            A partir de maintenant nous vous demandons de ne plus parler. Si vous avez une question levez la main et un expérimentateur viendra vous répondre en privé.</b>
      </p>
+    <h4 class="panel-sub-heading">
+        <b>Cadre général</b>
+    </h4>
      <p>
-         Cette expérience sera conduite en 2 phases qui correspondent à deux séquences d’un jeu. Le jeu dure au maximum 2h.<br>
+         Cette expérience comporte deux parties, deux phases. Les instructions jointes sont celles de la partie 1 et 2.<br>
+         Une des deux parties sera tirée au sort pour la rémunération. Votre gain à cette partie constituera votre gain pour l'expérience,
+         il vous sera versé en liquide à la fin de l'expérience.<br>
          Vous allez représenter un pays pêcheur de <b>thon rouge Atlantique</b>. Vous et 2 autres participants allez former un groupe. <br>
          Vous et les membres de votre groupe allez avoir un accès commun à la ressource de thon rouge Atlantique. <br>
-         Chacun d’entre vous, chaque tour (qui représente une année), allez décider le niveau d’exploitation en unité de cette ressource. <br>
+         Chacun d’entre vous, chaque période (qui représente une année), allez décider le niveau d’exploitation en unité de cette ressource. <br>
          Chaque unité exploitée vous rapportera des unités de profit.<br>
          Avant de prendre cette décision, vous devrez dans un premier temps formulez votre anticipation de la décision de capture des 2 autres membres de votre groupe. <br>
          Puis vous devrez faire une proposition de votre niveau de capture, mais cette proposition ne vous engagera en rien, vous pourrez ou non la suivre.
          Pour prendre vos décisions, vous obtiendrez des informations sur l’état de cette ressource, par l’intermédiaire de la Commission Internationale pour la Conservation des Thonidés Atlantique (CICTA).<br>
-         <b> L'expérience dure un certain nombre d'années (tours de jeu), ce nombre vous est inconnu. </b> <br>
+         <b> L'expérience dure un certain nombre de périodes, ce nombre vous est inconnu. </b> <br>
          <b> L’expérience prend également fin si la ressource est épuisée en raison de captures excessives.  </b>
 
      </p>
@@ -33,12 +43,11 @@
 
     <p >
         Si vous suivez les instructions et prenez les décisions appropriées, vous pourrez gagner de l’argent pour votre participation. <br>
-        Vous allez recevoir une compensation financière pour votre participation de <b> 2 € </b> plus des gains dépendants de vos profits dans l’expérience. <br>
         <b> Une des 2 phases </b> à laquelle vous allez participer sera sélectionnée et les profits que vous aurez accumulés en exploitant la ressource
         lors de cette phase de l’expérience seront convertis en euros, avec un taux de :  <br>
     </p>
     <p align="center">
-        <b> 1 unité (10<sup>7</sup> € dans l'expérience) = {{ Constants.convertionCurrency }} € </b> <br>
+        <b> 1 unité de profit (10<sup>7</sup> € dans l'expérience) = {{ Constants.convertionCurrency }} € </b> <br>
     </p>
     <p>
         Vous débuterez chaque phase de l’expérience avec <b>{{ Constants.baseProfit }} unités de profit </b>, soit <b>{{ Constants.baseProfitEuros }}€ </b>. <br>
@@ -47,30 +56,29 @@
     </p>
 
     <h4 class="panel-sub-heading">
-        <b>Dynamique annuelle (par tour) de la ressource </b>
+        <b>Dynamique de la ressource </b>
     </h4>
      <p>
-         La ressource de thon rouge se renouvelle et croît chaque année (tour) proportionnellement à la taille de la ressource.<br>
-         Chaque unité de ressource laissée à la fin de l’année (à la fin du tour) se trouvera diminuée des captures totales de l'année écoulée<br>
-         (c'est-à-dire de la somme des captures de tous les participants du groupe) et augmentée selon sa capacité de croissance. <br>
-         Le niveau de la ressource peut atteindre un maximum de  <b>{{ Constants.carrying_capacity }} unités (10<sup>4</sup> t) </b>. <br>
-         La fonction de croissance indique que la croissance annuelle atteint une valeur maximum de <b>{{ Constants.Ymsy }} unités (10<sup>4</sup> t)</b> si la ressource est à un niveau de 35 unités,
-         puis diminue jusqu'à être nulle pour les deux niveaux extrêmes.<br>
-         Si la capture que vous et votre groupe exercez sur la ressource est égale à ce niveau de croissance (<b>{{ Constants.Ymsy }} unités </b>)
-         lorsque la ressource est comprise entre <b>28 et 42 unités</b>, le niveau de la ressource restera inchangé. <br>
-         Vous êtes au niveau du <b>Rendement Maximal Durable (RMD)</b>. Si la quantité totale des captures excède la croissance de la ressource,
+         La ressource de thon rouge croit chaque période (année) proportionnellement à la taille de la ressource au début de la période.
+         A l’issue de la période, la quantité de ressource restante est égale à la quantité au début de la période plus la quantité qui s’est renouvelée
+         moins la quantité extraite au cours de la période. Si la quantité totale des captures excède la croissance de la ressource,
          alors la taille de la ressource déclinera. Si les captures sont inférieures la croissance de la ressource,
          la taille de la ressource augmentera d'année en année. <br>
+         Le <b>Rendement Maximal Durable (RMD)</b> corresponds alors à la quantité maximale de capture qui permet au stock de rester constant au cours des périodes.<br>
+         Le niveau de la ressource peut atteindre un maximum de  <b>{{ Constants.carrying_capacity }} unités (10<sup>4</sup> t) </b>. <br>
+         La fonction de croissance indique que la croissance annuelle atteint une valeur maximum de <b>{{ Constants.Ymsy }} unités (10<sup>4</sup> t)</b> si la ressource est compris entre 28 et 48 unités,
+         puis diminue jusqu'à être nulle pour les deux niveaux extrêmes.<br>
+
     </p>
 
      <h4 class="panel-sub-heading">
-        <b>Choix du niveau de capture annuel (par tour)</b>
+        <b>Choix du niveau de capture </b>
     </h4>
      <p>
-         Chaque tour, vous serez informé du niveau de la ressource et des propositions des participants de votre groupe.<br>
-         Selon la phase, l’information sur le niveau de la ressource sera certaine ou incertaine.<br>
-         Vous devrez alors sélectionner un niveau de capture compris entre <b>{{ Constants.min_catch }} et {{ Constants.max_catch }} unités (104t)</b>. <br>
-         Vous et les 2 autres membres de votre groupe pouvez exploiter au total <b>{{ Constants.max_total_catch }} unités</b> chaque tour de jeu.
+         Chaque période, vous serez informé du niveau de la ressource et des propositions des participants de votre groupe.<br>
+         Selon la partie (1 ou 2), l’information sur le niveau de la ressource sera certaine ou incertaine.<br>
+         Vous devrez alors sélectionner un niveau de capture compris entre <b>{{ Constants.min_catch }} et {{ Constants.max_catch }} unités (10<sup>4</sup>t)</b>. <br>
+         Vous et les 2 autres membres de votre groupe pouvez exploiter au total <b>{{ Constants.max_total_catch }} unités</b> chaque période de jeu.
          Ce niveau de captures vous permettra de dégager un profit annuel (1 unité de profit équivaut à 10<sup>7</sup>€) qui s'accumulera sur votre compte en banque.<br>
          Le profit dépend donc du montant des captures de l'année, mais sera également affecté par le niveau de la ressource (car il est plus coûteux de pêcher un poisson plus rare).<br>
          La fonction de profit vous informe que le profit va diminuer lorsque la ressource diminue et lorsque la capture diminue. <br>
@@ -102,15 +110,10 @@
         <li>Vous n’avez pas l’autorisation d’ouvrir d’autres fenêtres (pages web, logiciel…) durant l’expérience.</li>
         <li>Vous pouvez poser des questions à l’administrateur avant et durant l’expérience.</li>
       </ul>
-    <p>
-     <b> Attention : Si vous ne respectez pas les règles vous devrez quitter l’expérience et vous ne serez donc pas payé. </b>
-    </p>
-
-    <p align="center">  <b>Bonne chance!</b> </p>
 
     <p align="center">   Avant de démarrer l’expérience, vous serez invité à suivre un tutoriel vidéo présentant l’interface web de l’expérience. <br>
                             Cliquer sur le lien ci desous pour suivre le tutoriel de l'expérience :<br>
-                                        https://vimeo.com/user62132029
+                                        https://www.youtube.com/channel/UCGfqn1JUXAgwhuGeHBzlGzQ
         </p>
 
 
