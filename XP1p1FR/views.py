@@ -583,10 +583,10 @@ class End(Page):
             totP    = sum(p_round )
             totPred = sum(pred_round)
 
-        euros = round(totP * Constants.convertionCurrency,1) + round(totPred,1)
+        euros = round(totP * Constants.convertionCurrency + totPred,1)
 
         data = {'cumulatedMoney':euros,
-                'profit':self.player.profit,
+                'moneyTest':self.participant.payoff,
                 'message': message}
         return (data)
 
