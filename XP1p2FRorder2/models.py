@@ -57,6 +57,7 @@ class Constants(BaseConstants):
     functions_template              = xp_name + '/functions.html'
     endSession_template             = xp_name + '/EndSession.html'
     profitTable_template            = xp_name + '/Profit_Table.html'
+    profitTableTest_template            = xp_name + '/Profit_TableTest.html'
     biomassVariationTable_template  = xp_name + '/Biomass_Variation_Table.html'
     projection_template             = xp_name + '/projection.html'
     scientificAssessment_template   = xp_name + '/Scientific_Assessment.html'
@@ -210,8 +211,10 @@ class Group(BaseGroup):
                              (Constants.beta * (math.log(self.growth(b=Constants.init_biomass)) -
                                                 math.log(self.growth(b=Constants.init_biomass) - (harvest + harvestInd))) * (prop)), 1)
                 else:
-                    if stock - (harvest + harvestInd) <= 0:
-                        prof = -Constants.beta
+                    if harvestInd == 0:
+                        prof = 0
+                    elif stock - (harvest + harvestInd) <= 0:
+                        prof = round((-Constants.beta * 2) * (prop),1)
                     else:
                         prof = round((Constants.price_fish * harvestInd) -
                              (Constants.beta * (math.log(self.growth(b=stock)) -
@@ -223,14 +226,21 @@ class Group(BaseGroup):
                                                 math.log(self.growth(b=Constants.init_biomass) - (
                                                 harvest + harvestInd))) * (prop)), 1)
                 else:
-                    if stock - (harvest + harvestInd) <= 0:
-                        prof = -Constants.beta
-                    else:
-                        if stock <= Constants.Blim:
+                   if stock <= Constants.Blim:
+                       if harvestInd == 0:
+                           prof = - Constants.tFixedCost
+                       elif stock - (harvest + harvestInd) <= 0:
+                           prof = round(((-Constants.beta * 2) * (prop))- Constants.tFixedCost,1)
+                       else:
                             prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
                                  (Constants.beta * (math.log(self.growth(b=stock)) -
                                                     math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)),1)
-                        if stock > Constants.Blim:
+                   elif stock > Constants.Blim:
+                       if harvestInd == 0:
+                           prof = 0
+                       elif stock - (harvest + harvestInd) <= 0:
+                           prof = round((-Constants.beta * 2) * (prop),1)
+                       else:
                             prof = round((Constants.price_fish * harvestInd) -
                                  (Constants.beta * (math.log(self.growth(b=stock)) -
                                                     math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)),1)
@@ -246,7 +256,6 @@ class Group(BaseGroup):
         if stock <= 0:
             prof = 0
         else:
-
             if self.session.config['treatment'] == 'T1':
                 if self.subsession.round_number == 1:
                     prof = round((Constants.price_fish * harvestInd) -
@@ -254,8 +263,10 @@ class Group(BaseGroup):
                                                     math.log(self.growth(b=Constants.init_biomass) - (
                                                     harvest + harvestInd))) * (prop)), 1)
                 else:
-                    if stock - (harvest + harvestInd) <= 0:
-                        prof = -Constants.beta
+                    if harvestInd == 0:
+                        prof = 0
+                    elif stock - (harvest + harvestInd) <= 0:
+                        prof = round((-Constants.beta * 2) * (prop),1)
                     else:
                         prof = round((Constants.price_fish * harvestInd) -
                                      (Constants.beta * (math.log(self.growth(b=stock)) -
@@ -268,15 +279,22 @@ class Group(BaseGroup):
                                                     math.log(self.growth(b=Constants.init_biomass) - (
                                                         harvest + harvestInd))) * (prop)), 1)
                 else:
-                    if stock - (harvest + harvestInd) <= 0:
-                        prof = -Constants.beta
-                    else:
-                        if stock <= Constants.Blim:
+                    if stock <= Constants.Blim:
+                        if harvestInd == 0:
+                            prof = -Constants.tFixedCost
+                        elif stock - (harvest + harvestInd) <= 0:
+                            prof = round(((-Constants.beta * 2) * (prop)) - Constants.tFixedCost,1)
+                        else:
                             prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
                                          (Constants.beta * (math.log(self.growth(b=stock)) -
                                                             math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
                                           prop)), 1)
-                        if stock > Constants.Blim:
+                    elif stock > Constants.Blim:
+                        if harvestInd == 0:
+                            prof = 0
+                        elif stock - (harvest + harvestInd) <= 0:
+                            prof = round((-Constants.beta * 2) * (prop),1)
+                        else:
                             prof = round((Constants.price_fish * harvestInd) -
                                          (Constants.beta * (math.log(self.growth(b=stock)) -
                                                             math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)), 1)
@@ -287,20 +305,32 @@ class Group(BaseGroup):
                                                     math.log(self.growth(b=Constants.init_biomass) - (
                                                         harvest + harvestInd))) * (prop)), 1)
                 else:
-                    if stock - (harvest + harvestInd) <= 0:
-                        prof = -Constants.beta
-                    else:
-                        if stock <= Constants.Blim_unmin:
+                    if stock <= Constants.Blim_unmin:
+                        if harvestInd == 0:
+                            prof = - Constants.tFixedCost
+                        elif realStock - (harvest + harvestInd) <= 0:
+                            prof = round(((-Constants.beta * 2) * (prop)) - Constants.tFixedCost,1)
+                        else:
                             prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
                                  (Constants.beta * (math.log(self.growth(b=stock)) -
                                                     math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
                                       prop)), 1)
-                        elif realStock > Constants.Blim:
+                    elif realStock > Constants.Blim:
+                        if harvestInd == 0:
+                            prof = 0
+                        elif realStock - (harvest + harvestInd) <= 0:
+                            prof = round((-Constants.beta * 2) * (prop),1)
+                        else:
                             prof = round((Constants.price_fish * harvestInd) -
                                  (Constants.beta * (math.log(self.growth(b=stock)) -
                                                     math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
                                       prop)), 1)
-                        elif realStock <= Constants.Blim:
+                    elif realStock <= Constants.Blim:
+                        if harvestInd == 0:
+                            prof = - Constants.tFixedCost
+                        elif realStock - (harvest + harvestInd) <= 0:
+                            prof = round(((-Constants.beta * 2) * (prop)) - Constants.tFixedCost,1)
+                        else:
                             prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost-
                                          (Constants.beta * (math.log(self.growth(b=stock)) -
                                                             math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
@@ -319,8 +349,10 @@ class Group(BaseGroup):
             prof = 0
         else:
             if self.session.config['treatment'] == 'T1':
-                if stock - (harvest + harvestInd) <= 0:
-                    prof = -Constants.beta
+                if harvestInd == 0:
+                    prof = 0
+                elif stock - (harvest + harvestInd) <= 0:
+                    prof = (-Constants.beta * 2) * (prop)
                 else:
                     prof = round((Constants.price_fish * harvestInd) -
                                  (Constants.beta * (math.log(self.growth(b=stock)) -
@@ -331,12 +363,22 @@ class Group(BaseGroup):
                     prof = -Constants.beta
                 else:
                     if stock <= Constants.Blim:
-                        prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
+                        if harvestInd == 0:
+                            prof = Constants.tFixedCost
+                        elif stock - (harvest + harvestInd) <= 0:
+                            prof = (-Constants.beta * 2) * (prop)
+                        else:
+                            prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
                                      (Constants.beta * (math.log(self.growth(b=stock)) -
                                                         math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
                                           prop)), 1)
                     if stock > Constants.Blim:
-                        prof = round((Constants.price_fish * harvestInd) -
+                        if harvestInd == 0:
+                            prof = 0
+                        elif stock - (harvest + harvestInd) <= 0:
+                            prof = (-Constants.beta * 2) * (prop)
+                        else:
+                            prof = round((Constants.price_fish * harvestInd) -
                                      (Constants.beta * (math.log(self.growth(b=stock)) -
                                                         math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
                                           prop)), 1)
@@ -416,6 +458,7 @@ class Group(BaseGroup):
             for j in Constants.other_choice_catch:
                 # if i == 0 & j == 0:
                 payoff_tab[inc].append(self.compute_payoff_test(harvest=j, harvestInd=i, stock=biomasse))
+
                 # else:
                 #   if (biomasse - (j + i)) <= 0:
                 #        payoff_tab[inc].append(Constants.max_negative_profit)

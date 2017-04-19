@@ -511,7 +511,7 @@ class End(Page):
             totP = sum(p_round)
             totPred = sum(pred_round)
 
-        euros = round(totP * Constants.convertionCurrency,1) + round(totPred,1)
+        euros = round(totP * Constants.convertionCurrency + totPred,1)
 
         if self.group.b_round <= 0:
             message = message='Vous avez conduit le stock à l effondrement!! '
@@ -519,8 +519,8 @@ class End(Page):
         else:
             message = ''
 
-        data = {'cumulatedMoney':self.participant.payoff,
-                'testProfit':euros,
+        data = {'cumulatedMoney':euros,
+                'moneyTest':self.participant.payoff,
                 'message':message}
 
         return data
@@ -529,7 +529,7 @@ class End(Page):
         return self.subsession.round_number == Constants.num_rounds or self.group.b_round <= 0
 
 ##-------------------------------
-class Formend(Page):
+class FormEnd(Page):
 
         timeout_seconds = 120
 
@@ -562,5 +562,5 @@ page_sequence = [
     CatchChoice_WaitPage,
     Catch_Results,
     End,
-    Formend
+    FormEnd
 ]
