@@ -140,15 +140,15 @@ SESSION_CONFIGS = [
         'name': 'XP1_p2',
         'display_name': "iTuna phase 2 TEST",
         'num_demo_participants': 3,
-        'treatment': 'T3',
+        'treatment': 'T1',
         'app_sequence': ['XP1p2FR']  # , 'survey', 'payment_info'],
     },
     {
         'name': 'XP1_p1',
         'display_name': "iTuna  phase 1 TEST",
         'num_demo_participants': 3,
-        'treatment': 'T3',
-        'app_sequence': ['XP1p1FRorder2']  # , 'survey', 'payment_info'],
+        'treatment': 'T1',
+        'app_sequence': ['XP1p1FR']  # , 'survey', 'payment_info'],
     },
     {
         'name': 'XP1_T1_order1',
