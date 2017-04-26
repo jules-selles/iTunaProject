@@ -84,7 +84,7 @@ class Constants(BaseConstants):
     Blim_uncertainty  = 0.4 #uncertainty range around Blim []
     Blim_unmin        = int(Blim_un - (Blim_un*Blim_uncertainty))
     Blim_unmax        = int(Blim_un + (Blim_un*Blim_uncertainty))
-    Blim              = random.choice([15,16,17,18,19,20,21,22,23,24,25])  # Blim [10^3 t]
+    Blim              = 20 #random.choice([15,16,17,18,19,20,21,22,23,24,25])  # Blim [10^3 t]
 
     ##-------------------------------
     ## economic variables

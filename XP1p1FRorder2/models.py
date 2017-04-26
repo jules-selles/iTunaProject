@@ -80,8 +80,11 @@ class Constants(BaseConstants):
     Ymsy              = round((growth_rate * carrying_capacity)/4,0) # MSY [10^4 t]
     uncertainty       = 0.01 # resource level uncertainty epsilon []
     max_uncertainty   = uncertainty + (0.05 * nb_sim_years)  # projection uncertainty
-    Blim              = 20  # Blim [10^3 t]
-    Blim_uncertainty  = 0.4 #uncertainty range around Blim []
+    Blim_un           = 20
+    Blim_uncertainty  = 0.4  # uncertainty range around Blim []
+    Blim_unmin        = int(Blim_un - (Blim_un * Blim_uncertainty))
+    Blim_unmax        = int(Blim_un + (Blim_un * Blim_uncertainty))
+    Blim              = 20  # random.choice([15,16,17,18,19,20,21,22,23,24,25])  # Blim [10^3 t]
 
     ## economic paramyeters
     price_fish          = 10                  # p [10^7$/.1000 t]
