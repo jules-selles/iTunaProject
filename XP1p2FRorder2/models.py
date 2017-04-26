@@ -36,16 +36,6 @@ iTuna Experiment
 ##-------------------------------
 ## To do list
 
-##Buggs priority 1
-##-> demo mode
-##-> postgreSql
-
-##Buggs priority 2
-## -> !! projection in phase 2 et 3 pour s'adapter au range uncertainty of Biomass
-
-## Basics
-## -> test player's understanding before start
-## -> find a way to don't copy 3 times apps to create each phase of XP
 ##-------------------------------
 class Constants(BaseConstants):
 
@@ -72,7 +62,7 @@ class Constants(BaseConstants):
     ## oTree variables
     name_in_url       = 'XP1p2FRorder2'
     players_per_group = 3
-    num_rounds        = 15
+    num_rounds        = random.choice([15,16,17,18,19,20])
 
     ## global variables
     nb_sim_years       = 10

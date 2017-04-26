@@ -37,17 +37,6 @@ iTuna Experiment
 ##-------------------------------
 ## To do list
 
-##Buggs priority 1
-##-> demo mode
-##-> postgreSql
-
-##Buggs priority 2
-## -> !! projection in phase 2 et 3 pour s'adapter au range uncertainty of Biomass
-
-## Basics
-## -> test player's understanding before start
-## -> find a way to don't copy 3 times apps to create each phase of XP
-
 ##-------------------------------
 class Constants(BaseConstants):
 
