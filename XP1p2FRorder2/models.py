@@ -47,7 +47,7 @@ class Constants(BaseConstants):
     functions_template              = xp_name + '/functions.html'
     endSession_template             = xp_name + '/EndSession.html'
     profitTable_template            = xp_name + '/Profit_Table.html'
-    profitTableTest_template            = xp_name + '/Profit_TableTest.html'
+    profitTableTest_template        = xp_name + '/Profit_TableTest.html'
     biomassVariationTable_template  = xp_name + '/Biomass_Variation_Table.html'
     projection_template             = xp_name + '/projection.html'
     scientificAssessment_template   = xp_name + '/Scientific_Assessment.html'
@@ -62,7 +62,7 @@ class Constants(BaseConstants):
     ## oTree variables
     name_in_url       = 'XP1p2FRorder2'
     players_per_group = 3
-    num_rounds        = random.choice([15,16,17,18,19,20])
+    num_rounds        = 18 #random.choice([15,16,17,18,19,20])
 
     ## global variables
     nb_sim_years       = 10
@@ -75,7 +75,7 @@ class Constants(BaseConstants):
     #biologic variables
     growth_rate       = 0.15 # r []
     carrying_capacity = 70 # K [10^4 t]
-    init_biomass      = 51 # B0 [10^4 t]
+    init_biomass      = 52 # B0 [10^4 t]
     Bmsy              = carrying_capacity/2   # MSY [10^4 t]
     Ymsy              = round((growth_rate * carrying_capacity)/4,0)   # MSY [10^4 t]
     uncertainty       = 0.2 # resource level uncertainty epsilon []
@@ -92,7 +92,7 @@ class Constants(BaseConstants):
     discount_rate       = 0   # theta []
     theta               = 1 / (1 + discount_rate)
     beta                = 100  # cost parameter [10^7$/.1000 t]
-    tFixedCost          = 20  # threshold fixed cost [10^7$]
+    tFixedCost          = 60  # threshold fixed cost [10^7$]
     #max_negative_profit = -50 # limit for negative profit
 
     ##-------------------------------
@@ -136,8 +136,11 @@ class Subsession(BaseSubsession):
                 else:
                      p.participant.vars['TT'] = random.choice(['T1','T2','T3'])
 
-    ##-------------------------------
-    ## payoff page
+        # end
+        end = models.BooleanField(initial=False)
+        pEnd = models.FloatField()
+
+        numpy.random.uniform(low=0, high=1, size=1)
 
 ##-------------------------------
 class Group(BaseGroup):
@@ -160,8 +163,6 @@ class Group(BaseGroup):
     Blim_min      = models.FloatField()
     Blim_max      = models.FloatField()
 
-    # end
-    end = models.BooleanField(initial=False)
 
     ## projection variables and uncertainty range
 
@@ -170,7 +171,7 @@ class Group(BaseGroup):
 
     ## ending when stock collapse
     def end(self):
-        self.end = True
+        self.subsession.end = True
         # self.subsession.round_number = Constants.num_rounds
 
     ## compute nb of nested list
@@ -222,8 +223,8 @@ class Group(BaseGroup):
                        elif stock - (harvest + harvestInd) <= 0:
                            prof = round(((-Constants.beta * 2) * (prop))- Constants.tFixedCost,1)
                        else:
-                            prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
-                                 (Constants.beta * (math.log(self.growth(b=stock)) -
+                            prof = round((Constants.price_fish * harvestInd) -
+                                 (Constants.tFixedCost + Constants.beta * (math.log(self.growth(b=stock)) -
                                                     math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)),1)
                    elif stock > Constants.Blim:
                        if harvestInd == 0:
@@ -301,8 +302,8 @@ class Group(BaseGroup):
                         elif realStock - (harvest + harvestInd) <= 0:
                             prof = round(((-Constants.beta * 2) * (prop)) - Constants.tFixedCost,1)
                         else:
-                            prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
-                                 (Constants.beta * (math.log(self.growth(b=stock)) -
+                            prof = round((Constants.price_fish * harvestInd) -
+                                 (Constants.tFixedCost - Constants.beta * (math.log(self.growth(b=stock)) -
                                                     math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
                                       prop)), 1)
                     elif realStock > Constants.Blim:
@@ -321,8 +322,8 @@ class Group(BaseGroup):
                         elif realStock - (harvest + harvestInd) <= 0:
                             prof = round(((-Constants.beta * 2) * (prop)) - Constants.tFixedCost,1)
                         else:
-                            prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost-
-                                         (Constants.beta * (math.log(self.growth(b=stock)) -
+                            prof = round((Constants.price_fish * harvestInd) -
+                                         (Constants.tFixedCost + Constants.beta * (math.log(self.growth(b=stock)) -
                                                             math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
                                               prop)), 1)
 

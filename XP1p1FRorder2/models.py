@@ -34,10 +34,6 @@ iTuna Experiment
 """
 
 ##-------------------------------
-##-------------------------------
-## To do list
-
-##-------------------------------
 class Constants(BaseConstants):
 
     ##-------------------------------
@@ -75,7 +71,7 @@ class Constants(BaseConstants):
     # biologic parameters
     growth_rate       = 0.15                                # r []
     carrying_capacity = 70                                  # K [10^4 t]
-    init_biomass      = 51                                  # B0 [10^4 t]
+    init_biomass      = 52                                  # B0 [10^4 t]
     Bmsy              = carrying_capacity/2                 # MSY [10^4 t]
     Ymsy              = round((growth_rate * carrying_capacity)/4,0) # MSY [10^4 t]
     uncertainty       = 0.01 # resource level uncertainty epsilon []
@@ -91,7 +87,7 @@ class Constants(BaseConstants):
     discount_rate       = 0                   # theta []
     theta               = 1/(1+discount_rate)
     beta                = 100                  # cost parameter [$]
-    tFixedCost          = 20                   # threshold fixed cost [10^7$]
+    tFixedCost          = 60                   # threshold fixed cost [10^7$]
     #max_negative_profit = -50                  # limit for negative profit
     max_profit          = price_fish * carrying_capacity
 
@@ -215,8 +211,8 @@ class Group(BaseGroup):
                         elif stock - (harvest + harvestInd) <= 0:
                             prof = round(((-Constants.beta * 2) * (prop))- Constants.tFixedCost,1)
                         else:
-                            prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
-                                         (Constants.beta * (math.log(self.growth(b=stock)) -
+                            prof = round((Constants.price_fish * harvestInd) -
+                                         (Constants.tFixedCost + Constants.beta * (math.log(self.growth(b=stock)) -
                                                             math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
                                           prop)), 1)
                     elif stock > Constants.Blim:
@@ -256,8 +252,8 @@ class Group(BaseGroup):
                         elif stock - (harvest + harvestInd) <= 0:
                             prof = round(((-Constants.beta * 2) * (prop))- Constants.tFixedCost, 1)
                         else:
-                            prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
-                                     (Constants.beta * (math.log(self.growth(b=stock)) -
+                            prof = round((Constants.price_fish * harvestInd) -
+                                     (Constants.tFixedCost + Constants.beta * (math.log(self.growth(b=stock)) -
                                                         math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
                                       prop)), 1)
                 elif stock > Constants.Blim:
