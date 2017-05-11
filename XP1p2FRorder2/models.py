@@ -92,7 +92,7 @@ class Constants(BaseConstants):
     discount_rate       = 0   # theta []
     theta               = 1 / (1 + discount_rate)
     beta                = 100  # cost parameter [10^7$/.1000 t]
-    tFixedCost          = 60  # threshold fixed cost [10^7$]
+    tFixedCost          = 30  # threshold fixed cost [10^7$]
     #max_negative_profit = -50 # limit for negative profit
 
     ##-------------------------------
@@ -223,8 +223,8 @@ class Group(BaseGroup):
                        elif stock - (harvest + harvestInd) <= 0:
                            prof = round(((-Constants.beta * 2) * (prop))- Constants.tFixedCost,1)
                        else:
-                            prof = round((Constants.price_fish * harvestInd) -
-                                 (Constants.tFixedCost + Constants.beta * (math.log(self.growth(b=stock)) -
+                            prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
+                                 (Constants.beta * (math.log(self.growth(b=stock)) -
                                                     math.log(self.growth(b=stock) - (harvest + harvestInd))) * (prop)),1)
                    elif stock > Constants.Blim:
                        if harvestInd == 0:
@@ -302,8 +302,8 @@ class Group(BaseGroup):
                         elif realStock - (harvest + harvestInd) <= 0:
                             prof = round(((-Constants.beta * 2) * (prop)) - Constants.tFixedCost,1)
                         else:
-                            prof = round((Constants.price_fish * harvestInd) -
-                                 (Constants.tFixedCost - Constants.beta * (math.log(self.growth(b=stock)) -
+                            prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
+                                 (Constants.beta * (math.log(self.growth(b=stock)) -
                                                     math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
                                       prop)), 1)
                     elif realStock > Constants.Blim:
@@ -322,8 +322,8 @@ class Group(BaseGroup):
                         elif realStock - (harvest + harvestInd) <= 0:
                             prof = round(((-Constants.beta * 2) * (prop)) - Constants.tFixedCost,1)
                         else:
-                            prof = round((Constants.price_fish * harvestInd) -
-                                         (Constants.tFixedCost + Constants.beta * (math.log(self.growth(b=stock)) -
+                            prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
+                                         (Constants.beta * (math.log(self.growth(b=stock)) -
                                                             math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
                                               prop)), 1)
 
