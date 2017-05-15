@@ -299,12 +299,12 @@ class Group(BaseGroup):
                     if stock <= Constants.Blim_unmin:
                         if harvestInd == 0:
                             prof = - Constants.tFixedCost
-                        elif realStock - (harvest + harvestInd) <= 0:
+                        elif stock - (harvest + harvestInd) <= 0:
                             prof = round(((-Constants.beta * 2) * (prop)) - Constants.tFixedCost,1)
                         else:
                             prof = round((Constants.price_fish * harvestInd) - Constants.tFixedCost -
                                  (Constants.beta * (math.log(self.growth(b=stock)) -
-                                                    math.log(self.growth(b=stock) - (harvest + harvestInd))) * (
+                                                    math.log(self.growth(b=stock) - (harvest + harvestInd)) ) * (
                                       prop)), 1)
                     elif realStock > Constants.Blim:
                         if harvestInd == 0:
