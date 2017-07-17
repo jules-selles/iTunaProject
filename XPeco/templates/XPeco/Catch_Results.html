@@ -1,0 +1,82 @@
+{% extends "global/Base.html" %} {% load staticfiles otree_tags %}
+
+{% block title %} Harvest results {% endblock %}
+
+{% block content %}
+
+<p>
+    You have selected an harvest of {{ player.catch_choice }} (10<sup>4</sup> t).
+    You have earned {{ player.profit }} (10<sup>7</sup> €). <br>
+    <b> Your cumulated profit is {{ TotalIndProfit }} 10<sup>7</sup> € (including an initial endowment of {{ Constants.baseProfit }}). </b> <br>
+</p>
+
+ <div class="panel panel-default">
+        <!-- Default panel contents -->
+
+         <div class="panel-heading">Harvest results</div>
+   <div class="panel-body" >
+
+       <div class="row">
+          <div class="col-lg-8">
+
+            <div id="containerCatch" style="width: 500px; height: 250px; margin: 0 auto"></div>
+            <div id="containerProfit" style="width: 500px; height: 250px; margin: 0 auto"></div>
+
+            {% block scripts %}
+                <script src="https://code.highcharts.com/highcharts.js"></script>
+                <script src="https://code.highcharts.com/modules/exporting.js"></script>
+                <script src="https://code.highcharts.com/highcharts-more.js"></script>
+
+                <script>
+
+                    {% include "XPeco/plot_catch.js.html" %}
+                    {% include "XPeco/plot_profit.js.html" %}
+
+                </script>
+            {% endblock %}
+
+          </div>
+
+          <div class="col-lg-4">
+
+              <style type="text/css" >
+                    .tg  {border-collapse:collapse; margin-left:auto;margin-right:auto;border-color:#ccc;}
+                    .tg td{font-family:Arial, sans-serif;font-size:14px;padding:12px 10px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-top-width:1px;border-bottom-width:1px;}
+                    .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:12px 10px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-top-width:1px;border-bottom-width:1px;}
+                    .tg .tg-ccb6{font-weight:bold;background-color:#efefef;color:#333333;text-align:center;vertical-align:top}
+                    .tg .tg-4jb6{background-color:#ffffff;color:#333333;text-align:center;vertical-align:top}
+
+              </style>
+
+                <table class="tg">
+                    <tr>
+                       <th class="tg-ccb6">Nation_ID</th>
+                        {% for data in  nation %}
+                            <td class="tg-4jb6"> {{data}} </td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                         <th class="tg-ccb6">Catch (10<sup>4</sup> t)</th>
+                        {% for data in  catch %}
+                            <td class="tg-4jb6"> {{data}} </td>
+                        {% endfor %}
+                    </tr>
+                     <tr>
+                         <th class="tg-ccb6">Profit (10<sup>7</sup> €)</th>
+                        {% for data in  profit %}
+                            <td class="tg-4jb6"> {{data}} </td>
+                        {% endfor %}
+                    </tr>
+                </table>
+
+          </div>
+       </div>
+
+   </div>
+ </div>
+
+    {% include Constants.projection_template %}
+
+  {% next_button %}
+
+{% endblock %}

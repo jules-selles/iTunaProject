@@ -1,0 +1,57 @@
+{% load staticfiles otree_tags %}
+{% load list_filter %}
+{% load staticfiles  %}
+
+
+ <div class="panel panel-default">
+   <div class="panel-heading"> Biomasse variation (%) </div>
+   <div class="panel-body" >
+
+
+        <style type="text/css">
+                .tg  {border-collapse:collapse; margin-left:auto;margin-right:auto;border-color:#ccc;}
+                .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+                .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+                .tg .tg-s6z2{text-align:center;background-color:#ffffff}
+                .tg .tg-bdiw{font-weight:bold;background-color:#344bf9;color:#ffffff;text-align:center}
+                .tg .tg-ipa1{font-weight:bold;background-color:#efefef;text-align:center}
+        </style>
+
+        <table class="tg">
+          <tr>
+            <th class="tg-bdiw" rowspan="2"> Catch (10<sup>4</sup> t) </th>
+            <th class="tg-bdiw" colspan="{{ Constants.dim_other_choice_catch }}"> Others catch (10<sup>4</sup> t) </th>
+          </tr>
+
+          <tr>
+            {% for data in  Constants.other_choice_catch %}
+                <td class="tg-ipa1"> {{data}} </td>
+            {% endfor %}
+          </tr>
+
+             {% for i in  j %}
+               <tr>
+                    <td class="tg-ipa1">  {{ Constants.choice_catch|index:i }} </td>
+                   {% for e in  r %}
+                           {% if variation|index:i|index:e  > 25 %}
+                                <td  style="color: black; background-color: rgb(0,255,255) ; font-size:100%; text-align:center">{{ variation|index:i|index:e }}</td >
+                           {% elif variation|index:i|index:e  <= 25 and variation|index:i|index:e > 0 %}
+                                <td  style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{ variation|index:i|index:e}}</td>
+                           {% elif variation|index:i|index:e  == 0 %}
+                                <td  style="color: black; background-color: white; font-size:100%; text-align:center">{{ variation|index:i|index:e}}</td>
+                           {% elif variation|index:i|index:e  < 0 and variation|index:i|index:e >= -25 %}
+                                <td style="color: black; background-color: rgb(249,133,133); font-size:100%; text-align:center">{{ variation|index:i|index:e}}</td>
+                           {% else %}
+                               <td style="color: black; background-color: red; font-size:100%; text-align:center">{{ variation|index:i|index:e }}</td>
+                           {% endif %}
+                        </td>
+                   {% endfor %}
+               </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+ </div>
