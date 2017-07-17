@@ -618,7 +618,7 @@ class Player(BasePlayer):
    profession = models.CharField()
    age = models.PositiveIntegerField()
    playAs = models.CharField(
-       choices=["Pêcheur", "Gestionnaire dans le domaine de l'halieutique",
+       choices=["Pecheur", "Gestionnaire dans le domaine de l'halieutique",
                 "Scientifique dans le domaine de l'halieutique",
                 "Scientifique (autre)", "Etudiant dans le domaine de l'halieutique", "Etudiant (autre)", "Autre"])
 

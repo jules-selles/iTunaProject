@@ -31,7 +31,7 @@ ADMIN_USERNAME = 'jselles'
 ADMIN_PASSWORD = 'ituna'
 
 # don't share this with anybody.
-SECRET_KEY = ')to-n3&(gtnv)ww2p8pei(*amxok8f%%i#+qzxojhk&f@hcaq-'
+SECRET_KEY = 'ituna'
 
 PAGE_FOOTER = ''
 
@@ -74,7 +74,7 @@ DATABASES = {
 # to DEMO. This will allow people to play in demo mode, but not access
 # the full admin interface.
 
-AUTH_LEVEL = environ.get('STUDY')
+AUTH_LEVEL = environ.get('DEMO')
 
 # setting for integration with AWS Mturk
 AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
@@ -136,20 +136,7 @@ SESSION_CONFIG_DEFAULTS = {
 }
 
 SESSION_CONFIGS = [
-    {
-        'name': 'XP1_p2',
-        'display_name': "iTuna phase 2 TEST",
-        'num_demo_participants': 3,
-        'treatment': 'T1',
-        'app_sequence': ['XP1p2FR']  # , 'survey', 'payment_info'],
-    },
-    {
-        'name': 'XP1_p1',
-        'display_name': "iTuna  phase 1 TEST",
-        'num_demo_participants': 3,
-        'treatment': 'T1',
-        'app_sequence': ['XP1p1FR']  # , 'survey', 'payment_info'],
-    },
+
     {
         'name': 'XP1_T1_order1',
         'display_name': "iTuna T1 Common Pool Resource Game ordre 1",
@@ -193,9 +180,21 @@ SESSION_CONFIGS = [
         'treatment': 'T3',
         'app_sequence': ['XP1p2FRorder2', 'XP1p1FRorder2']  # , 'payment_info'  # , 'survey',
 
+    },
+    {
+        'name': 'XP_EconomicsGames',
+        'display_name': "iTuna - Dynamic Common Pool Resource Game",
+        'num_demo_participants': 3,
+        'app_sequence': ['XPeco'],  # , 'survey', 'payment_info'],
+        'T': 1,
+        'doc': """
+        Edit the 'treatment' parameter to change the treatment, i.e the nature of the tipping point
+        (1: no tipping point, 2: certain tipping point, 3: uncertain tipping point).
+        """
     }
 ]
 
 # anything you put after the below line will override
 # oTree's default settings. Use with caution.
 otree.settings.augment_settings(globals())
+
