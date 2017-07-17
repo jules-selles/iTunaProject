@@ -1,0 +1,25 @@
+{% load staticfiles otree_tags %}
+{% load staticfiles  %}
+
+<div class="instructions well well-lg">
+
+    <h3 class="panel-sub-heading">
+        End
+    </h3>
+
+    <p align="center">
+        <b>{{ message }} </b>
+    </p>
+    <p>
+        <b> You have earned {{ cumulatedMoney }} € ! </b>
+
+    </p>
+    <p>
+        Click on the ''Next'' button  untill the end
+
+    </p>
+
+    {% next_button %}
+
+
+</div>
