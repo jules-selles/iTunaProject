@@ -543,29 +543,29 @@ class Player(BasePlayer):
    profession = models.CharField()
    age = models.PositiveIntegerField()
    playAs = models.CharField(
-       choices=["Pecheur", "Gestionnaire dans le domaine de l'halieutique",
+       choices=["Pêcheur", "Gestionnaire dans le domaine de l'halieutique",
                 "Scientifique dans le domaine de l'halieutique",
                 "Scientifique (autre)", "Etudiant dans le domaine de l'halieutique", "Etudiant (autre)", "Autre"])
    # 2nd Form variables
    dynamicKnowledge = models.CharField(
-       choices=["Completement d accord", "D accord", "Ni d accord, ni pas d accord",
-                "Pas d accord", "Completement pas d accord"])
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord, ni pas d'accord",
+                "pas d'accord", "Complètement pas d'accord"])
    groupCooperation = models.CharField(
-       choices=["Completement d accord", "D accord", "Ni d accord, ni pas d accord",
-                "Pas d accord", "Completement pas d accord"])
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord, ni pas d'accord",
+                "pas d'accord", "Complètement pas d'accord"])
    leverageCooperation = models.CharField(
-       choices=["Completement d accord", "D accord", "Ni d accord, ni pas d accord",
-                "Pas d accord", "Completement pas d accord"])
+       choices=["Analyse du tableau des profits", "Analyse des propositions", "Analyse du niveau de biomasse",
+                "Analyse du niveau de capture et de profit des autres participants"])
    suffConditionCooperation = models.CharField(
-       choices=["Completement d accord", "D accord", "Ni d accord, ni pas d accord",
-                "Pas d accord", "Completement pas d accord"])
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord, ni pas d'accord",
+                "pas d'accord", "Complètement pas d'accord"])
    biomassUncertainty = models.CharField(
-       choices=["Completement d accord", "D accord", "Ni d accord, ni pas d accord",
-                "Pas d accord", "Completement pas d accord"])
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord, ni pas d'accord",
+                "pas d'accord", "Complètement pas d'accord"])
 
    blimUncertainty = models.CharField(
-       choices=["Completement d accord", "D accord", "Ni d accord, ni pas d accord",
-                "Pas d accord", "Completement pas d accord","Pas dans mon traitement"])
+       choices=["Complètement d'accord", "D'accord", "Ni d'accord, ni pas d'accord",
+                "pas d'accord", "Complètement pas d'accord","Pas dans mon traitement"])
 
    ##-------------------------------
    ## players variables
