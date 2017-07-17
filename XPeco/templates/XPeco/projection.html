@@ -1,0 +1,24 @@
+{% load staticfiles otree_tags %}
+{% load list_filter %}
+{% load staticfiles  %}
+
+
+<div class="panel panel-default">
+         <!-- Default panel contents -->
+         <div class="panel-heading">Scientific evaluation</div>
+ <div class="panel-body" >
+             <p> <b>ICCAT</b> commision gives you an estimation of the biomass level if the harvest remains at the current level:</p>
+    <div id="containerProjection" style="width: 500px; height: 250px; margin: 0 auto"></div>
+
+  {% block scripts %}
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/highcharts-more.js"></script>
+
+        <script>
+            {% include "XPeco/plot_projection.js.html" %}
+        </script>
+
+  {% endblock %}
+ </div>
+</div>

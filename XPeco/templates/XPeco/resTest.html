@@ -1,0 +1,45 @@
+{% extends "global/Base.html" %} {% load staticfiles otree_tags %} {% load list_filter %}
+
+{% block title %} Test results {% endblock %}
+
+{% block content %}
+
+    <p>
+       <b>Your results: </b>
+    </p>
+
+    <p>
+        If at the beginning of the year the biomass is <b>{{ Constants.b_test }} units</b>,
+        could you indicate the growth of the stock in units ?<br>
+
+        <b>{{ growthRes }} {{ g }}</b>
+    </p>
+
+    <p>
+        Still with the same biomass level <b>{{ Constants.b_test }} units </b>, if the {{ Constants.players_per_group }} nations
+        decide to harvest <b>{{ Constants.c_test }} units </b> ({{ Constants.c_ind_test }} units each),
+        could you indicate how much profit, harvesting will bring this year for the entire fishery. <br>
+
+        <b>{{ profitRes }} {{ p }}</b>
+
+    </p>
+
+    <p>
+        Still with the same conditions, if the {{ Constants.players_per_group }} nations
+        decide to harvest <b>{{ Constants.c_test }} units </b> ({{ Constants.c_ind_test }} units each),<br>
+        could you indicate how much profit, harvesting will bring you this year?.<br>
+
+        <b>{{ profitIndRes }} {{ pi }}</b>
+
+    </p>
+
+    <p align ="center"> <b> Click on the ''Next'' button when you are ready to begin .</b> </p>
+
+
+    {% next_button %}
+
+
+    {% include Constants.functions_template  %}
+    {% include Constants.profitTable_template %}
+
+{% endblock %}
