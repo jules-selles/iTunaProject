@@ -1,0 +1,47 @@
+{% extends "global/Base.html" %} {% load staticfiles otree_tags %} {% load list_filter %}
+
+{% block title %} Test {% endblock %}
+
+{% block content %}
+
+    <p>
+        Before starting, An example:
+    </p>
+
+    <p>
+        If at the beginning of the year the biomass is <b>{{ Constants.b_test }} units</b>,
+        could you indicate the growth of the stock in units ?<br>
+        Use the growth function.
+
+        {% formfield player.growthTest with label="Resource growth" %}
+
+    </p>
+
+    <p>
+        Still with the same biomass level <b>{{ Constants.b_test }} units </b>, if the {{ Constants.players_per_group }} nations
+        decide to harvest <b>{{ Constants.c_test }} units </b> ({{ Constants.c_ind_test }} units each),
+        could you indicate how much profit, harvesting will bring this year for the entire fishery. <br>
+        Use the profit function.
+
+        {% formfield player.profitTest with label="Total profit" %}
+
+    </p>
+
+    <p>
+        Still with the same conditions, if the {{ Constants.players_per_group }} nations
+        decide to harvest <b>{{ Constants.c_test }} units </b> ({{ Constants.c_ind_test }} units each),<br>
+        could you indicate how much profit, harvesting will bring you this year?.<br>
+        Use the profit table.
+
+        {% formfield player.profitIndTest with label="Individual profit" %}
+
+    </p>
+
+    {% next_button %}
+
+
+    {% include Constants.functions_template  %}
+    {% include Constants.profitTable_template %}
+
+
+{% endblock %}

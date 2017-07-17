@@ -1,0 +1,25 @@
+{% extends "global/Base.html" %} {% load staticfiles otree_tags %} {% load list_filter %}
+{% block title %} Harvest selection  {% endblock %}
+
+{% block content %}
+
+    <p>
+         Select your annual catch level,<br>
+         All decisions will be made public in the <b>ICCAT</b> statistics.
+    </p>
+
+    {% formfield player.catch_choice with label="Select your catch level:" %}
+
+    {% include Constants.scientificAssessment_template %}
+
+    {% include Constants.profitTable_template %}
+
+    {% include Constants.biomassVariationTable_template %}
+
+    {% next_button %}
+
+
+{% include Constants.functions_template  %}
+
+{% endblock %}
+
