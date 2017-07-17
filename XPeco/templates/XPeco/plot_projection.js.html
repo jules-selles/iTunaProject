@@ -1,0 +1,74 @@
+$(function () {
+        $('#containerProjection').highcharts({
+            chart: {
+                type: 'arearange',
+                zoomType: 'x'
+            },
+            title: {
+                text: 'Projection scenario statu quo',
+                x: -20 //center
+            },
+            xAxis: {
+            title: {
+                text: 'Projection from current year t',
+            },
+                 categories: ['t', 't+1', 't+2' , 't+3' , 't+4' , 't+5' , 't+6' , 't+7' , 't+8' , 't+9', 't+10'],
+            },
+            yAxis: {
+                min:0,
+                title: {
+                    text: 'Biomass'
+                },
+                plotBands: [{
+                    from: {{ Blim_min }},
+                    to: {{ Blim_max }},
+                    color: '{{  colorBlim_range  }}',
+                    label: {
+                        text: 'Blim uncertainty range [{{ Blim_min }} ; {{ Blim_max }}] (10 <sup>4</sup> t)',
+                        style: {
+                            color: '{{ colorBlim_range_label  }}',
+                        }
+                    }
+                }],
+
+                plotLines: [{
+                    value: {{ Bmsy }},
+                    color: 'blue',
+                    dashStyle: 'shortdash',
+                    width: 2,
+                    zIndex:2,
+                    label: {
+                        text: 'Bmsy [{{ Bmsy }}] (10^4 t)',
+                        align: 'right',
+                        style: {
+                        color: 'gray'
+                        }
+                    }
+                },
+                {
+                    value: {{ Blim }},
+                    color: '{{ colorBlim  }}',
+                    dashStyle: 'shortdash',
+                    width: 2,
+                    zIndex:2,
+                    label: {
+                        text: 'Blim [{{ Blim }}] (10 <sup>4</sup> t)',
+                        align: 'left',
+                        style: {
+                        color: '{{ colorBlim_label  }}'
+                        }
+                    }
+                }]
+            },
+            tooltip: {
+                crosshairs: true,
+                shared: true,
+                valueSuffix: ' (10 <sup>4</sup> t)'
+            },
+            legend: {
+                enabled: false
+            },
+            series: {{ seriesUnRange }}
+
+        });
+    });

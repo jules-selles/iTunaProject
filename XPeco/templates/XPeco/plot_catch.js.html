@@ -1,0 +1,26 @@
+$(function () {
+    $('#containerCatch').highcharts({
+        title: {
+            text: 'Catch (10 <sup>4</sup> t)',
+        },
+        xAxis: {
+            categories: {{ Constants.xp_years }},
+        },
+        yAxis: {
+            min:0,
+            title: {
+                text: 'Capture'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' (10 <sup>4</sup> t)'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: {{ Catchseries }}
+    });
+});

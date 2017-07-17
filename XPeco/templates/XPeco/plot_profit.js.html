@@ -1,0 +1,25 @@
+$(function () {
+    $('#containerProfit').highcharts({
+        title: {
+            text: 'Profit (10 <sup>7</sup> €)',
+        },
+        xAxis: {
+            categories: {{ Constants.xp_years }},
+        },
+        yAxis: {
+            title: {
+                text: 'Profit'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' (10 <sup>7</sup> €)'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: {{ Profitseries }}
+    });
+});
